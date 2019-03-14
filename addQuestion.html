@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Add a Question</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--  Adds a question to the questoion bank -->
+  </head>
+  <body style="background-color: rgb(79, 192, 177)">
+    <div style="width: 100%; ">
+      <center style="zoom: 250%; font-style:oblique;">
+        Starter Code: <br />
+        <input type="text" value="function()" id="0" />
+        <br />
+        Add a Question: <br />
+        <input type="text" id="1" />
+        <br />
+        Answer: <br />
+        <input type="text" id="2" />
+        <br />
+        Difficulty: <br />
+        <input type="text" value="easy, medium, or hard" id="3" />
+        <br />Topic: <br />
+        <input type="text" value="Math, Strings, Loops" id="4" />
+        <br /><br />
+        <input type="submit" value="Submit" onclick="addShit()" />
+      </center>
+      <!--Make a back button to go back to exam creation-->
+    </div>
+  </body>
+  <script>
+    async function addShit() {
+      var Question = document.getElementById(0);
+      var starter = document.getElementById(1);
+      var answer = document.getElementById(2);
+      var difficulty = document.getElementById(3);
+      var topic = document.getElementById(4);
+
+      let res = await fetch(
+        'https://web.njit.edu/~ah472/CS490/beta/back/addQuestion.php',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            //fill in valid fields
+            details: Question,
+            starter: starter,
+            answer: answer,
+            difficulty: difficulty,
+            topic: topic,
+          }),
+        }
+      );
+      const json = await res.json();
+
+      console.log(json);
+    } // Make this point to itself, and refresh the page after Submission*
+  </script>
+</html>

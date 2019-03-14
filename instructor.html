@@ -1,0 +1,263 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Teachers Page</title>
+  <!-- PAGE FOR INSTRUCTOR TO CREATE EXAM -->
+  </head>
+  <body style="background-color: black">
+    <div style="width: 100%; ">
+      <center style="zoom: 150%;">  
+        <div
+          style="float:left; height: 100%; width: 50%; background-color: #d192bc"
+          ;
+        >
+        <!-- Works, can be changed later with CSS-->
+        <p></p>
+          <select id="Dropdown" style="width: 30%; text-indent: 40%;">
+            <option >Select </option>
+            <option value="all" >All </option>
+            <option value="Easy" >Easy</option>
+            <option value="Medium" >Medium</option>
+            <option value="Hard" >Hard</option>
+          </select><br>
+          <select id="Dropdown2" onchange ="getShit()" style="width: 30%; text-indent: 40%;">
+            <option >Select </option>
+            <option value="all" >All </option>
+            <option value="math" >Math</option>
+            <option value="lists" >Lists</option>
+            <option value="strings" >Strings</option>
+          </select>
+          <br>  
+          <p></p>
+        <div id="theChoices"> <!-- container for all the checkboxes, MAKE INVISIBLE TO START-->
+          <div>
+            <input type="checkbox" id="16" onclick="" style="visibility: hidden"/><span id="0"></span>
+   
+          </div>
+          <div>
+            <input type="checkbox" id="17" onclick="" style="visibility: hidden"/><span id="1">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox" id="18" onclick="" style="visibility: hidden"/><span id="2">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox" id="19" onclick="" style="visibility: hidden"/><span id="3">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox" id="20"   onclick="" style="visibility: hidden"/><span id="4">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox" id="21" onclick="" style="visibility: hidden"/><span id="5">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox"  id="22"  onclick="" style="visibility: hidden"/><span id="6">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox" id="23"  onclick="" style="visibility: hidden"/><span id="7">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox"  id="24"   onclick="" style="visibility: hidden"/><span id="8">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox"  id="25"  onclick="" style="visibility: hidden"/><span id="9">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox"  id="26"  onclick="" style="visibility: hidden"/><span id="10">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox"  id="27" onclick="" style="visibility: hidden"/><span id="11">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox"  id="28"  onclick="" style="visibility: hidden"/><span id="12">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox"  id="29" onclick="" style="visibility: hidden"/><span id="13">
+              </span
+            >
+          </div>
+          <div>
+            <input type="checkbox"  id="30"  onclick="" style="visibility: hidden"/><span id="14">
+              </span
+            >
+          </div>
+          <input type="button"type="submit" onclick="previewShit()" value="Submit for Preview">
+        </div>
+      </center>
+    </div>
+    <div
+      style="float:right; height: 100%; width: 50%; background-color: #92a8d1"
+      ;
+    >
+      <center style="zoom: 100%;">
+        <div id = "mockTest" >
+          <p id = "31"></p>
+          <p id = "32"></p>
+          <p id = "33"></p>
+          <p id = "34"></p>
+          <!-- Sends exam question to be created and saved as an exam-->
+          <input type="button"type="submit" onclick="submitShit()" value="Final Submission">
+        </div>
+      </center>
+    </div>
+  </body>
+  <script>
+     var questionBank = new Array;// Global arrays to house questions & Db IDs to send bac
+     var arrayToPreview = new Array;
+     var arrayToSend = new Array;
+    async function getShit() {
+      var Diff = document.getElementById('Dropdown'); // current html element
+      var Diff = Diff.value;
+
+      var Topics = document.getElementById('Dropdown2');
+      var Topics = Topics.value;
+
+
+
+      let res = await fetch(
+        'https://web.njit.edu/~ah472/CS490/beta/back/retrieveQuestions.php',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            difficulty: Diff,
+            topic : Topics
+          }),
+        }
+      );
+
+      const json = await res.json();
+
+      console.log(json);
+
+      wipeShit();
+      popShit(json);
+
+      //window.alert(json.type);
+    }
+
+    function popShit(data){ // populates the check boxes
+      for (i = 0; i < data.length; i++) {  
+      z = data[i].question; // FULL QUESTION
+      y = data[i].starter; // STARTING CODE
+      x = data[i].id; //ACTUAL ID IN DB
+      var stuff = document.getElementById(i);
+      funcShit(i,x,z);
+
+      stuff.innerHTML ="Write a function called "+y.slice(0,-1)+ " that..." ;//"Insert shit here"
+      }      
+    }
+    function funcShit(x,w,data){ // makes the checkBoxes work
+     
+      var stuff = document.getElementById(16+x);
+      stuff.style.visibility="visible";
+      var y = data;
+      stuff.onclick = function(){
+        if(this.checked){
+          alert(y);
+          console.log(w);
+          pushShit(data,w);
+        }
+        else{
+          console.log(w);
+          unpushShit(data,w);
+        }        
+      }
+    }
+
+    function wipeShit(){//Wipes all the span and hides check boxes until populated
+      var stuff = document.getElementById('theChoices');
+      var wipeThis = stuff.getElementsByTagName('input');
+      
+      for(i=0; i<=14; i++){// This is for the span with text
+        if (wipeThis[i].type ==='checkbox'){
+            var crud = document.getElementById(i);
+            crud.innerHTML = "";           
+        }
+      }
+      for (i=16; i<=30; i++){// Sets the checkboxes to false, and then hidden until requested
+        var unCheckDis = document.getElementById(i);
+        unCheckDis.checked = false;
+        unCheckDis.style.visibility = "hidden";
+        
+      }
+    }
+    function pushShit(y,z){
+      if(questionBank.includes(y)){
+        alert('You already added this dipshit, you think id let you add it again?')
+
+      }
+      else{
+      questionBank.push(y); // appends the elements to the array
+      console.log(questionBank);
+      arrayToSend.push(z);
+      console.log(arrayToSend);
+      }
+    }
+    function unpushShit(y,z){
+      questionBank.splice(questionBank.indexOf(y),1)// removes question from the array, one element
+      console.log(questionBank);
+      arrayToSend.splice(arrayToSend.indexOf(z),1)// removes db index from array to send, one element
+      console.log(arrayToSend);
+    }
+    function previewShit(){
+      for (i = 0; i <= 3; i++){//Clears questions that were previously there
+    
+        var erase = document.getElementById(31+i);
+        erase.innerHTML = ""; //Erases shit from question preview
+      }
+      for (i = 0; i <= (questionBank.length-1); i++) { // Populates the text fields
+        var showMe = document.getElementById(31 + i)
+        var bank = questionBank[i];
+        console.log(questionBank);
+        showMe.innerHTML = bank ; 
+      }
+    }
+    async function submitShit(){
+
+      var examName = prompt('Gimme the name for this exam: ');
+
+      let res = await fetch(
+        'https://web.njit.edu/~ah472/CS490/beta/back/createExam.php',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: examName,
+            ids : arrayToSend
+          }),
+        }
+      );
+      const json = await res.json();
+
+      console.log(json);
+    }
+    
+    
+  </script>
+</html>
