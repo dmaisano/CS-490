@@ -6,11 +6,42 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Pick Your Poisin</title>
   </head>
-  <body>
-    <input type="radio" value="" /> Common Exam 1<br />
-    <input type="radio" value="" /> Common Exam 2<br />
-    <span></span>
-    <input type="radio" value="" /> Final Exam<br />
-  </body>
-  <script></script>
+  <center style="zoom: 170%">
+    <body>
+      <select>
+        <option id="1" value="exam1"></option>
+        <option id="2" value="exam2"></option>
+        <option id="3" value="exam3"></option>
+      </select>
+    </body>
+  </center>
+  <script>
+    var examForStudent = 0; //id of test that the student is taking
+    async function getExamShit() {
+      let res = await fetch(
+        'https://web.njit.edu/~ah472/CS490/beta/back/retrieveExams.php'
+      );
+      const json = await res.json();
+
+      console.log(json);
+      unPopShit();
+      popShit(json);
+    }
+    function popShit(data) {
+      for (i = 0; i <= 2; i++) {
+        var x = data[i].id; // id in DB
+        var y = data[i].name; //name of exam
+
+        var popBut = document.getElementById(i);
+        popBut.innerHTML = y;
+      }
+    } //pops radio buttons text
+    function unPopShit() {
+      for (i = 0; i < 3; i++) {
+        var x = document.getElementById(i);
+        x.innerHTML = '';
+      }
+    }
+    getExamShit();
+  </script>
 </html>

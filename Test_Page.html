@@ -16,7 +16,19 @@
       <p id="5">Question 3</p>
       <textarea id="6" style="visibility: hidden"></textarea>
       <p id="7">Question 4</p>
-      <textarea id="8" style="visibility: hidden"></textarea>
+      <textarea id="8" style="visibility:'hidden'"></textarea>
+    </br>
+      <input type="button" type="submit" onclick="" value="Submit your test" />
     </body>
   </center>
+  <script>
+    async function getExamShit(){
+      let res = await fetch('https://web.njit.edu/~ah472/CS490/beta/back/retrieveExams.php');
+      const json = await res.json();
+
+      console.log(json);
+    
+    }
+    getExamShit();
+  </script>
 </html>

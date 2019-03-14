@@ -10,20 +10,24 @@
   <body style="background-color: rgb(79, 192, 177)">
     <div style="width: 100%; ">
       <center style="zoom: 250%; font-style:oblique;">
-        Starter Code: <br />
-        <input type="text" value="function()" id="0" />
+        Add Name: <br />
+        <input type="text" id="0" />
+        <br />
+        Function Name: <br />
+        <input type="text" value="function()" id="1" />
         <br />
         Add a Question: <br />
-        <input type="text" id="1" />
-        <br />
-        Answer: <br />
         <input type="text" id="2" />
         <br />
+        Topic: <br />
+        <input type="text" value="Math, Strings, Loops" id="3" />
+        <br />
         Difficulty: <br />
-        <input type="text" value="easy, medium, or hard" id="3" />
-        <br />Topic: <br />
-        <input type="text" value="Math, Strings, Loops" id="4" />
-        <br /><br />
+        <input type="text" value="easy, medium, or hard" id="4" />
+        <br />
+        Answer: <br />
+        <textarea id="5" rows="4" cols="30"></textarea>
+        <br />
         <input type="submit" value="Submit" onclick="addShit()" />
       </center>
       <!--Make a back button to go back to exam creation-->
@@ -31,11 +35,24 @@
   </body>
   <script>
     async function addShit() {
-      var Question = document.getElementById(0);
-      var starter = document.getElementById(1);
-      var answer = document.getElementById(2);
-      var difficulty = document.getElementById(3);
-      var topic = document.getElementById(4);
+      var name = document.getElementById(0);
+      var name = name.value;
+      console.log(name);
+      var functionName = document.getElementById(1);
+      var functionName = functionName.value;
+      console.log(functionName);
+      var question = document.getElementById(2); //unit_test
+      var question = question.value;
+      console.log(question);
+      var topic = document.getElementById(3);
+      var topic = topic.value;
+      console.log(topic);
+      var difficulty = document.getElementById(4);
+      var difficulty = difficulty.value;
+      console.log(difficulty);
+      var unit_test = document.getElementById(5);
+      var unit_test = unit_test.value;
+      console.log(unit_test);
 
       let res = await fetch(
         'https://web.njit.edu/~ah472/CS490/beta/back/addQuestion.php',
@@ -44,11 +61,12 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             //fill in valid fields
-            details: Question,
-            starter: starter,
-            answer: answer,
-            difficulty: difficulty,
+            question: question,
             topic: topic,
+            name: name,
+            function_name: functionName,
+            difficulty: difficulty,
+            unit_test: unit_test,
           }),
         }
       );
