@@ -8,29 +8,103 @@
   </head>
   <center style=" zoom: 150%">
     <body style=" background-color: #d192bc">
-      <!-- Questions displayed, and text areas for answers  -->
-        </br>
-      <p id="1">Question 1</p>
-      <textarea id="2" style="visibility: hidden"></textarea>
-      <p id="3">Question 2</p>
-      <textarea id="4" style="visibility: hidden"></textarea>
-      <p id="5">Question 3</p>
-      <textarea id="6" style="visibility: hidden"></textarea>
-      <p id="7">Question 4</p>
-      <textarea id="8" style="visibility:'hidden'"></textarea>
-    </br>
-      <input type="button" type="submit" onclick="" value="Submit your test" />
+      <div style="width:80%">
+              <!-- Questions displayed, and text areas for answers  -->
+                </br>
+              <p id="1"></p>
+              <textarea id="5" rows="5" cols="30" style="visibility: hidden"></textarea>
+              <p id="2"></p>
+              <textarea id="6" rows="5" cols="30" style="visibility: hidden"></textarea>
+              <p id="3"></p>
+              <textarea id="7" rows="5" cols="30" style="visibility: hidden"></textarea>
+              <p id="4"></p>
+              <textarea id="8" rows="5" cols="30" style="visibility: hidden"></textarea>
+            </br>
+              <input type="button" type="submit" onclick="pushShit()" value="Submit your test" />
+            </br><!--
+              <input type="button" type="submit" id="next" onclick="" value="Next Question" />
+            </br>
+              <input type="button" type="submit" id="prev" onclick="" value="Previous Question" />-->
+            </br>
+      </div>
     </body>
   </center>
   <script>
-    var jsonData = '';
+    var jsonData = new Array;//stores exam name
+    var jsonQuestions = '';//stores exam questions to be displayed
+    var arraySend= new Array;
+
     async function getExamShit(){
-      let res = await fetch('https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php');
+      let res = await fetch('https://web.njit.edu/~ah472/CS490/beta/back/specificExam.php');
+      
+      const json = await res.json();
+
+      jsonData.push(json[0].name);
+      console.log(jsonData[0]);
+      getQuestionShit(json[0].name);
+    }
+    async function getQuestionShit(data){
+      console.log(jsonData[0]);
+      var examName = 'exam1';//CHANGE THIS HARDCODED VALUE
+      console.log(examName);
+      let res = await fetch(
+        'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            examId: examName,
+          }),
+        }
+      );
       const json = await res.json();
 
       console.log(json);
-      jsonData = json;
+      jsonQuestions = json;
+      popShit(jsonQuestions);//Works rn
+      
     }
+    function popShit(data){
+      console.log(data[0].question);
+      for (i=1; i <= data.length; i++){
+        var x = data[i-1].question;
+        console.log(x);
+        var y = document.getElementById(i);
+        console.log(y);
+        y.innerHTML = x;
+        var z = document.getElementById(i+4);
+        z.style.visibility = 'visible';
+      }
+    }
+    async function sendThatShit(){//Sends to db to store answers 
+      console.log(data);
+      //var examName = "exam1";//CHANGE THIS HARDCODED VALUE
+      let res = await fetch(
+        'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            answers: studentAnswers,
+          }),
+        }
+      );
+      const json = await res.json();
+      console.log(json);
+    }
+    function pushShit(){
+        for (i=1 ; i<5 ; i++){
+          var x = document.getElementById(i+4);
+          var x = x.value;
+          arraySend.push(x);  
+        }
+        console.log(arraySend);  
+    }
+
     getExamShit();
+    getQuestionShit();
+   
+    
+
   </script>
 </html>
