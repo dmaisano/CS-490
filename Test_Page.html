@@ -7,8 +7,9 @@
     <!-- where the student takes his test-->
   </head>
   <center style=" zoom: 150%">
-    <body>
+    <body style=" background-color: #d192bc">
       <!-- Questions displayed, and text areas for answers  -->
+        </br>
       <p id="1">Question 1</p>
       <textarea id="2" style="visibility: hidden"></textarea>
       <p id="3">Question 2</p>
@@ -22,12 +23,13 @@
     </body>
   </center>
   <script>
+    var jsonData = '';
     async function getExamShit(){
-      let res = await fetch('https://web.njit.edu/~ah472/CS490/beta/back/retrieveExams.php');
+      let res = await fetch('https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php');
       const json = await res.json();
 
       console.log(json);
-    
+      jsonData = json;
     }
     getExamShit();
   </script>

@@ -61,12 +61,12 @@
         }
         console.log(inStuff);
         let res = await fetch(
-          'https://web.njit.edu/~ah472/CS490/beta/back/retrieveQuestions.php',
+          'https://web.njit.edu/~ah472/CS490/beta/back/activateExam.php',
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              stuff: inStuff,
+              examId: inStuff,
             }),
           }
         );
@@ -74,7 +74,7 @@
 
         console.log(json);
         //unPopShit();
-        popShit(json);
+        //popShit(json);
       }
     }
     getExamShit();
