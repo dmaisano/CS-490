@@ -20,7 +20,7 @@
               <p id="4"></p>
               <textarea id="8" rows="5" cols="30" style="visibility: hidden"></textarea>
             </br>
-              <input type="button" type="submit" onclick="pushShit()" value="Submit your test" />
+              <input type="button" type="submit" onclick="sendThatShit();" value="Submit your test" />
             </br><!--
               <input type="button" type="submit" id="next" onclick="" value="Next Question" />
             </br>
@@ -32,20 +32,15 @@
   <script>
     var jsonData = new Array;//stores exam name
     var jsonQuestions = '';//stores exam questions to be displayed
-    var arraySend= new Array;
+    //var arraySend= new Array;
+    var qIdToSend= [];
+    var ansSend = [];
 
-    async function getExamShit(){
-      let res = await fetch('https://web.njit.edu/~ah472/CS490/beta/back/specificExam.php');
-      
-      const json = await res.json();
-
-      jsonData.push(json[0].name);
-      console.log(jsonData[0]);
-      getQuestionShit(json[0].name);
-    }
+ //just changed layout
     async function getQuestionShit(data){
-      console.log(jsonData[0]);
-      var examName = localStorage.getItem(0);//CHANGE THIS HARDCODED VALUE
+      //console.log(jsonData[0]);
+      var examName = localStorage.getItem(0);
+      console.log(localStorage.getItem(1));
       console.log(examName);
       let res = await fetch(
         'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',
@@ -65,8 +60,10 @@
       
     }
     function popShit(data){
-      console.log(data[0].question);
+      //console.log(data[0].id);
       for (i=1; i <= data.length; i++){
+        console.log(data[i-1].id);
+        qIdToSend.push(data[i-1].id);
         var x = data[i-1].question;
         console.log(x);
         var y = document.getElementById(i);
@@ -77,33 +74,45 @@
       }
     }
     async function sendThatShit(){//Sends to db to store answers 
-      console.log(data);
-      //var examName = "exam1";//CHANGE THIS HARDCODED VALUE
-      let res = await fetch(
-        'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            answers: studentAnswers,
-          }),
-        }
-      );
-      const json = await res.json();
-      console.log(json);
-    }
-    function pushShit(){
-        for (i=1 ; i<5 ; i++){
-          var x = document.getElementById(i+4);
-          var x = x.value;
-          arraySend.push(x);  
-        }
-        console.log(arraySend);  
-    }
+      //console.log(data);
 
-    getExamShit();
+      //var examName = "exam1";//CHANGE THIS HARDCODED VALUE
+      pushShit();
+      
+        var examId= localStorage.getItem(1);
+        var question = qIdToSend;
+        var answer = ansSend;
+        console.log(examId);
+        console.log(question);
+        console.log(answer);
+        let res = await fetch(
+          'https://web.njit.edu/~ah472/CS490/beta/back/addAnswer.php',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              examId: examId,
+              questionId: qIdToSend,
+              answer: answer,
+            }),
+          }
+        );
+        const json = await res.json();
+        console.log(json);
+        }
+
+      function pushShit(){
+          for (i=1 ; i<5 ; i++){
+            var x = document.getElementById(i+4);
+            var x = x.value;
+            ansSend.push(x);  
+          }
+          console.log(ansSend);  
+      }
+
+  
     getQuestionShit();
-   
+   //console.log(qIdToSend);
     
 
   </script>

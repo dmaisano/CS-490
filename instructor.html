@@ -247,6 +247,8 @@
     async function submitShit(){
 
       var examName = prompt('Gimme the name for this exam: ');
+      console.log(examName);
+      console.log(arrayToSend);
 
       let res = await fetch(
         'https://web.njit.edu/~ah472/CS490/beta/back/createExam.php',
@@ -255,7 +257,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: examName,
-            ids : arrayToSend
+            ids: arrayToSend
           }),
         }
       );

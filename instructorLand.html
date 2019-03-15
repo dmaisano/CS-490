@@ -73,8 +73,9 @@
           for (i = 0; i <= 2; i++) {
             if (document.getElementById(i).selected) {
               var inStuff = data[i].id;
-              
+              console.log(inStuff);
               localStorage.setItem(0,data[i].name);
+              localStorage.setItem(1,data[i].id);
               ;
             }
           }
