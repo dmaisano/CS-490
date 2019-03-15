@@ -8,7 +8,7 @@
   </head>
   <body style="background-color: black">
     <div style="width: 100%; ">
-      <center style="zoom: 150%;">  
+      <center style="zoom: 150%;">
         <div
           style="float:left; height: 100%; width: 50%; background-color: #d192bc"
           ;
@@ -28,12 +28,12 @@
             <option value="math" >Math</option>
             <option value="strings" >Strings</option>
           </select>
-          <br>  
+          <br>
           <p></p>
         <div id="theChoices"> <!-- container for all the checkboxes, MAKE INVISIBLE TO START-->
           <div>
             <input type="checkbox" id="16" onclick="" style="visibility: hidden"/><span id="0"></span>
-   
+
           </div>
           <div>
             <input type="checkbox" id="17" onclick="" style="visibility: hidden"/><span id="1">
@@ -139,11 +139,12 @@
 
 
       let res = await fetch(
-        'https://web.njit.edu/~ah472/CS490/beta/back/retrieveQuestions.php',
+        'https://web.njit.edu/~dm583/CS490/post_request.php',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            url: 'https://web.njit.edu/~ah472/CS490/beta/back/retrieveQuestions.php',
             difficulty: Diff,
             topic : Topics
           }),
@@ -162,7 +163,7 @@
     }
 
     function popShit(data){ // populates the check boxes
-      for (i = 0; i < data.length; i++) {  
+      for (i = 0; i < data.length; i++) {
       z = data[i].question; // FULL QUESTION
       y = data[i].function_name; // STARTING CODE
       console.log(y)
@@ -172,10 +173,10 @@
       funcShit(i,x,z);
 
       stuff.innerHTML ="Write a function called  "+y+ "(): that..." ;//"Insert shit here"
-      }      
+      }
     }
     function funcShit(x,w,data){ // makes the checkBoxes work
-     
+
       var stuff = document.getElementById(16+x);
       stuff.style.visibility="visible";
       var y = data;
@@ -190,25 +191,25 @@
           console.log(w);
           unpushShit(data,w);
           previewShit();
-        }        
+        }
       }
     }
 
     function wipeShit(){//Wipes all the span and hides check boxes until populated
       var stuff = document.getElementById('theChoices');
       var wipeThis = stuff.getElementsByTagName('input');
-      
+
       for(i=0; i<=14; i++){// This is for the span with text
         if (wipeThis[i].type ==='checkbox'){
             var crud = document.getElementById(i);
-            crud.innerHTML = "";           
+            crud.innerHTML = "";
         }
       }
       for (i=16; i<=30; i++){// Sets the checkboxes to false, and then hidden until requested
         var unCheckDis = document.getElementById(i);
         unCheckDis.checked = false;
         unCheckDis.style.visibility = "hidden";
-        
+
       }
     }
     function pushShit(y,z){
@@ -231,7 +232,7 @@
     }
     function previewShit(){
       for (i = 0; i <= 3; i++){//Clears questions that were previously there
-    
+
         var erase = document.getElementById(31+i);
         erase.innerHTML = ""; //Erases shit from question preview
       }
@@ -239,7 +240,7 @@
         var showMe = document.getElementById(31 + i)
         var bank = questionBank[i];
         console.log(questionBank);
-        showMe.innerHTML = bank ; 
+        showMe.innerHTML = bank ;
       }
       var but = document.getElementById('submit');
       but.style.visibility = 'visible';
@@ -251,11 +252,12 @@
       console.log(arrayToSend);
 
       let res = await fetch(
-        'https://web.njit.edu/~ah472/CS490/beta/back/createExam.php',
+        'https://web.njit.edu/~dm583/CS490/post_request.php',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            url: 'https://web.njit.edu/~ah472/CS490/beta/back/createExam.php',
             name: examName,
             ids: arrayToSend
           }),
@@ -265,7 +267,7 @@
 
       console.log(json);
     }
-    
-    
+
+
   </script>
 </html>

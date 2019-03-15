@@ -43,11 +43,12 @@
       console.log(localStorage.getItem(1));
       console.log(examName);
       let res = await fetch(
-        'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',
+        'https://web.njit.edu/~dm583/CS490/post_request.php',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            url: 'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',
             examId: examName,
           }),
         }
@@ -57,7 +58,7 @@
       console.log(json);
       jsonQuestions = json;
       popShit(jsonQuestions);//Works rn
-      
+
     }
     function popShit(data){
       //console.log(data[0].id);
@@ -73,25 +74,26 @@
         z.style.visibility = 'visible';
       }
     }
-    async function sendThatShit(){//Sends to db to store answers 
+    async function sendThatShit(){//Sends to db to store answers
       //console.log(data);
 
       //var examName = "exam1";//CHANGE THIS HARDCODED VALUE
       pushShit();
-      
+
         var examId= localStorage.getItem(1);
         var question = qIdToSend;
         var answer = ansSend;
         // console.log(examId);
         // console.log(question);
         // console.log(answer);
-        
+
         let res = await fetch(
-          'https://web.njit.edu/~ah472/CS490/beta/back/addAnswer.php',
+          'https://web.njit.edu/~dm583/CS490/post_request.php',
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+              url: 'https://web.njit.edu/~ah472/CS490/beta/back/addAnswer.php',
               examId: examId,
               questionId: qIdToSend,
               answer: answer,
@@ -106,15 +108,15 @@
           for (i=1 ; i<5 ; i++){
             var x = document.getElementById(i+4);
             var x = x.value;
-            ansSend.push(x);  
+            ansSend.push(x);
           }
-          console.log(ansSend);  
+          console.log(ansSend);
       }
 
-  
+
     getQuestionShit();
    //console.log(qIdToSend);
-    
+
 
   </script>
 </html>

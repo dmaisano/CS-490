@@ -39,7 +39,7 @@
           'https://web.njit.edu/~ah472/CS490/beta/back/retrieveExams.php'
         );
         const json = await res.json();
-  
+
         console.log(json);
         //unPopShit();
         jsonData = json;
@@ -50,7 +50,7 @@
         for (i = 0; i <= data.length - 1; i++) {
           //var x = data[i].id; // id in DB
           var y = data[i].name; //name of exam
-  
+
           var popBut = document.getElementById(i);
           //console.log(popBut);
           popBut.innerHTML = y;
@@ -81,23 +81,24 @@
           }
           console.log(inStuff);
           let res = await fetch(
-            'https://web.njit.edu/~ah472/CS490/beta/back/activateExam.php',
+            'https://web.njit.edu/~dm583/CS490/post_request.php',
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
+                url: 'https://web.njit.edu/~ah472/CS490/beta/back/activateExam.php',
                 examId: inStuff,
               }),
             }
           );
           const json = await res.json();
-  
+
           console.log(json);
           //unPopShit();
           //popShit(json);
         }
       }
-      
+
       getExamShit();
   </script>
 </html>

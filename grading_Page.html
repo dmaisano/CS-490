@@ -46,21 +46,22 @@
         var examName = localStorage.getItem(0);//CHANGE THIS HARDCODED VALUE
           console.log(examName);
           let res = await fetch(
-            'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',
+            'https://web.njit.edu/~dm583/CS490/post_request.php',
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
+                url: 'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',
                 examId: examName,
               }),
             }
           );
           const json = await res.json();
-    
+
           console.log(json);
           jsonQuestions = json;
           popShit(jsonQuestions);//Works rn
-          
+
         }
         function popShit(data){
           console.log(data[0].question);
@@ -71,25 +72,26 @@
             console.log(y);
             y.innerHTML = x;
             var z = document.getElementById(i+4); // assign student answers
-            
+
             var vis = document.getElementById(i+8);
             vis.style.visibility = 'visible';
-    
+
             var vis2 = document.getElementById(i+12);
             vis2.style.visibility = 'visible';
             //z.style.visibility = 'visible'; // add another to show answers
           }
-    
+
         }
-        async function sendThatShit(){//Sends to db to store comments 
+        async function sendThatShit(){//Sends to db to store comments
           console.log(data);
           //var examName = "exam1";//CHANGE THIS HARDCODED VALUE
           let res = await fetch(
-            'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',
+            'https://web.njit.edu/~dm583/CS490/post_request.php',
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
+                url: 'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',
                 answers: studentAnswers,
               }),
             }
@@ -101,9 +103,9 @@
             for (i=1 ; i<5 ; i++){
               var x = document.getElementById(i+8);
               var x = x.value;
-              commToSend.push(x);  
+              commToSend.push(x);
             }
-            console.log(commToSend); 
+            console.log(commToSend);
           }
           getQuestionShit();
     // 1-4 are questions, 5-8 are answers, 9-12 are comments
