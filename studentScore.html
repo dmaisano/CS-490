@@ -44,7 +44,7 @@
           <script>// MAYBE ADD THE REAL ANSWER TO THIS FEEDBACK PAGE
           var commToSend = new Array;
           async function getQuestionShit(){
-              var examName = 'exam1';//CHANGE THIS HARDCODED VALUE
+            var examName = localStorage.getItem(0);//CHANGE THIS HARDCODED VALUE
               console.log(examName);
               let res = await fetch(
                 'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',

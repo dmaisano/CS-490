@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Pick Your Poisin</title>
+    <title>Pick Exam to Take</title>
   </head>
-  <center style="zoom: 170%">
-    <body>
+  <center style="background-color: deepskyblue; zoom: 400%">
+    <body style="background-color: deepskyblue">
       <select id="list" onchange="SendExamShit(jsonData)">
         <option id="-1" value="select">Select</option>
         <option id="0" value="exam1"></option>
@@ -54,6 +54,7 @@
         return;
       } else {
         var inStuff = '';
+
         for (i = 0; i <= 2; i++) {
           if (document.getElementById(i).selected) {
             var inStuff = data[i].id;

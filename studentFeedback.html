@@ -6,7 +6,7 @@
     <title>Teacher Grading Page</title>
   </head>
   <center>
-    <body>
+    <body style="background-color:darksalmon; zoom: 150%">
       <div style="width:80%">
         <p id="1">Question 1</p>
       </br>
@@ -43,7 +43,8 @@
   <script>// MAYBE ADD THE REAL ANSWER TO THIS FEEDBACK PAGE
   var commToSend = new Array;
   async function getQuestionShit(){
-      var examName = 'exam1';//CHANGE THIS HARDCODED VALUE
+      console.log(localStorage.getItem(0));
+      var examName = localStorage.getItem(0);//CHANGE THIS HARDCODED VALUE
       console.log(examName);
       let res = await fetch(
         'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',

@@ -45,7 +45,7 @@
     }
     async function getQuestionShit(data){
       console.log(jsonData[0]);
-      var examName = 'exam1';//CHANGE THIS HARDCODED VALUE
+      var examName = localStorage.getItem(0);//CHANGE THIS HARDCODED VALUE
       console.log(examName);
       let res = await fetch(
         'https://web.njit.edu/~ah472/CS490/beta/back/specificExamQuestions.php',

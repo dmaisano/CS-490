@@ -15,18 +15,17 @@
         >
         <!-- Works, can be changed later with CSS-->
         <p></p>
-          <select id="Dropdown" style="width: 30%; text-indent: 40%;">
-            <option >Select </option>
+          <select id="Dropdown" onchange ="getShit()" style="width: 30%; text-indent: 40%;">
+            <!--<option >Select </option>-->
             <option value="all" >All </option>
             <option value="Easy" >Easy</option>
             <option value="Medium" >Medium</option>
             <option value="Hard" >Hard</option>
           </select><br>
           <select id="Dropdown2" onchange ="getShit()" style="width: 30%; text-indent: 40%;">
-            <option >Select </option>
+            <!--<option >Select </option>-->
             <option value="all" >All </option>
             <option value="math" >Math</option>
-            <option value="lists" >Lists</option>
             <option value="strings" >Strings</option>
           </select>
           <br>  
@@ -106,7 +105,7 @@
               </span
             >
           </div>
-          <input type="button"type="submit" onclick="previewShit()" value="Submit for Preview">
+          <!--<input type="button"type="submit" onclick="previewShit()" value="Submit for Preview">-->
         </div>
       </center>
     </div>
@@ -121,7 +120,7 @@
           <p id = "33"></p>
           <p id = "34"></p>
           <!-- Sends exam question to be created and saved as an exam-->
-          <input type="button"type="submit" onclick="submitShit()" value="Final Submission">
+          <input id="submit" type="button"type="submit" style="visibility: hidden" onclick="submitShit()" value="Final Submission">
         </div>
       </center>
     </div>
@@ -185,10 +184,12 @@
           alert(y);
           console.log(w);
           pushShit(data,w);
+          previewShit();
         }
         else{
           console.log(w);
           unpushShit(data,w);
+          previewShit();
         }        
       }
     }
@@ -240,6 +241,8 @@
         console.log(questionBank);
         showMe.innerHTML = bank ; 
       }
+      var but = document.getElementById('submit');
+      but.style.visibility = 'visible';
     }
     async function submitShit(){
 
