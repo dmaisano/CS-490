@@ -1,0 +1,28 @@
+{
+  "name": "front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "gulp serve",
+    "format": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmaisano/CS-490.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmaisano/CS-490/issues"
+  },
+  "homepage": "https://github.com/dmaisano/CS-490#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "gulp": "^3.9.1",
+    "gulp-cssbeautify": "^1.0.1",
+    "gulp-sass": "^3.1.0",
+    "node-sass": "^4.11.0"
+  }
+}
