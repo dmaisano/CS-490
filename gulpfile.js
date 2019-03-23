@@ -9,14 +9,14 @@ gulp.task('serve', ['sass'], () => {
     server: './src/',
   });
 
-  gulp.watch('src/styles/**/*.scss', ['sass']);
-  gulp.watch('src/**/*.html').on('change', browserSync.reload);
+  gulp.watch('./src/styles/**/*.scss', ['sass']);
+  gulp.watch('./src/**/*.html').on('change', browserSync.reload);
 });
 
 // compile scss to formatted css
 gulp.task('sass', function() {
   return gulp
-    .src('src/styles/styles.scss')
+    .src('./src/styles/styles.scss')
     .pipe(sass())
     .pipe(
       format({
@@ -24,7 +24,7 @@ gulp.task('sass', function() {
         autosemicolon: true,
       })
     )
-    .pipe(gulp.dest('src/styles'))
+    .pipe(gulp.dest('./src/'))
     .pipe(browserSync.stream());
 });
 

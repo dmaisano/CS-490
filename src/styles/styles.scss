@@ -1,1 +1,12 @@
+// global styles
+
 @import url('https://unpkg.com/spectre.css/dist/spectre.min.css');
+
+@import 'login';
+@import 'nav';
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}

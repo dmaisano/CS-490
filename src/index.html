@@ -5,9 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>CS 490 Login</title>
-    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
+  <style>
+    body {
+      background: #282c34;
+    }
+  </style>
+
   <body>
-    <h1>owo</h1>
+    <div class="container login">
+      <div class="card">
+        <div class="card-image">
+          <img src="img/highlander.png" class="img-responsive" />
+        </div>
+        <div class="card-header">
+          <div class="card-title h1">CS 490 Login</div>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label" for="username">Username</label>
+            <input
+              class="form-input"
+              type="text"
+              id="username"
+              placeholder="Enter Username"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input
+              class="form-input"
+              type="text"
+              id="password"
+              placeholder="Enter Password"
+            />
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" onclick="login()">Login</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      async function login() {
+        const user = document.querySelector('#username').value;
+        const pass = document.querySelector('#password').value;
+
+        let res = await fetch('url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user,
+            pass,
+          }),
+        });
+
+        res = await res.json();
+
+        console.log(res);
+      }
+    </script>
   </body>
 </html>

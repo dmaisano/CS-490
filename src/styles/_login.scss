@@ -1,0 +1,25 @@
+.login {
+  height: 100%;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+
+    &-image {
+      margin: auto;
+    }
+
+    &-title {
+      text-align: center;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+}
