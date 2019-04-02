@@ -3,20 +3,29 @@ const browserSync = require('browser-sync').create();
 const format = require('gulp-cssbeautify');
 const sass = require('gulp-sass');
 
+const staticDir = './public';
+
 // live server
 gulp.task('serve', ['sass'], () => {
   browserSync.init({
-    server: './src/',
+    open: false,
+    proxy: 'http://localhost:3000',
+    serveStatic: [
+      {
+        route: '/public',
+        dir: staticDir,
+      },
+    ],
   });
 
-  gulp.watch('./src/styles/**/*.scss', ['sass']);
-  gulp.watch('./src/**/*.html').on('change', browserSync.reload);
+  gulp.watch(`${staticDir}/styles/**/*.scss`, ['sass']);
+  gulp.watch(`${staticDir}/**/*.html`).on('change', browserSync.reload);
 });
 
 // compile scss to formatted css
 gulp.task('sass', function() {
   return gulp
-    .src('./src/styles/styles.scss')
+    .src(`${staticDir}/styles/styles.scss`)
     .pipe(sass())
     .pipe(
       format({
@@ -24,7 +33,7 @@ gulp.task('sass', function() {
         autosemicolon: true,
       })
     )
-    .pipe(gulp.dest('./src/'))
+    .pipe(gulp.dest(`${staticDir}/styles`))
     .pipe(browserSync.stream());
 });
 

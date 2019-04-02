@@ -2,14 +2,15 @@
 
 .login {
   height: 100%;
-  width: 50%;
+  width: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .login .card {
-  width: 65%;
+  width: 100%;
+  padding: 0.5rem 1rem;
   border-radius: 0.25rem;
 }
 

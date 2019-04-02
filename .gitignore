@@ -3,5 +3,8 @@
 
 styles/**/*.css
 
+# sensitive config files
+config.*
+
 package-lock.json
 node_modules
