@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "gulp serve",
-    "serve:api": "php -S localhost:3000 -t ./api/"
+    "serve:front": "gulp serve",
+    "serve:api": "php -S localhost:4200 -t ./api/"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,8 @@
     "gulp-cssbeautify": "^1.0.1",
     "gulp-sass": "^3.1.0",
     "node-sass": "^4.11.0"
+  },
+  "dependencies": {
+    "concurrently": "^4.1.0"
   }
 }

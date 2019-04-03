@@ -1,6 +1,6 @@
 <?php
 
-include '../config/config.php';
+include '../config/database.php';
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
@@ -16,17 +16,15 @@ if (!isset($user) || !isset($pass)) {
     exit(403);
 }
 
-$mysqli = new mysqli($config[0], $config[1], $config[2], $config[3]);
+$db = new Database();
+$pdo = $db->connect();
 
-$result = $mysqli->query("SELECT * FROM users WHERE username = '$user' AND pass = '$pass'");
-$count = $result->num_rows;
+$query = "SELECT * FROM users WHERE username = '$user' AND pass = '$pass'";
+$query = $pdo->query($query);
 
-// check if result is empty
-if (!empty($count)) {
-    echo json_encode($result->fetch_assoc());
+if ($query->rowCount() > 0) {
+    $result = $query->fetch();
+    echo json_encode($result);
 } else {
     header('HTTP/1.0 403 Forbidden', true, 403);
-    echo '{}'; // return empty object
 }
-
-$mysqli->close();
