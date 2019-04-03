@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "gulp serve",
-    "api": "php -S localhost:3000 -t ./api/"
+    "serve": "gulp serve",
+    "serve:api": "php -S localhost:3000 -t ./api/"
   },
   "repository": {
     "type": "git",
