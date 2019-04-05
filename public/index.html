@@ -49,22 +49,58 @@
     </div>
 
     <script>
-      async function login() {
+      function foo() {
+        console.log('owo');
+      }
+
+      function login() {
         const user = document.querySelector('#username').value;
         const pass = document.querySelector('#password').value;
 
-        let res = await fetch('url', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+        console.log(
+          JSON.stringify({
             user,
             pass,
-          }),
-        });
+          })
+        );
 
-        res = await res.json();
+        fetch('http://localhost:4200/user/test.php')
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            console.log(err);
+          });
 
-        console.log(res);
+        // fetch('http://localhost:4200/user/user.php', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({
+        //     user,
+        //     pass,
+        //   }),
+        // })
+        //   .then(res => {
+        //     console.log(res);
+        //   })
+        //   .catch(err => {
+        //     console.log(err);
+        //   });
+        // let res = await fetch('http://localhost:4200/user/user.php', {
+        //   method: 'POST',
+        //   mode: 'cors',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({
+        //     user,
+        //     pass,
+        //   }),
+        // });
+
+        // console.log(await res);
+
+        // res = await res.json();
+
+        // console.log(res);
       }
     </script>
   </body>

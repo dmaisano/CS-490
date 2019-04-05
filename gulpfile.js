@@ -34,7 +34,7 @@ gulp.task('sass', function() {
         autosemicolon: true,
       })
     )
-    .pipe(gulp.dest(`${staticDir}/styles`))
+    .pipe(gulp.dest(`${staticDir}`))
     .pipe(browserSync.stream());
 });
 

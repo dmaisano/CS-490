@@ -1,8 +1,9 @@
 @import url("https://unpkg.com/spectre.css/dist/spectre.min.css");
 
 .login {
+  display: block;
   height: 100%;
-  width: 30%;
+  max-width: 20rem;
   display: flex;
   justify-content: center;
   align-items: center;

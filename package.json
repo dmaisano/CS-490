@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "serve:front": "gulp serve",
-    "serve:api": "php -S localhost:4200 -t ./api/"
+    "serve:php": "php -S localhost:4200 -t ./api/"
   },
   "repository": {
     "type": "git",
