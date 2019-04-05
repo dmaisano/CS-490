@@ -1,39 +1,136 @@
-@import url("https://unpkg.com/spectre.css/dist/spectre.min.css");
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 
-.login {
-  display: block;
-  height: 100%;
-  max-width: 20rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.btn {
+  color: #fff;
+  background-color: #585ad6;
+  border-radius: 0.1rem;
+  width: auto;
+  font-size: 1rem;
+  padding: 0.66667rem 2.5rem 0.66667rem 2.5rem;
 }
 
-.login .card {
+.btn:hover {
+  background-color: #3134ca;
+}
+
+.btn:not(last-child) {
+  margin-right: 1rem;
+}
+
+.btn-warning {
+  color: #343a40;
+}
+
+.card {
+  background: #fbfbfb;
+  background: #fbfbfb;
+  border: 0.05rem solid #dadee4;
+  border-radius: 0.15rem;
+  box-shadow: 0 0.25rem 1rem rgba(48, 55, 66, 0.15);
+  height: auto;
   width: 100%;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
 }
 
-.login .card-image {
-  margin: auto;
+.card-title, .card-body, .card-footer {
+  padding: 0.8rem;
+  padding-bottom: 0;
 }
 
-.login .card-title {
+.card-title:last-child, .card-body:last-child, .card-footer:last-child {
+  padding-bottom: 0.8rem;
+}
+
+.card-title {
+  font-size: 1.75rem;
+  font-weight: 600;
   text-align: center;
 }
 
-.login .card .btn {
-  width: 100%;
+.card .card-image {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.8rem;
 }
 
-.navbar {
+.card .card-image:first-child {
+  padding-top: 0;
+}
+
+.card .card-image:first-child img {
+  border-top-left-radius: 0.1rem;
+  border-top-right-radius: 0.1rem;
+}
+
+.card .card-image:last-child img {
+  border-bottom-left-radius: 0.1rem;
+  border-bottom-right-radius: 0.1rem;
+}
+
+.form-group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+}
+
+.form-field {
+  font-family: inherit;
   width: 100%;
-  background: #282c34;
+  border: 0;
+  border-bottom: 1px solid #d2d2d2;
+  outline: 0;
+  font-size: 1rem;
+  color: #212121;
+  padding: 0.5rem 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+.form-field::placeholder {
+  color: transparent;
+}
+
+.form-field:placeholder-shown ~ .form-label {
+  font-size: 1rem;
+  cursor: text;
+  top: 20px;
+}
+
+label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 0.6rem;
+  color: #6c757d;
+}
+
+.form-field:focus {
+  padding-bottom: 0.375rem;
+  border-bottom: 2px solid #585ad6;
+}
+
+.form-field:focus ~ .form-label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 0.6rem;
+  color: #6c757d;
+  color: #585ad6;
 }
 
 html,
 body {
+  font-family: 'Roboto', sans-serif, 'Segoe UI', Tahoma;
   height: 100%;
   width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+textarea,
+select,
+input,
+button {
+  outline: none;
 }

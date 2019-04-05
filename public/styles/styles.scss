@@ -1,12 +1,30 @@
 // global styles
 
-@import url('https://unpkg.com/spectre.css/dist/spectre.min.css');
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 
-@import 'login';
-@import 'nav';
+@import 'variables';
 
+// components
+@import 'buttons';
+@import 'cards';
+@import 'forms';
+
+// individual pages
+// @import 'login';
+
+// css reset
 html,
 body {
+  font-family: 'Roboto', sans-serif, 'Segoe UI', Tahoma;
   height: 100%;
   width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+textarea,
+select,
+input,
+button {
+  outline: none;
 }

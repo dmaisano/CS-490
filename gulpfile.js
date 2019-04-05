@@ -10,18 +10,36 @@ const staticDir = path.join(__dirname, './public');
 gulp.task('serve', ['sass'], () => {
   browserSync.init({
     open: false,
-    proxy: 'http://localhost:4200',
-    serveStatic: [
-      {
-        route: '/public',
-        dir: staticDir,
+    notify: false,
+    port: 1234,
+    server: {
+      baseDir: staticDir,
+      middleware: function(req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        next();
       },
-    ],
+    },
   });
 
   gulp.watch(`${staticDir}/styles/**/*.scss`, ['sass']);
   gulp.watch(`${staticDir}/**/*.html`).on('change', browserSync.reload);
 });
+
+// gulp.task('serve', ['sass'], () => {
+//   browserSync.init({
+//     open: false,
+//     proxy: 'http://localhost:4200',
+//     serveStatic: [
+//       {
+//         route: '/public',
+//         dir: staticDir,
+//       },
+//     ],
+//   });
+
+//   gulp.watch(`${staticDir}/styles/**/*.scss`, ['sass']);
+//   gulp.watch(`${staticDir}/**/*.html`).on('change', browserSync.reload);
+// });
 
 // compile scss to formatted css
 gulp.task('sass', function() {

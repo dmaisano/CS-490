@@ -11,96 +11,87 @@
     body {
       background: #282c34;
     }
-  </style>
 
+    .login {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: auto;
+      height: 100%;
+      width: 350px;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  </style>
   <body>
-    <div class="container login">
+    <div class="login">
       <div class="card">
         <div class="card-image">
           <img src="img/highlander.png" class="img-responsive" />
         </div>
-        <div class="card-header">
-          <div class="card-title h1">CS 490 Login</div>
-        </div>
+
+        <div class="card-title">Login</div>
+
         <div class="card-body">
           <div class="form-group">
-            <label class="form-label" for="username">Username</label>
             <input
-              class="form-input"
               type="text"
               id="username"
-              placeholder="Enter Username"
+              class="form-field"
+              placeholder="."
             />
+            <label for="username" class="form-label">Username</label>
           </div>
           <div class="form-group">
-            <label class="form-label" for="password">Password</label>
             <input
-              class="form-input"
-              type="text"
+              type="password"
               id="password"
-              placeholder="Enter Password"
+              class="form-field"
+              placeholder="."
             />
+            <label for="password" class="form-label">Password</label>
           </div>
         </div>
+
         <div class="card-footer">
-          <button class="btn btn-primary" onclick="login()">Login</button>
+          <button type="submit" class="btn" onclick="login()">Login</button>
         </div>
       </div>
     </div>
 
     <script>
-      function foo() {
-        console.log('owo');
-      }
+      (async function() {
+        document.querySelector('#password').addEventListener('keyup', event => {
+          if (event.key !== 'Enter') return;
 
-      function login() {
+          login();
+
+          event.preventDefault();
+        });
+      })();
+
+      async function login() {
         const user = document.querySelector('#username').value;
         const pass = document.querySelector('#password').value;
 
-        console.log(
-          JSON.stringify({
+        let res = fetch('http://localhost:4200/api/user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
             user,
             pass,
-          })
-        );
+          }),
+        });
 
-        fetch('http://localhost:4200/user/test.php')
-          .then(res => {
-            console.log(res);
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        console.log(res);
 
-        // fetch('http://localhost:4200/user/user.php', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({
-        //     user,
-        //     pass,
-        //   }),
-        // })
-        //   .then(res => {
-        //     console.log(res);
-        //   })
-        //   .catch(err => {
-        //     console.log(err);
-        //   });
-        // let res = await fetch('http://localhost:4200/user/user.php', {
-        //   method: 'POST',
-        //   mode: 'cors',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({
-        //     user,
-        //     pass,
-        //   }),
-        // });
+        // let json = await res.json();
 
-        // console.log(await res);
-
-        // res = await res.json();
-
-        // console.log(res);
+        // if (json) console.log(json);
       }
     </script>
   </body>
