@@ -22,24 +22,10 @@ gulp.task('serve', ['sass'], () => {
   });
 
   gulp.watch(`${staticDir}/styles/**/*.scss`, ['sass']);
-  gulp.watch(`${staticDir}/**/*.html`).on('change', browserSync.reload);
+  gulp
+    .watch([`${staticDir}/**/*.html`, `${staticDir}/**/*.js`])
+    .on('change', browserSync.reload);
 });
-
-// gulp.task('serve', ['sass'], () => {
-//   browserSync.init({
-//     open: false,
-//     proxy: 'http://localhost:4200',
-//     serveStatic: [
-//       {
-//         route: '/public',
-//         dir: staticDir,
-//       },
-//     ],
-//   });
-
-//   gulp.watch(`${staticDir}/styles/**/*.scss`, ['sass']);
-//   gulp.watch(`${staticDir}/**/*.html`).on('change', browserSync.reload);
-// });
 
 // compile scss to formatted css
 gulp.task('sass', function() {

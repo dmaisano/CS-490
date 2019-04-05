@@ -1,9 +1,8 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto);
-
 .btn {
   color: #fff;
   background-color: #585ad6;
-  border-radius: 0.1rem;
+  border: 0;
+  border-radius: 0.15rem;
   width: auto;
   font-size: 1rem;
   padding: 0.66667rem 2.5rem 0.66667rem 2.5rem;
@@ -11,6 +10,10 @@
 
 .btn:hover {
   background-color: #3134ca;
+}
+
+.btn:active {
+  box-shadow: inset 0 0 100px #2729a1;
 }
 
 .btn:not(last-child) {
@@ -23,12 +26,12 @@
 
 .card {
   background: #fbfbfb;
-  background: #fbfbfb;
   border: 0.05rem solid #dadee4;
   border-radius: 0.15rem;
   box-shadow: 0 0.25rem 1rem rgba(48, 55, 66, 0.15);
   height: auto;
   width: 100%;
+  padding: 0.25rem 0.4rem;
 }
 
 .card-title, .card-body, .card-footer {

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Instructor Home</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <style>
+      body {
+        /* background: #fbfbfb; */
+        background: #282c34;
+      }
+
+      .container {
+        max-width: 100vw;
+        padding: 1rem;
+      }
+
+      .title {
+        color: #fbfbfb;
+        font-size: 3rem;
+        text-align: center;
+      }
+
+      .button-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 50%;
+        font-size: 2rem;
+        margin: 5vh 0;
+      }
+    </style>
+
+    <div class="container">
+      <h1 class="title">Instructor Home</h1>
+
+      <div class="button-group">
+        <button type="button" class="btn">
+          View Grades
+        </button>
+        <button type="button" class="btn">
+          View Exams
+        </button>
+        <button type="button" class="btn">
+          Create Exam
+        </button>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+
+        if (user.type !== 'instructor') {
+          window.location.href = '/';
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,11 +1,11 @@
 .card {
   background: #fbfbfb;
-  background: #fbfbfb;
   border: 0.05rem solid lighten(#303742, 65%);
   border-radius: 0.15rem;
   box-shadow: 0 0.25rem 1rem rgba(48, 55, 66, 0.15);
   height: auto;
   width: 100%;
+  padding: 0.25rem 0.4rem;
 
   &-title,
   &-body,

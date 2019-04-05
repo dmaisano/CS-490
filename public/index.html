@@ -21,7 +21,7 @@
       width: 350px;
     }
 
-    .btn {
+    .btn-submit {
       width: 100%;
     }
   </style>
@@ -56,13 +56,22 @@
         </div>
 
         <div class="card-footer">
-          <button type="submit" class="btn" onclick="login()">Login</button>
+          <button type="submit" class="btn btn-submit" onclick="login()">
+            Login
+          </button>
         </div>
       </div>
     </div>
 
     <script>
-      (async function() {
+      (function() {
+        let user = sessionStorage.getItem('user');
+
+        // redirect if logged in
+        if (user) {
+          redirect(JSON.parse(user));
+        }
+
         document.querySelector('#password').addEventListener('keyup', event => {
           if (event.key !== 'Enter') return;
 
@@ -72,11 +81,11 @@
         });
       })();
 
-      async function login() {
-        const user = document.querySelector('#username').value;
-        const pass = document.querySelector('#password').value;
+      function login() {
+        const user = document.querySelector('#username').value || '';
+        const pass = document.querySelector('#password').value || '';
 
-        let res = fetch('http://localhost:4200/api/user', {
+        fetch('http://localhost:4200/api/user', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -85,13 +94,31 @@
             user,
             pass,
           }),
-        });
+        })
+          .then(res => {
+            if (res.status !== 200) {
+              alert('Failed To Log In');
+              return false;
+            }
 
-        console.log(res);
+            return res.json();
+          })
+          .then(user => {
+            if (!user) return;
 
-        // let json = await res.json();
+            sessionStorage.setItem('user', JSON.stringify(user));
 
-        // if (json) console.log(json);
+            redirect(user);
+          })
+          .catch(() => {});
+      }
+
+      function redirect(user) {
+        if (user.type === 'instructor') {
+          window.location.href = '/instructor';
+        } else {
+          window.location.href = '/student';
+        }
       }
     </script>
   </body>
