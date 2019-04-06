@@ -4,6 +4,7 @@
 styles/**/*.css
 
 # sensitive config files
+.env
 **/config/*.php
 
 package-lock.json

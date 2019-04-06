@@ -43,22 +43,23 @@
 
       <div class="button-group">
         <button type="button" class="btn">
-          View Grades
+          <a href="../grades/index.html">View Grades</a>
         </button>
         <button type="button" class="btn">
-          View Exams
+          <a href="../exams/view.html">View Exams</a>
         </button>
         <button type="button" class="btn">
-          Create Exam
+          <a href="../exams/create.html">Create Exam</a>
         </button>
       </div>
     </div>
 
     <script>
       (function() {
-        const user = JSON.parse(sessionStorage.getItem('user'));
+        const user = sessionStorage.getItem('user');
+        const type = user !== undefined ? JSON.parse(user) : '';
 
-        if (user.type !== 'instructor') {
+        if (!user || type !== 'instructor') {
           window.location.href = '/';
         }
       })();
