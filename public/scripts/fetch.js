@@ -1,15 +1,15 @@
 /**
  * send a POST request using window.fetch
  * @param {string} url
- * @param {Object} obj
+ * @param {Object} data
  */
-export function postObj(url, obj = {}) {
+export function postObj(url, data = {}) {
   return fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(obj),
+    body: JSON.stringify(data),
   }).catch(err => {
     console.log('FETCH error');
     console.error(err);

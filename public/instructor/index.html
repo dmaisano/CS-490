@@ -9,18 +9,12 @@
   </head>
   <body>
     <style>
-      body {
-        /* background: #fbfbfb; */
-        background: #282c34;
-      }
-
       .container {
         max-width: 100vw;
         padding: 1rem;
       }
 
       .title {
-        color: #fbfbfb;
         font-size: 3rem;
         text-align: center;
       }
@@ -54,15 +48,6 @@
       </div>
     </div>
 
-    <script>
-      (function() {
-        const user = sessionStorage.getItem('user');
-        const type = user !== undefined ? JSON.parse(user) : '';
-
-        if (!user || type !== 'instructor') {
-          window.location.href = '/';
-        }
-      })();
-    </script>
+    <script></script>
   </body>
 </html>

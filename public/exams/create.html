@@ -4,22 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Title</title>
+    <title>Create Exam</title>
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body>
     <style>
-      body {
-        background: #282c34;
+      .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
       }
 
-      .title {
-        color: #fbfbfb;
-        text-align: center;
+      .card {
+        max-width: 90%;
+        margin: auto;
       }
     </style>
 
-    <h1>Sample Page</h1>
+    <!-- <h1>Sample Page</h1> -->
+    <div class="container">
+      <div class="card">
+        <div class="card-title">OwO</div>
+      </div>
+      <h1>Current Questions</h1>
+    </div>
 
     <script>
       console.log('test');

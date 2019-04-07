@@ -9,17 +9,12 @@
   </head>
   <body>
     <style>
-      body {
-        background: #282c34;
-      }
-
       .container {
         max-width: 100vw;
         padding: 1rem;
       }
 
       .title {
-        color: #fbfbfb;
         font-size: 3rem;
         text-align: center;
       }
@@ -53,20 +48,6 @@
       </div>
     </div>
 
-    <script>
-      (function() {
-        const user = sessionStorage.getItem('user');
-
-        let type = '';
-
-        if (!user) {
-          window.location.href = '/';
-        }
-
-        if (!user || type !== 'student') {
-          window.location.href = '/';
-        }
-      })();
-    </script>
+    <script></script>
   </body>
 </html>

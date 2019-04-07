@@ -16,11 +16,11 @@ exports.getUser = function(db) {
           return res.sendStatus(403);
         }
 
-        let { type, username } = result[0];
+        let { user, type } = result[0];
 
         return res.json({
+          user,
           type,
-          username,
         });
       }
     );
