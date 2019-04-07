@@ -1,51 +1,15 @@
 @import 'variables';
 
-.form-group {
-  position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
-}
-
-.form-field {
-  font-family: inherit;
-  width: 100%;
-  border: 0;
-  border-bottom: 1px solid $light-gray;
-  outline: 0;
+input,
+textarea {
   font-size: 1rem;
-  color: #212121;
-  padding: 0.5rem 0;
-  background: transparent;
-  transition: border-color 0.2s;
-  &::placeholder {
-    color: transparent;
-  }
-  &:placeholder-shown ~ .form-label {
-    font-size: 1rem;
-    cursor: text;
-    top: 20px;
-  }
-}
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #dfe1e5;
+  border-radius: 0.15rem;
 
-label {
-  position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 0.6rem;
-  color: $gray;
-}
-
-.form-field:focus {
-  ~ .form-label {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 0.6rem;
-    color: $gray;
-    color: $primary;
+  &:focus {
+    border-color: #8285dd;
+    box-shadow: 0 0 0 0.1rem rgba(88, 90, 214, 0.75);
   }
-  padding-bottom: 0.375rem;
-  border-bottom: 2px solid $primary;
 }
