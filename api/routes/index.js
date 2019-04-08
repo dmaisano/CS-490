@@ -8,4 +8,8 @@ db.connect();
 const { getUser } = require('../users');
 router.post('/user', getUser(db));
 
+// topics
+const { getTopics } = require('../topics');
+router.post('/topics', getTopics(db));
+
 module.exports = router;

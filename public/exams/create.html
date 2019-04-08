@@ -15,10 +15,16 @@
 
       .container {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr 0.75fr;
         justify-items: center;
         height: 100vh;
         max-height: 100vh;
+      }
+
+      @media (min-width: 1200px) {
+        .container {
+          grid-template-columns: 1fr 1fr;
+        }
       }
 
       .container > div {
@@ -38,10 +44,20 @@
       .filter-box {
         display: grid;
         grid-template-columns: 1fr repeat(3, auto);
+        grid-column-gap: 0.05rem;
+      }
+
+      .filter-box > #questionName {
+        font-weight: 700;
+        padding-left: 0.5rem;
+      }
+
+      .filter-box .custom-select {
+        padding-right: 0.25rem;
       }
 
       .filter-box > .btn {
-        padding: 0 1rem;
+        padding: 0.5rem;
       }
 
       .filter-box > * {
@@ -50,6 +66,7 @@
     </style>
 
     <div class="container">
+      <!-- Left Side -->
       <div>
         <!-- filter card -->
         <div class="card filter">
@@ -61,27 +78,41 @@
                 class="form-field"
                 placeholder="Question Name"
               />
-              <button type="button" class="btn">
-                Difficulty ▼
-              </button>
-              <button type="button" class="btn">
-                Topic ▼
-              </button>
-              <button type="button" class="btn btn-success">
+
+              <select id="difficulty" class="custom-select" pla>
+                <option value="">Difficulty</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+
+              <select id="topics" class="custom-select">
+                <option value="">Topics</option>
+              </select>
+
+              <button
+                type="button"
+                class="btn btn-success"
+                onclick="filterSubmit()"
+              >
                 Submit
               </button>
             </div>
           </div>
         </div>
+
+        <!-- Question Bank -->
+        <div class="card bank">
+          <div class="card-title">Question Bank</div>
+        </div>
       </div>
 
+      <!-- Right Side -->
       <div>
         <h1 class="title" style="text-align: center;">Exam Preview</h1>
       </div>
     </div>
 
-    <script>
-      console.log('test');
-    </script>
+    <script type="module" src="./create.js"></script>
   </body>
 </html>

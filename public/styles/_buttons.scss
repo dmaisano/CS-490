@@ -19,15 +19,13 @@
   border: 0;
   border-radius: 0.15rem;
   width: 100%;
+  cursor: pointer;
+  text-align: center;
 
   $btn-padding: 1rem;
   padding: 0;
-  // padding: $btn-padding/1.5 $btn-padding * 2.5 $btn-padding/1.5 $btn-padding *
-  //   2.5;
-
-  // &:not(last-child) {
-  //   margin-right: 1rem;
-  // }
+  padding: $btn-padding/1.5 $btn-padding * 2.5 $btn-padding/1.5 $btn-padding *
+    2.5;
 
   &-success {
     @include button-bg($success);

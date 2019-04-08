@@ -5,7 +5,10 @@
   border: 0;
   border-radius: 0.15rem;
   width: 100%;
+  cursor: pointer;
+  text-align: center;
   padding: 0;
+  padding: 0.66667rem 2.5rem 0.66667rem 2.5rem;
 }
 
 .btn:hover {
@@ -77,6 +80,7 @@
   font-size: 1.75rem;
   font-weight: 600;
   text-align: center;
+  color: #3b4350;
 }
 
 .card .card-image {
@@ -102,6 +106,7 @@
 input,
 textarea {
   font-size: 1rem;
+  font-weight: 600;
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #dfe1e5;
@@ -111,7 +116,32 @@ textarea {
 input:focus,
   textarea:focus {
   border-color: #8285dd;
-  box-shadow: 0 0 0 0.1rem rgba(88, 90, 214, 0.75);
+  box-shadow: inset 0 0 0 0.1rem rgba(88, 90, 214, 0.75);
+}
+
+.custom-select {
+  display: block;
+  font-size: 1rem;
+  font-family: sans-serif;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.3;
+  padding: 0.6rem 1.4rem 0.5rem 0.8rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  border: none;
+  background-color: #585ad6;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  border: 0;
+  outline: 1px inset #fff;
+  outline-offset: -1px;
+}
+
+.custom-select option {
+  font-weight: normal;
 }
 
 html,

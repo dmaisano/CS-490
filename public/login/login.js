@@ -67,8 +67,6 @@ function login() {
     .then(user => {
       if (!user) return;
 
-      console.log('i ran');
-
       sessionStorage.setItem('user', JSON.stringify(user));
 
       redirect(user);
