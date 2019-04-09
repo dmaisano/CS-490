@@ -66,10 +66,21 @@
         border-radius: 0;
       }
 
+      .newQuestion {
+        margin: 0.5rem 0;
+        display: grid;
+        grid-template-columns: 1fr 0.5fr;
+        grid-gap: 0.5rem;
+      }
+
       .question {
         display: grid;
         grid-template-columns: 1fr auto;
         grid-column-gap: 0.5rem;
+      }
+
+      .question:not(last-child) {
+        margin-top: 0.5rem;
       }
     </style>
 
@@ -111,56 +122,37 @@
         <!-- Question Bank -->
         <div class="card bank">
           <div class="card-title">Question Bank</div>
-          <div class="card-body">
-            <div class="question">
-              <input type="text" value="2 + 2" disabled />
-              <button type="button" class="btn btn-success">
-                Add
-              </button>
-            </div>
-          </div>
+          <div class="card-body"></div>
         </div>
 
         <!-- Create New Question -->
         <div class="card">
           <div class="card-title">Add Question</div>
           <div class="card-body newQuestion">
-            <div
-              style="margin: 0.5rem 0; display: grid; grid-template-columns: 1fr 0.5fr; grid-gap: 0.5rem;"
-            >
-              <input type="text" id="name" placeholder="Question Name" />
-              <select id="topics" class="custom-select" style="color: #3b4350;">
-                <option value="">Topics</option>
-              </select>
-              <input
-                type="text"
-                id="functionName"
-                placeholder="Function Name"
-              />
-              <select
-                id="difficulty"
-                class="custom-select"
-                style="color: #3b4350;"
-              >
-                <option value="">Difficulty</option>
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
-              </select>
-            </div>
+            <input type="text" id="name" placeholder="Question Name" />
+            <select id="topics" class="custom-select">
+              <option value="">Topics</option>
+            </select>
+            <input type="text" id="functionName" placeholder="Function Name" />
+            <select id="difficulty" class="custom-select">
+              <option value="">Difficulty</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+
             <textarea
               name="description"
               id="description"
               rows="3"
               placeholder="Question Description"
-              va
+              style="grid-column: span 2;"
             ></textarea>
-
-            <div id="test-cases"></div>
 
             <button
               type="button"
               class="btn btn-success"
+              style="grid-column: span 2;"
               onclick="createQuestion()"
             >
               Add Test Case
@@ -169,9 +161,9 @@
         </div>
       </div>
 
-      <!-- Right Side -->
-      <div>
-        <h1 class="title" style="text-align: center;">Exam Preview</h1>
+      <!-- Exam Preview -->
+      <div class="card exam">
+        <div class="card-title">Exam Preview</div>
       </div>
     </div>
 

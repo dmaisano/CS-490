@@ -4,7 +4,7 @@ const db = require('../database');
 
 db.connect();
 
-// user logic
+// user
 const { getUser } = require('../users');
 router.post('/user', getUser(db));
 

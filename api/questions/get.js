@@ -8,7 +8,7 @@ exports.getQuestions = function(db) {
         }
 
         if (result.length === 0) {
-          return res.sendStatus(403);
+          return res.json([]);
         }
 
         return res.json(result);

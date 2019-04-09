@@ -1,7 +1,5 @@
 exports.addQuestion = function(db) {
   return (req, res) => {
-    console.log(req.body);
-
     const name = req.body.name || '';
     const functionName = req.body.functionName || '';
     const topic = req.body.topic || '';
