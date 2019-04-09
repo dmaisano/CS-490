@@ -1,13 +1,16 @@
-window.filterSubmit = filterSubmit;
-
 import { postObj } from '../scripts/fetch.js';
 import { redirect } from '../scripts/redirect.js';
+import { autosize } from '../scripts/autosize.js';
 
 let filter = {};
+
+window.filterSubmit = filterSubmit;
+window.autosize = autosize;
 
 (function() {
   redirect('instructor');
 
+  autosize();
   setTopics();
 })();
 
@@ -15,12 +18,14 @@ function setTopics() {
   postObj('http://localhost:4200/api/topics', {})
     .then(res => res.json())
     .then(res => {
-      const topics = document.querySelector('#topics');
+      const elems = document.querySelectorAll('#topics');
 
-      for (const topic of res) {
-        const option = document.createElement('option');
-        option.text = topic;
-        topics.add(option, null);
+      for (const el of elems) {
+        for (const topic of res) {
+          const option = document.createElement('option');
+          option.text = topic;
+          el.add(option, null);
+        }
       }
     });
 }

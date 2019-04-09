@@ -105,6 +105,7 @@
 
 input,
 textarea {
+  color: #3b4350;
   font-size: 1rem;
   font-weight: 600;
   width: 100%;
@@ -132,7 +133,7 @@ input:focus,
   box-sizing: border-box;
   margin: 0;
   border: none;
-  background-color: #585ad6;
+  background-color: #fbfbfb;
   -webkit-border-radius: 0;
   border-radius: 0;
   border: 0;

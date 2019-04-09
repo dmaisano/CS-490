@@ -13,6 +13,10 @@
         overflow: hidden;
       }
 
+      textarea {
+        overflow: visible !important;
+      }
+
       .container {
         display: grid;
         grid-template-columns: 1fr 0.75fr;
@@ -54,6 +58,7 @@
 
       .filter-box .custom-select {
         padding-right: 0.25rem;
+        background-color: #585ad6;
       }
 
       .filter-box > .btn {
@@ -75,7 +80,6 @@
               <input
                 type="text"
                 id="questionName"
-                class="form-field"
                 placeholder="Question Name"
               />
 
@@ -104,6 +108,38 @@
         <!-- Question Bank -->
         <div class="card bank">
           <div class="card-title">Question Bank</div>
+          <div class="card-body"></div>
+        </div>
+
+        <!-- Create New Question -->
+        <div class="card bank">
+          <div class="card-title">Add Question</div>
+          <div class="card-body newQuestion">
+            <input type="text" id="name" placeholder="Question Name" />
+            <div
+              style="margin: 0.5rem 0; display: grid; grid-template-columns: 1fr 0.5fr; grid-column-gap: 0.25rem;"
+            >
+              <select
+                style="background-color: #fbfbfb; color: #3b4350;"
+                id="topics"
+                class="custom-select"
+              >
+                <option value="">Topic</option>
+              </select>
+              <input type="text" id="points" placeholder="Points" />
+            </div>
+            <textarea
+              name="description"
+              id="description"
+              rows="3"
+              placeholder="Question Description"
+              va
+            ></textarea>
+
+            <div id="test-cases"></div>
+
+            <button type="button" class="btn btn-success">Add Test Case</button>
+          </div>
         </div>
       </div>
 
