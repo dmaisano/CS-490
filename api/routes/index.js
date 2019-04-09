@@ -12,4 +12,9 @@ router.post('/user', getUser(db));
 const { getTopics } = require('../topics');
 router.post('/topics', getTopics(db));
 
+// questions
+const { getQuestions, addQuestion } = require('../questions');
+router.post('/questions', getQuestions(db));
+router.post('/questions/add', addQuestion(db));
+
 module.exports = router;

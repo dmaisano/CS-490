@@ -5,7 +5,8 @@ import { autosize } from '../scripts/autosize.js';
 let filter = {};
 
 window.filterSubmit = filterSubmit;
-window.autosize = autosize;
+window.createQuestion = createQuestion;
+// window.autosize = autosize;
 
 (function() {
   redirect('instructor');
@@ -44,17 +45,31 @@ function getQuestions() {
     });
 }
 
-function addQuestion() {
-  postObj('http://localhost:4200/api/topics', {})
+function createQuestion() {
+  const name = document.querySelector('.newQuestion #name').value || '';
+  const functionName =
+    document.querySelector('.newQuestion #functionName').value || '';
+  const topic =
+    document.querySelector('.newQuestion #topics').selectedOptions[0].value ||
+    '';
+  const difficulty =
+    document.querySelector('.newQuestion #difficulty').selectedOptions[0]
+      .value || '';
+  const description =
+    document.querySelector('.newQuestion #description').value || '';
+
+  const question = {
+    name,
+    functionName,
+    topic,
+    difficulty,
+    description,
+  };
+
+  postObj('http://localhost:4200/api/questions/add', question)
     .then(res => res.json())
     .then(res => {
-      const topics = document.querySelector('#topics');
-
-      for (const topic of res) {
-        const option = document.createElement('option');
-        option.text = topic;
-        topics.add(option, null);
-      }
+      console.log(res);
     });
 }
 

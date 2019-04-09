@@ -9,10 +9,6 @@
   </head>
   <body>
     <style>
-      * {
-        overflow: hidden;
-      }
-
       textarea {
         overflow: visible !important;
       }
@@ -61,12 +57,19 @@
         background-color: #585ad6;
       }
 
-      .filter-box > .btn {
+      .filter-box > .btn,
+      .question > .btn {
         padding: 0.5rem;
       }
 
       .filter-box > * {
         border-radius: 0;
+      }
+
+      .question {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-column-gap: 0.5rem;
       }
     </style>
 
@@ -83,7 +86,7 @@
                 placeholder="Question Name"
               />
 
-              <select id="difficulty" class="custom-select" pla>
+              <select id="difficulty" class="custom-select">
                 <option value="">Difficulty</option>
                 <option value="Easy">Easy</option>
                 <option value="Medium">Medium</option>
@@ -108,25 +111,42 @@
         <!-- Question Bank -->
         <div class="card bank">
           <div class="card-title">Question Bank</div>
-          <div class="card-body"></div>
+          <div class="card-body">
+            <div class="question">
+              <input type="text" value="2 + 2" disabled />
+              <button type="button" class="btn btn-success">
+                Add
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Create New Question -->
-        <div class="card bank">
+        <div class="card">
           <div class="card-title">Add Question</div>
           <div class="card-body newQuestion">
-            <input type="text" id="name" placeholder="Question Name" />
             <div
-              style="margin: 0.5rem 0; display: grid; grid-template-columns: 1fr 0.5fr; grid-column-gap: 0.25rem;"
+              style="margin: 0.5rem 0; display: grid; grid-template-columns: 1fr 0.5fr; grid-gap: 0.5rem;"
             >
-              <select
-                style="background-color: #fbfbfb; color: #3b4350;"
-                id="topics"
-                class="custom-select"
-              >
-                <option value="">Topic</option>
+              <input type="text" id="name" placeholder="Question Name" />
+              <select id="topics" class="custom-select" style="color: #3b4350;">
+                <option value="">Topics</option>
               </select>
-              <input type="text" id="points" placeholder="Points" />
+              <input
+                type="text"
+                id="functionName"
+                placeholder="Function Name"
+              />
+              <select
+                id="difficulty"
+                class="custom-select"
+                style="color: #3b4350;"
+              >
+                <option value="">Difficulty</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
             </div>
             <textarea
               name="description"
@@ -138,7 +158,13 @@
 
             <div id="test-cases"></div>
 
-            <button type="button" class="btn btn-success">Add Test Case</button>
+            <button
+              type="button"
+              class="btn btn-success"
+              onclick="createQuestion()"
+            >
+              Add Test Case
+            </button>
           </div>
         </div>
       </div>

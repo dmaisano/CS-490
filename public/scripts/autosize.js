@@ -3,7 +3,7 @@
  */
 export function autosize() {
   let textareas = document.querySelectorAll('textarea');
-  const maxHeight = 200; // px
+  const maxHeight = 250; // px
 
   for (const textarea of textareas) {
     textarea.addEventListener('paste', autoExpand);
