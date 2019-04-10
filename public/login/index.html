@@ -8,6 +8,25 @@
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <style>
+    .bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('../img/splash.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      z-index: -999;
+    }
+
+    .bg:before {
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 100%;
+      background: rgba(43, 43, 43, 0.5);
+      z-index: -999;
+    }
+
     .login {
       display: flex;
       flex-direction: column;
@@ -26,6 +45,8 @@
     }
   </style>
   <body>
+    <div class="bg"></div>
+
     <div class="login">
       <div class="card">
         <div class="card-image">

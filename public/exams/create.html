@@ -73,10 +73,25 @@
         grid-gap: 0.5rem;
       }
 
-      .question {
+      .bank > .question {
         display: grid;
         grid-template-columns: 1fr auto;
         grid-column-gap: 0.5rem;
+      }
+
+      .exam > .question {
+        display: grid;
+        grid-template-columns: 1fr 0.25fr auto auto;
+        grid-column-gap: 0.5rem;
+      }
+
+      .exam > .question > .btn {
+        padding: 0.5rem 0.75rem;
+      }
+
+      .exam > .question > textarea {
+        grid-column: span 4;
+        margin-top: 0.25rem;
       }
 
       .question:not(last-child) {
@@ -88,52 +103,51 @@
       <!-- Left Side -->
       <div>
         <!-- filter card -->
-        <div class="card filter">
-          <div class="card-body">
-            <div class="filter-box">
-              <input
-                type="text"
-                id="questionName"
-                placeholder="Question Name"
-              />
+        <div class="card">
+          <div class="card-body filter-box">
+            <input type="text" id="questionName" placeholder="Question Name" />
 
-              <select id="difficulty" class="custom-select">
-                <option value="">Difficulty</option>
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
-              </select>
+            <select id="difficulty" class="custom-select">
+              <option value="">Difficulty</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
 
-              <select id="topics" class="custom-select">
-                <option value="">Topics</option>
-              </select>
+            <select id="topics" class="custom-select">
+              <option value="">Topics</option>
+            </select>
 
-              <button
-                type="button"
-                class="btn btn-success"
-                onclick="filterSubmit()"
-              >
-                Submit
-              </button>
-            </div>
+            <button
+              type="button"
+              class="btn btn-success"
+              onclick="filterSubmit()"
+            >
+              Submit
+            </button>
           </div>
         </div>
 
         <!-- Question Bank -->
         <div class="card bank">
           <div class="card-title">Question Bank</div>
-          <div class="card-body"></div>
+          <div class="card-body bank"></div>
         </div>
 
         <!-- Create New Question -->
         <div class="card">
           <div class="card-title">Add Question</div>
           <div class="card-body newQuestion">
-            <input type="text" id="name" placeholder="Question Name" />
+            <input type="text" id="name" placeholder="Question Name" required />
             <select id="topics" class="custom-select">
               <option value="">Topics</option>
             </select>
-            <input type="text" id="functionName" placeholder="Function Name" />
+            <input
+              type="text"
+              id="functionName"
+              placeholder="Function Name"
+              required
+            />
             <select id="difficulty" class="custom-select">
               <option value="">Difficulty</option>
               <option value="Easy">Easy</option>
@@ -147,6 +161,7 @@
               rows="3"
               placeholder="Question Description"
               style="grid-column: span 2;"
+              required
             ></textarea>
 
             <button
@@ -162,8 +177,25 @@
       </div>
 
       <!-- Exam Preview -->
-      <div class="card exam">
+      <div class="card">
         <div class="card-title">Exam Preview</div>
+        <div class="card-body exam">
+          <input type="text" id="name" placeholder="Exam Name" required />
+
+          <h2 class="title" style="color: #3b4350; text-align: center;">
+            Questions
+          </h2>
+
+          <div class="question">
+            <input type="text" value="tmp" disabled />
+            <input type="text" placeholder="Points" required />
+            <button type="button" class="btn btn-secondary">▼</button>
+            <button type="button" class="btn btn-danger">
+              X
+            </button>
+            <textarea rows="3" disabled>Description</textarea>
+          </div>
+        </div>
       </div>
     </div>
 

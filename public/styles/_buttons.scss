@@ -31,9 +31,8 @@
     @include button-bg($success);
   }
 
-  &-warning {
-    color: $dark-gray;
-    @include button-bg($warning);
+  &-danger {
+    @include button-bg($danger);
   }
 
   &-warning {

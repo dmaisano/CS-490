@@ -31,17 +31,16 @@
   box-shadow: inset 0 0 100px #195627;
 }
 
-.btn-warning {
-  color: #343a40;
-  background-color: #fdc02e;
+.btn-danger {
+  background-color: #d93749;
 }
 
-.btn-warning:hover {
-  background-color: #f6ae02;
+.btn-danger:hover {
+  background-color: #ba2334;
 }
 
-.btn-warning:active {
-  box-shadow: inset 0 0 100px #c38a02;
+.btn-danger:active {
+  box-shadow: inset 0 0 100px #8f1b28;
 }
 
 .btn-warning {
@@ -118,6 +117,17 @@ input:focus,
   textarea:focus {
   border-color: #8285dd;
   box-shadow: inset 0 0 0 0.1rem rgba(88, 90, 214, 0.75);
+}
+
+input:required:focus,
+  textarea:required:focus {
+  border-color: #d93749;
+  box-shadow: 0 0 0 0.1rem rgba(217, 55, 73, 0.85);
+}
+
+input:disabled,
+  textarea:disabled {
+  background: #e9ecef;
 }
 
 .custom-select {

@@ -72,35 +72,14 @@ function getQuestions(fetch = true) {
       .then(res => res.json())
       .then(res => {
         clearQuestions();
-
         questionBank = res;
       })
       .then(() => {
         createElements();
       });
-  }
-
-  function createElements() {
-    const bank = document.querySelector('.bank .card-body');
-
-    for (const question of questionBank) {
-      const elem = document.createElement('div');
-      elem.setAttribute('class', 'question');
-      elem.setAttribute('id', question.id);
-
-      const markUp = `
-      <input type="text" value="${question.question_name}" disabled />
-      <button type="button" class="btn btn-success" onclick="addQuestion(${
-        question.id
-      })">
-        Add
-      </button>
-      `;
-
-      elem.innerHTML = markUp;
-
-      bank.appendChild(elem);
-    }
+  } else {
+    // use the cached object
+    createElements();
   }
 }
 
