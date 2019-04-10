@@ -130,6 +130,10 @@ input:disabled,
   background: #e9ecef;
 }
 
+textarea {
+  resize: vertical;
+}
+
 .custom-select {
   display: block;
   font-size: 1rem;

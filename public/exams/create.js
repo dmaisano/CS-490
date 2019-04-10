@@ -2,12 +2,13 @@ import { postObj } from '../scripts/fetch.js';
 import { redirect } from '../scripts/redirect.js';
 import { autosize } from '../scripts/autosize.js';
 
-let filter = {};
 let questionBank = [];
 
 window.filterSubmit = filterSubmit;
 window.addQuestion = addQuestion;
+window.removeQuestion = removeQuestion;
 window.createQuestion = createQuestion;
+window.toggleDescription = toggleDescription;
 
 (function() {
   redirect('instructor');
@@ -32,62 +33,106 @@ function setTopics() {
     });
 }
 
+function getQuestions(filter = {}) {
+  // fetch the questions from the DB
+  postObj('http://localhost:4200/api/questions', filter)
+    .then(res => res.json())
+    .then(res => {
+      questionBank = res;
+    })
+    .then(() => {
+      renderQuestions();
+    });
+}
+
 /**
  * render the list of questions
  * @param {string} url
  */
-function getQuestions(fetch = true) {
+function renderQuestions(reset = false) {
   const bank = document.querySelector('.bank > .card-body');
 
-  // remove existing questions
-  function clearQuestions() {
-    while (bank.firstChild) {
-      bank.removeChild(bank.firstChild);
-    }
+  while (bank.firstChild) {
+    bank.removeChild(bank.firstChild);
   }
 
   // populate the questions
-  function createElements() {
-    for (const question of questionBank) {
-      const elem = document.createElement('div');
-      elem.setAttribute('class', 'question');
-      elem.setAttribute('id', question.id);
+  for (const question of questionBank) {
+    const elem = document.createElement('div');
+    elem.setAttribute('class', 'question');
+    elem.setAttribute('id', question.function_name);
 
-      const markUp = `
-        <input type="text" value="${question.question_name}" disabled />
-        <button type="button" class="btn btn-success" onclick="addQuestion(${
-          question.id
-        })">
-          Add
-        </button>
-      `;
+    const markUp = `
+      <input type="text" value="${question.question_name}" disabled />
+      <button type="button" class="btn btn-success" style="padding: 0.5rem 0.75rem;" onclick="addQuestion('${
+        question.function_name
+      }')">
+        +
+      </button>
+    `;
 
-      elem.innerHTML = markUp;
-      bank.appendChild(elem);
-    }
-  }
-
-  if (fetch) {
-    postObj('http://localhost:4200/api/questions', {})
-      .then(res => res.json())
-      .then(res => {
-        clearQuestions();
-        questionBank = res;
-      })
-      .then(() => {
-        createElements();
-      });
-  } else {
-    // use the cached object
-    createElements();
+    elem.innerHTML = markUp;
+    bank.appendChild(elem);
   }
 }
 
 // add question to the current exam
-function addQuestion(id) {
-  console.log({
-    id,
-  });
+function addQuestion(function_name) {
+  const examQuestions = document.querySelector('.exam > .questions');
+
+  let index = 0;
+
+  for (let i = 0; i <= questionBank.length; i++) {
+    const question = questionBank[i];
+    if (question.function_name === function_name) {
+      index = i;
+      break;
+    }
+  }
+
+  const question = questionBank[index];
+
+  // remove the element from the question bank
+  questionBank.splice(index, 1);
+
+  const id = question.question_name.split(' ').join('_');
+
+  const elem = document.createElement('div');
+  elem.setAttribute('class', 'question');
+  elem.setAttribute('id', id);
+
+  const markUp = `
+    <input type="text" value="${question.question_name}" disabled />
+    <input type="text" placeholder="Points" required />
+    <button
+      type="button"
+      class="btn btn-secondary"
+      onclick="toggleDescription('${id}')"
+    >
+      ▼
+    </button>
+    <button type="button" class="btn btn-danger" onclick="removeQuestion('${id}')">
+      X
+    </button>
+    <textarea rows="3" style="display: none;" disabled>${
+      question.question_description
+    }</textarea>
+  `;
+
+  elem.innerHTML = markUp;
+  examQuestions.appendChild(elem);
+
+  renderQuestions();
+}
+
+function sortQuestions(a, b) {
+  if (a.question_name < b.question_name) {
+    return -1;
+  } else if (a.question_name > b.question_name) {
+    return 1;
+  }
+
+  return 0;
 }
 
 function createQuestion() {
@@ -112,18 +157,27 @@ function createQuestion() {
   }
 
   const question = {
-    name: name.value,
-    functionName: functionName.value,
+    question_name: name.value,
+    function_name: functionName.value,
     topic,
     difficulty,
-    description: description.value,
+    question_description: description.value,
   };
 
   postObj('http://localhost:4200/api/questions/add', question)
     .then(res => res.json())
-    .then(() => {
+    .then(res => {
+      if (res.error) {
+        alert('Failed to Add Question');
+        console.error(res);
+        return;
+      }
+
+      questionBank.push(question);
+      questionBank.sort((a, b) => sortQuestions(a, b)); // sortQuestions();
+
       // refresh the question bank
-      getQuestions();
+      renderQuestions();
 
       // clear the form
       name.value = '';
@@ -133,23 +187,73 @@ function createQuestion() {
       description.value = '';
     });
 
+  // reset the height
   const descriptionBox = document.querySelector('.newQuestion > #description');
   descriptionBox.style.height = 'inherit';
   descriptionBox.style.height = '76px';
 }
 
 function filterSubmit() {
-  const questionName = document.querySelector('#questionName').value || '';
+  const question_name =
+    document.querySelector('.filter-box > #questionName').value || '';
   const difficulty =
-    document.querySelector('#difficulty').selectedOptions[0].value || '';
+    document.querySelector('.filter-box > #difficulty').selectedOptions[0]
+      .value || '';
   const topic =
-    document.querySelector('#topics').selectedOptions[0].value || '';
+    document.querySelector('.filter-box > #topics').selectedOptions[0].value ||
+    '';
 
-  filter = {
-    questionName,
+  const filter = {
+    question_name,
     difficulty,
     topic,
   };
 
-  return filter;
+  console.log(filter);
+
+  getQuestions(filter);
+}
+
+// remove question from bank, and add back to
+function removeQuestion(id) {
+  console.log(id);
+
+  const elem = document.querySelector(`#${id}`);
+  const question_name = elem.querySelector('input:first-child').value;
+
+  let question;
+  // for (const res of originalBank) {
+  //   console.log(res);
+  //   console.log(question_name);
+  //   if (res.question_name === question_name) {
+  //     question = res;
+  //   }
+  // }
+
+  console.log(question);
+
+  questionBank.push(question);
+
+  while (elem.firstChild) {
+    elem.removeChild(elem.firstChild);
+  }
+
+  // renderQuestions();
+  // sortQuestions();
+}
+
+// toggle the visibility of the question's description
+function toggleDescription(id) {
+  console.log(id);
+
+  const textarea = document.querySelector(`#${id} > textarea`);
+
+  const visibility = textarea.style.display;
+
+  if (visibility === 'none') {
+    textarea.style.display = 'block';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  } else {
+    textarea.style.display = 'none';
+  }
 }

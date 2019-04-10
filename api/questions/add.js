@@ -1,25 +1,39 @@
 exports.addQuestion = function(db) {
   return (req, res) => {
-    const name = req.body.name || '';
-    const functionName = req.body.functionName || '';
-    const topic = req.body.topic || '';
-    const difficulty = req.body.difficulty || '';
-    const description = req.body.description || '';
+    const {
+      question_name,
+      function_name,
+      question_description,
+      difficulty,
+      topic,
+    } = req.body;
 
-    db.query(
-      `INSERT INTO questions VALUES (DEFAULT, "${difficulty}", "${topic}", "${name}", "${functionName}", "${description}")`,
-      (err, result) => {
-        if (err) {
-          return res.json({
-            error: true,
-            msg: err,
-          });
-        }
+    if (
+      !function_name ||
+      !question_name ||
+      !question_description ||
+      !difficulty ||
+      !topic
+    ) {
+      return res.json({
+        error: true,
+        msg: 'Missing Field',
+      });
+    }
 
+    const query = `INSERT INTO questions VALUES ("${question_name}", "${function_name}", "${question_description}", "${difficulty}", "${topic}")`;
+
+    db.query(query, err => {
+      if (err) {
         return res.json({
-          success: true,
+          error: true,
+          msg: err,
         });
       }
-    );
+
+      return res.json({
+        success: true,
+      });
+    });
   };
 };

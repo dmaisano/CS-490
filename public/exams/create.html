@@ -43,7 +43,7 @@
 
       .filter-box {
         display: grid;
-        grid-template-columns: 1fr repeat(3, auto);
+        grid-template-columns: 1fr repeat(4, auto);
         grid-column-gap: 0.05rem;
       }
 
@@ -79,17 +79,17 @@
         grid-column-gap: 0.5rem;
       }
 
-      .exam > .question {
+      .exam > .questions > .question {
         display: grid;
         grid-template-columns: 1fr 0.25fr auto auto;
         grid-column-gap: 0.5rem;
       }
 
-      .exam > .question > .btn {
+      .exam > .questions > .question .btn {
         padding: 0.5rem 0.75rem;
       }
 
-      .exam > .question > textarea {
+      .exam > .questions > .question > textarea {
         grid-column: span 4;
         margin-top: 0.25rem;
       }
@@ -100,7 +100,7 @@
     </style>
 
     <div class="container">
-      <!-- Left Side -->
+      <!-- Question Bank -->
       <div>
         <!-- filter card -->
         <div class="card">
@@ -125,10 +125,18 @@
             >
               Submit
             </button>
+
+            <button
+              type="button"
+              class="btn btn-warning"
+              onclick="resetQuestions()"
+            >
+              Reset
+            </button>
           </div>
         </div>
 
-        <!-- Question Bank -->
+        <!-- Bank -->
         <div class="card bank">
           <div class="card-title">Question Bank</div>
           <div class="card-body bank"></div>
@@ -186,15 +194,15 @@
             Questions
           </h2>
 
-          <div class="question">
-            <input type="text" value="tmp" disabled />
-            <input type="text" placeholder="Points" required />
-            <button type="button" class="btn btn-secondary">▼</button>
-            <button type="button" class="btn btn-danger">
-              X
-            </button>
-            <textarea rows="3" disabled>Description</textarea>
-          </div>
+          <div class="questions"></div>
+
+          <button
+            type="button"
+            class="btn btn-success"
+            style="margin-top: 1rem;"
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>

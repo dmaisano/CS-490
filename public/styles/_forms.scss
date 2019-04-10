@@ -25,6 +25,10 @@ textarea {
   }
 }
 
+textarea {
+  resize: vertical;
+}
+
 .custom-select {
   display: block;
   font-size: 1rem;
