@@ -47,7 +47,7 @@
         grid-column-gap: 0.05rem;
       }
 
-      .filter-box > #questionName {
+      .filter-box > #question_name {
         font-weight: 700;
         padding-left: 0.5rem;
       }
@@ -105,7 +105,7 @@
         <!-- filter card -->
         <div class="card">
           <div class="card-body filter-box">
-            <input type="text" id="questionName" placeholder="Question Name" />
+            <input type="text" id="question_name" placeholder="Question Name" />
 
             <select id="difficulty" class="custom-select">
               <option value="">Difficulty</option>
@@ -121,7 +121,7 @@
             <button
               type="button"
               class="btn btn-success"
-              onclick="filterSubmit()"
+              onclick="filterQuestions()"
             >
               Submit
             </button>
@@ -129,7 +129,7 @@
             <button
               type="button"
               class="btn btn-warning"
-              onclick="getQuestions()"
+              onclick="filterQuestions(true)"
             >
               Reset
             </button>
@@ -200,6 +200,7 @@
             type="button"
             class="btn btn-success"
             style="margin-top: 1rem;"
+            onclick="createExam()"
           >
             Submit
           </button>

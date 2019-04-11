@@ -4,16 +4,25 @@ import { autosize } from '../scripts/autosize.js';
 
 let questionBank = [];
 
-window.filterSubmit = filterSubmit;
+window.filterQuestions = filterQuestions;
 window.assignQuestion = assignQuestion;
 window.removeQuestion = removeQuestion;
 window.createQuestion = createQuestion;
 window.toggleDescription = toggleDescription;
-window.getQuestions = getQuestions;
+window.createExam = createExam;
 
 (function() {
   redirect('instructor');
-  getQuestions();
+
+  // get the questions from the DB
+  postObj('http://localhost:4200/api/questions', {})
+    .then(res => res.json())
+    .then(res => {
+      questionBank = res;
+    })
+    .then(() => {
+      renderQuestions();
+    });
 
   // get the list of topics
   postObj('http://localhost:4200/api/topics', {})
@@ -33,63 +42,33 @@ window.getQuestions = getQuestions;
   autosize();
 })();
 
-function setTopics() {
-  postObj('http://localhost:4200/api/topics', {})
-    .then(res => res.json())
-    .then(res => {
-      const elems = document.querySelectorAll('#topics');
+/**
+ * returns true if the element exists in the exam preview
+ * @param {string} id
+ * @returns {boolean}
+ */
+function isAssigned(id) {
+  const examQuestions = document.querySelectorAll('.exam > .questions > *');
 
-      for (const el of elems) {
-        for (const topic of res) {
-          const option = document.createElement('option');
-          option.text = topic;
-          el.add(option, null);
-        }
-      }
-    });
+  for (const question of examQuestions) {
+    if (question.getAttribute('id') === id) {
+      return true;
+    }
+  }
+
+  return false;
 }
-
-function getQuestions(filter = {}) {
-  // fetch the questions from the DB
-  postObj('http://localhost:4200/api/questions', filter)
-    .then(res => res.json())
-    .then(res => {
-      questionBank = res;
-    })
-    .then(() => {
-      renderQuestions();
-    });
-}
-
-// function getQuestionIndex(id) {
-//   const question_name = id.split('_').join(' ');
-
-//   let res = 0;
-//   for (let i = 0; i < questionBank.length; i++) {
-//     if (questionBank[i].question_name === question_name) {
-//       res = i;
-//       break;
-//     }
-//   }
-
-//   return res;
-// }
 
 /**
  * render the list of questions
  * @param {string} url
  */
-function renderQuestions(reset = false) {
+function renderQuestions() {
   const bank = document.querySelector('.bank');
-
-  const examQuestions = document.querySelector('.exam > .questions');
 
   while (bank.firstChild) {
     bank.removeChild(bank.firstChild);
   }
-
-  // returns true if the question is added to the exam
-  // function isDuplicate() {}
 
   // populate the questions
   for (const question of questionBank) {
@@ -97,6 +76,8 @@ function renderQuestions(reset = false) {
     const elem = document.createElement('div');
     elem.setAttribute('class', 'question');
     elem.setAttribute('id', id);
+    elem.setAttribute('data-difficulty', question.difficulty);
+    elem.setAttribute('data-topic', question.topic);
 
     const markUp = `
       <input type="text" value="${question.question_name}" disabled />
@@ -110,7 +91,71 @@ function renderQuestions(reset = false) {
   }
 }
 
-// add question to the exam
+/**
+ * filters the HTML elements in the QUESTION BANK
+ * hides the elements if they do not match the filter criteria
+ * @param {boolean} reset
+ */
+function filterQuestions(reset = false) {
+  // reset before filtering
+  const questions = document.querySelectorAll('.bank > .question');
+
+  if (reset) {
+    for (const question of questions) {
+      const id = question.getAttribute('id');
+
+      if (!isAssigned(id)) {
+        question.style.display = 'grid';
+      }
+
+      // question.style.display = 'grid';
+    }
+    return;
+  }
+
+  const question_name =
+    document.querySelector('.filter-box > #question_name').value || '';
+  const difficulty =
+    document.querySelector('.filter-box > #difficulty').selectedOptions[0]
+      .value || '';
+  const topic =
+    document.querySelector('.filter-box > #topics').selectedOptions[0].value ||
+    '';
+
+  // no filtering needed
+  if (!question_name && !difficulty && !topic) {
+    return;
+  }
+
+  // loop through each question
+  for (const question of questions) {
+    if (
+      question_name &&
+      !question
+        .querySelector('input')
+        .value.toLowerCase()
+        .includes(question_name.toLowerCase())
+    ) {
+      question.style.display = 'none';
+      continue;
+    }
+
+    if (difficulty && difficulty != question.getAttribute('data-difficulty')) {
+      question.style.display = 'none';
+      continue;
+    }
+
+    if (topic && topic != question.getAttribute('data-topic')) {
+      question.style.display = 'none';
+      continue;
+    }
+  }
+}
+
+/**
+ * add a question from the bank, to the exam
+ * @param {string} id
+ */
 function assignQuestion(id) {
   const examQuestions = document.querySelector('.exam > .questions');
 
@@ -133,6 +178,8 @@ function assignQuestion(id) {
   const elem = document.createElement('div');
   elem.setAttribute('class', 'question');
   elem.setAttribute('id', id);
+  elem.setAttribute('data-difficulty', question.difficulty);
+  elem.setAttribute('data-topic', question.topic);
 
   const markUp = `
     <input type="text" value="${question.question_name}" disabled />
@@ -154,18 +201,6 @@ function assignQuestion(id) {
 
   elem.innerHTML = markUp;
   examQuestions.appendChild(elem);
-
-  // renderQuestions();
-}
-
-function sortQuestions(a, b) {
-  if (a.question_name < b.question_name) {
-    return -1;
-  } else if (a.question_name > b.question_name) {
-    return 1;
-  }
-
-  return 0;
 }
 
 // add the question to DB
@@ -208,7 +243,15 @@ function createQuestion() {
       }
 
       questionBank.push(question);
-      questionBank.sort((a, b) => sortQuestions(a, b)); // sortQuestions();
+      questionBank.sort((a, b) => {
+        if (a.question_name < b.question_name) {
+          return -1;
+        } else if (a.question_name > b.question_name) {
+          return 1;
+        }
+
+        return 0;
+      });
 
       // refresh the question bank
       renderQuestions();
@@ -227,28 +270,10 @@ function createQuestion() {
   descriptionBox.style.height = '76px';
 }
 
-function filterSubmit() {
-  const question_name =
-    document.querySelector('.filter-box > #questionName').value || '';
-  const difficulty =
-    document.querySelector('.filter-box > #difficulty').selectedOptions[0]
-      .value || '';
-  const topic =
-    document.querySelector('.filter-box > #topics').selectedOptions[0].value ||
-    '';
-
-  const filter = {
-    question_name,
-    difficulty,
-    topic,
-  };
-
-  console.log(filter);
-
-  getQuestions(filter);
-}
-
-// remove question from bank, and add back to
+/**
+ * toggle the visibility of the textarea element
+ * @param {string} query query search string for the element
+ */
 function removeQuestion(id) {
   const elem = document.querySelector(`.exam > .questions > #${id}`);
 
@@ -260,8 +285,11 @@ function removeQuestion(id) {
   questionElem.style.display = 'grid';
 }
 
-// toggle the visibility of the question's description
-function toggleDescription(query, textarea = false) {
+/**
+ * toggle the visibility of the textarea element
+ * @param {string} query query search string for the element
+ */
+function toggleDescription(query) {
   const elem = document.querySelector(query);
 
   if (!elem) return;
@@ -270,10 +298,15 @@ function toggleDescription(query, textarea = false) {
 
   if (visibility === 'none') {
     elem.style.display = 'inherit';
-    if (textarea) {
-      elem.style.height = `${textarea.scrollHeight}px`;
-    }
+    elem.style.height = `${textarea.scrollHeight}px`;
   } else {
     elem.style.display = 'none';
   }
+}
+
+/**
+ * submit the exam details to the backend
+ */
+function createExam() {
+  console.log('oh boi owo');
 }
