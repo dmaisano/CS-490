@@ -5,15 +5,31 @@ import { autosize } from '../scripts/autosize.js';
 let questionBank = [];
 
 window.filterSubmit = filterSubmit;
-window.addQuestion = addQuestion;
+window.assignQuestion = assignQuestion;
 window.removeQuestion = removeQuestion;
 window.createQuestion = createQuestion;
 window.toggleDescription = toggleDescription;
+window.getQuestions = getQuestions;
 
 (function() {
   redirect('instructor');
   getQuestions();
-  setTopics();
+
+  // get the list of topics
+  postObj('http://localhost:4200/api/topics', {})
+    .then(res => res.json())
+    .then(res => {
+      const elems = document.querySelectorAll('#topics');
+
+      for (const el of elems) {
+        for (const topic of res) {
+          const option = document.createElement('option');
+          option.text = topic;
+          el.add(option, null);
+        }
+      }
+    });
+
   autosize();
 })();
 
@@ -45,28 +61,46 @@ function getQuestions(filter = {}) {
     });
 }
 
+// function getQuestionIndex(id) {
+//   const question_name = id.split('_').join(' ');
+
+//   let res = 0;
+//   for (let i = 0; i < questionBank.length; i++) {
+//     if (questionBank[i].question_name === question_name) {
+//       res = i;
+//       break;
+//     }
+//   }
+
+//   return res;
+// }
+
 /**
  * render the list of questions
  * @param {string} url
  */
 function renderQuestions(reset = false) {
-  const bank = document.querySelector('.bank > .card-body');
+  const bank = document.querySelector('.bank');
+
+  const examQuestions = document.querySelector('.exam > .questions');
 
   while (bank.firstChild) {
     bank.removeChild(bank.firstChild);
   }
 
+  // returns true if the question is added to the exam
+  // function isDuplicate() {}
+
   // populate the questions
   for (const question of questionBank) {
+    const id = question.question_name.split(' ').join('_');
     const elem = document.createElement('div');
     elem.setAttribute('class', 'question');
-    elem.setAttribute('id', question.function_name);
+    elem.setAttribute('id', id);
 
     const markUp = `
       <input type="text" value="${question.question_name}" disabled />
-      <button type="button" class="btn btn-success" style="padding: 0.5rem 0.75rem;" onclick="addQuestion('${
-        question.function_name
-      }')">
+      <button type="button" class="btn btn-success" style="padding: 0.5rem 0.75rem;" onclick="assignQuestion('${id}')">
         +
       </button>
     `;
@@ -76,26 +110,25 @@ function renderQuestions(reset = false) {
   }
 }
 
-// add question to the current exam
-function addQuestion(function_name) {
+// add question to the exam
+function assignQuestion(id) {
   const examQuestions = document.querySelector('.exam > .questions');
 
-  let index = 0;
+  // hide the elem
+  const questionElem = document.querySelector(`.bank > #${id}`);
+  questionElem.style.display = 'none';
 
-  for (let i = 0; i <= questionBank.length; i++) {
-    const question = questionBank[i];
-    if (question.function_name === function_name) {
+  const question_name = id.split('_').join(' ');
+
+  let index = 0;
+  for (let i = 0; i < questionBank.length; i++) {
+    if (questionBank[i].question_name === question_name) {
       index = i;
       break;
     }
   }
 
   const question = questionBank[index];
-
-  // remove the element from the question bank
-  questionBank.splice(index, 1);
-
-  const id = question.question_name.split(' ').join('_');
 
   const elem = document.createElement('div');
   elem.setAttribute('class', 'question');
@@ -107,7 +140,7 @@ function addQuestion(function_name) {
     <button
       type="button"
       class="btn btn-secondary"
-      onclick="toggleDescription('${id}')"
+      onclick="toggleDescription('.exam > .questions > #${id} > textarea')"
     >
       ▼
     </button>
@@ -122,7 +155,7 @@ function addQuestion(function_name) {
   elem.innerHTML = markUp;
   examQuestions.appendChild(elem);
 
-  renderQuestions();
+  // renderQuestions();
 }
 
 function sortQuestions(a, b) {
@@ -135,6 +168,7 @@ function sortQuestions(a, b) {
   return 0;
 }
 
+// add the question to DB
 function createQuestion() {
   const name = document.querySelector('.newQuestion #name');
   const functionName = document.querySelector('.newQuestion #functionName');
@@ -216,44 +250,30 @@ function filterSubmit() {
 
 // remove question from bank, and add back to
 function removeQuestion(id) {
-  console.log(id);
+  const elem = document.querySelector(`.exam > .questions > #${id}`);
 
-  const elem = document.querySelector(`#${id}`);
-  const question_name = elem.querySelector('input:first-child').value;
+  const examQuestions = document.querySelector(`.exam > .questions`);
+  examQuestions.removeChild(elem);
 
-  let question;
-  // for (const res of originalBank) {
-  //   console.log(res);
-  //   console.log(question_name);
-  //   if (res.question_name === question_name) {
-  //     question = res;
-  //   }
-  // }
-
-  console.log(question);
-
-  questionBank.push(question);
-
-  while (elem.firstChild) {
-    elem.removeChild(elem.firstChild);
-  }
-
-  // renderQuestions();
-  // sortQuestions();
+  // set back to visible
+  const questionElem = document.querySelector(`.bank > #${id}`);
+  questionElem.style.display = 'grid';
 }
 
 // toggle the visibility of the question's description
-function toggleDescription(id) {
-  console.log(id);
+function toggleDescription(query, textarea = false) {
+  const elem = document.querySelector(query);
 
-  const textarea = document.querySelector(`#${id} > textarea`);
+  if (!elem) return;
 
-  const visibility = textarea.style.display;
+  const visibility = elem.style.display;
 
   if (visibility === 'none') {
-    textarea.style.display = 'block';
-    textarea.style.height = `${textarea.scrollHeight}px`;
+    elem.style.display = 'inherit';
+    if (textarea) {
+      elem.style.height = `${textarea.scrollHeight}px`;
+    }
   } else {
-    textarea.style.display = 'none';
+    elem.style.display = 'none';
   }
 }
