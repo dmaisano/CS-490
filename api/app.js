@@ -13,6 +13,11 @@ app.use('/api', require('./routes'));
 
 require('dotenv').config();
 const port = process.env.PORT || 4200;
-app.listen(port, () =>
-  console.log(`api running: http://localhost:${port}/api`)
-);
+const ip = process.env.IP || '127.0.0.1';
+app.listen(port, ip, () => {
+  if (ip === '127.0.0.1') {
+    console.log(`api running: http://localhost:${port}/api`);
+  } else {
+    console.log(`api running: http://${ip}:${port}/api`);
+  }
+});

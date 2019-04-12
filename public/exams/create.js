@@ -2,6 +2,12 @@ import { postObj } from '../scripts/fetch.js';
 import { redirect } from '../scripts/redirect.js';
 import { autosize } from '../scripts/autosize.js';
 
+// fetch urls
+const urls = {
+  getTopics: 'http://localhost:4200/api/topics',
+  getQuestions: 'http://localhost:4200/api/questions',
+};
+
 let questionBank = [];
 
 window.filterSubmit = filterSubmit;
@@ -16,7 +22,7 @@ window.getQuestions = getQuestions;
   getQuestions();
 
   // get the list of topics
-  postObj('http://localhost:4200/api/topics', {})
+  postObj(urls.getTopics, {})
     .then(res => res.json())
     .then(res => {
       const elems = document.querySelectorAll('#topics');
@@ -33,25 +39,9 @@ window.getQuestions = getQuestions;
   autosize();
 })();
 
-function setTopics() {
-  postObj('http://localhost:4200/api/topics', {})
-    .then(res => res.json())
-    .then(res => {
-      const elems = document.querySelectorAll('#topics');
-
-      for (const el of elems) {
-        for (const topic of res) {
-          const option = document.createElement('option');
-          option.text = topic;
-          el.add(option, null);
-        }
-      }
-    });
-}
-
 function getQuestions(filter = {}) {
   // fetch the questions from the DB
-  postObj('http://localhost:4200/api/questions', filter)
+  postObj(urls.getQuestions, filter)
     .then(res => res.json())
     .then(res => {
       questionBank = res;

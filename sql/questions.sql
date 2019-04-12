@@ -1,4 +1,4 @@
-USE demo; -- dbName
+-- USE demo;
 
 DROP TABLE IF EXISTS questions;
 

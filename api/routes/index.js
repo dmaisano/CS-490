@@ -4,6 +4,13 @@ const db = require('../database');
 
 db.connect();
 
+router.get('/', (req, res) => {
+  res.json({
+    success: true,
+    msg: 'express api works',
+  });
+});
+
 // user
 const { getUser } = require('../users');
 router.post('/user', getUser(db));
