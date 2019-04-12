@@ -9,13 +9,14 @@ export function redirect(type = '') {
 
   if (user) {
     user = JSON.parse(user);
-
-    if (type === 'instructor' && user.type !== 'instructor') {
+    if (type === 'login') {
+      window.location.href = `../${user.type}`;
+    } else if (type === 'instructor' && user.type !== 'instructor') {
       window.location.href = `../${user.type}`;
     } else if (type === 'instructor' && user.type === 'instructor') {
       return Promise.resolve(true);
     } else {
-      window.location.href = `../${user.type}`;
+      return Promise.resolve(true);
     }
   } else {
     window.location.href = '../login';

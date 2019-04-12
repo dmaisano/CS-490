@@ -45,7 +45,7 @@ function login() {
 
       sessionStorage.setItem('user', JSON.stringify(user));
 
-      redirect(user);
+      redirect('login');
     })
     .catch(() => {
       alert('Failed to Login In');

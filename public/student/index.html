@@ -33,21 +33,27 @@
     </style>
 
     <div class="container">
-      <h1 class="title">Student Home</h1>
+      <h1 class="title">Student</h1>
+      <h2 class="title user"></h2>
 
       <div class="button-group">
-        <button type="button" class="btn">
-          View Grades
-        </button>
-        <button type="button" class="btn">
-          View Exams
-        </button>
-        <button type="button" class="btn">
-          Create Exam
-        </button>
+        <a class="btn" href="./grades.html">View Grades</a>
+
+        <a class="btn" href="./exam.html">View Exams</a>
       </div>
     </div>
 
-    <script></script>
+    <script type="module">
+      import { redirect } from '../scripts/redirect.js';
+
+      (function() {
+        redirect().then(() => {
+          const user = JSON.parse(sessionStorage.getItem('user'));
+
+          const elem = document.querySelector('.user');
+          elem.innerHTML = user.user;
+        });
+      })();
+    </script>
   </body>
 </html>

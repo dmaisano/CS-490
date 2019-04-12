@@ -34,6 +34,7 @@
 
     <div class="container">
       <h1 class="title">Instructor Home</h1>
+      <h2 class="title user"></h2>
 
       <div class="button-group">
         <a class="btn" href="../grades/index.html">View Grades</a>
@@ -44,6 +45,17 @@
       </div>
     </div>
 
-    <script></script>
+    <script type="module">
+      import { redirect } from '../scripts/redirect.js';
+
+      (function() {
+        redirect('instructor').then(() => {
+          const user = JSON.parse(sessionStorage.getItem('user'));
+
+          const elem = document.querySelector('.user');
+          elem.innerHTML = user.user;
+        });
+      })();
+    </script>
   </body>
 </html>
