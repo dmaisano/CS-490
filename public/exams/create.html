@@ -47,7 +47,7 @@
         grid-column-gap: 0.05rem;
       }
 
-      .filter-box > #questionName {
+      .filter-box > #question_name {
         font-weight: 700;
         padding-left: 0.5rem;
       }
@@ -73,15 +73,26 @@
         grid-gap: 0.5rem;
       }
 
+      .grid-header > input {
+        background: transparent;
+        text-align: center;
+        border: none;
+      }
+
+      .bank {
+        padding-top: 0;
+      }
+
+      .grid-header,
       .bank > .question {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr 0.5fr 0.5fr auto;
         grid-column-gap: 0.5rem;
       }
 
       .exam > .questions > .question {
         display: grid;
-        grid-template-columns: 1fr 0.25fr auto auto;
+        grid-template-columns: 0.75fr 0.25fr repeat(3, auto);
         grid-column-gap: 0.5rem;
       }
 
@@ -90,12 +101,27 @@
       }
 
       .exam > .questions > .question > textarea {
-        grid-column: span 4;
+        grid-column: span 5;
         margin-top: 0.25rem;
       }
 
       .question:not(last-child) {
         margin-top: 0.5rem;
+      }
+
+      .btn {
+        font-weight: 600;
+      }
+
+      .test_cases {
+        grid-column: span 5;
+      }
+
+      .test_case {
+        margin-top: 0.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        grid-column-gap: 0.5rem;
       }
     </style>
 
@@ -105,7 +131,7 @@
         <!-- filter card -->
         <div class="card">
           <div class="card-body filter-box">
-            <input type="text" id="questionName" placeholder="Question Name" />
+            <input type="text" id="question_name" placeholder="Question Name" />
 
             <select id="difficulty" class="custom-select">
               <option value="">Difficulty</option>
@@ -121,7 +147,7 @@
             <button
               type="button"
               class="btn btn-success"
-              onclick="filterSubmit()"
+              onclick="filterQuestions()"
             >
               Submit
             </button>
@@ -129,7 +155,7 @@
             <button
               type="button"
               class="btn btn-warning"
-              onclick="getQuestions()"
+              onclick="filterQuestions(true)"
             >
               Reset
             </button>
@@ -139,6 +165,19 @@
         <!-- Bank -->
         <div class="card">
           <div class="card-title">Question Bank</div>
+          <div class="card-body grid-header">
+            <input type="text" value="Question Name" disabled />
+            <input type="text" value="Difficulty" disabled />
+            <input type="text" value="Topic" disabled />
+            <button
+              type="button"
+              class="btn btn-success"
+              style="visibility: hidden; padding: 0.5rem 0.75rem;"
+              disabled
+            >
+              +
+            </button>
+          </div>
           <div class="card-body bank"></div>
         </div>
 
@@ -188,7 +227,7 @@
       <div class="card">
         <div class="card-title">Exam Preview</div>
         <div class="card-body exam">
-          <input type="text" id="name" placeholder="Exam Name" required />
+          <input type="text" id="examName" placeholder="Exam Name" required />
 
           <h2 class="title" style="color: #3b4350; text-align: center;">
             Questions
@@ -200,6 +239,7 @@
             type="button"
             class="btn btn-success"
             style="margin-top: 1rem;"
+            onclick="createExam()"
           >
             Submit
           </button>

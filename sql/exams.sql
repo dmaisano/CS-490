@@ -11,7 +11,11 @@ CREATE TABLE IF NOT EXISTS exams (
 
   -- array of question names
   -- '["Two Sum", "Add Nums", "Concat"]'
-  questions TINYTEXT,
+  question_names TINYTEXT,
+
+  -- array of function names
+  -- '["twoSum", "addNums", "concat"]'
+  function_names TINYTEXT,
 
   -- array of question points
   -- '[25, 25, 25, ...]'

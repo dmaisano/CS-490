@@ -21,7 +21,15 @@ exports.addQuestion = function(db) {
       });
     }
 
-    const query = `INSERT INTO questions VALUES ("${question_name}", "${function_name}", "${question_description}", "${difficulty}", "${topic}")`;
+    const query = `
+      INSERT INTO questions VALUES (
+        ${db.escape(question_name)},
+        ${db.escape(function_name)},
+        ${db.escape(question_description)},
+        ${db.escape(difficulty)},
+        ${db.escape(topic)},
+      )
+    `;
 
     db.query(query, err => {
       if (err) {
