@@ -13,7 +13,7 @@ export function redirect(type = '') {
     if (type === 'instructor' && user.type !== 'instructor') {
       window.location.href = `/${user.type}`;
     } else if (type === 'instructor' && user.type === 'instructor') {
-      return;
+      return Promise.resolve(true);
     } else {
       window.location.href = `/${user.type}`;
     }

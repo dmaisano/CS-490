@@ -470,5 +470,13 @@ function createExam() {
   });
 
   // send to middle / grader
-  postObj(urls.createExam, requestObj);
+  postObj(urls.createExam, requestObj)
+    .then(res => res.json())
+    .then(res => {
+      if (res.err) {
+        alert('Failed To Create Exam');
+      } else {
+        alert('Successfully Created Exam!');
+      }
+    });
 }

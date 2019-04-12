@@ -11,21 +11,23 @@ exports.getExams = function(db) {
         return res.json([]);
       }
 
-      result = result[0];
+      const data = [];
 
-      const question_names = JSON.parse(result.question_names);
-      const function_names = JSON.parse(result.function_names);
-      const points = JSON.parse(result.points);
-      const test_cases = JSON.parse(result.test_cases);
+      for (const exam of result) {
+        const question_names = JSON.parse(exam.question_names);
+        const function_names = JSON.parse(exam.function_names);
+        const points = JSON.parse(exam.points);
+        const test_cases = JSON.parse(exam.test_cases);
 
-      const data = {
-        exam_name: result.exam_name,
-        instructor: result.instructor,
-        question_names,
-        function_names,
-        points,
-        test_cases,
-      };
+        data.push({
+          exam_name: exam.exam_name,
+          instructor: exam.instructor,
+          question_names,
+          function_names,
+          points,
+          test_cases,
+        });
+      }
 
       return res.send(data);
     });

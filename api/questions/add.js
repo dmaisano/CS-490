@@ -21,18 +21,22 @@ exports.addQuestion = function(db) {
       });
     }
 
+    console.log(req.body);
+
     const query = `
       INSERT INTO questions VALUES (
         ${db.escape(question_name)},
         ${db.escape(function_name)},
         ${db.escape(question_description)},
-        ${db.escape(difficulty)},
-        ${db.escape(topic)},
+        '${difficulty}',
+        '${topic}'
       )
     `;
 
     db.query(query, err => {
       if (err) {
+        console.log(err);
+
         return res.json({
           error: true,
           msg: err,

@@ -4,16 +4,39 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Title</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>View Exams</title>
+    <link rel="stylesheet" href="../styles.css" />
   </head>
   <body>
-    <style></style>
+    <style>
+      .exam-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: auto;
+        height: 100%;
+        width: 50%;
+      }
 
-    <h1>Sample Page</h1>
+      .exam-links .btn {
+        font-size: 2rem;
+      }
 
-    <script>
-      console.log('test');
-    </script>
+      .exam-links > .btn:not(:first-child) {
+        margin-top: 5%;
+      }
+
+      .title {
+        text-align: center;
+      }
+    </style>
+
+    <div class="exam-links">
+      <h1 class="title">Exams</h1>
+    </div>
+
+    <div class="exam"></div>
+
+    <script type="module" src="./view.js"></script>
   </body>
 </html>
