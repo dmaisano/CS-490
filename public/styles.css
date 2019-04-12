@@ -1,3 +1,7 @@
+a:disabled {
+  background-color: #a0a6ab !important;
+}
+
 .btn {
   font-size: 1rem;
   color: #fff;

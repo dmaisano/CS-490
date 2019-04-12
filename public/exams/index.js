@@ -6,15 +6,18 @@ window.selectExam = selectExam;
 
 let exams = [];
 let selectedExam = {};
+let user = {};
 
 // fetch urls
 const urls = {
-  getExams: `https://serious-bulldog-88.localtunnel.me/api/exams`,
+  getExams: `http://localhost:4200/api/exams`,
 };
 
 (function() {
   redirect('instructor').then(() => {
-    getExams();
+    user = JSON.parse(sessionStorage.getItem('user'));
+
+    getExams(user);
   });
 
   autosize();

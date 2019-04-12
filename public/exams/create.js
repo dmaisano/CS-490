@@ -4,10 +4,10 @@ import { autosize } from '../scripts/autosize.js';
 
 // fetch urls
 const urls = {
-  getTopics: `https://serious-bulldog-88.localtunnel.me/api/topics`,
-  getQuestions: `https://serious-bulldog-88.localtunnel.me/api/questions`,
-  addQuestion: `https://serious-bulldog-88.localtunnel.me/api/questions/add`,
-  createExam: `https://serious-bulldog-88.localtunnel.me/api/exams/add`,
+  getTopics: `http://localhost:4200/api/topics`,
+  getQuestions: `http://localhost:4200/api/questions`,
+  addQuestion: `http://localhost:4200/api/questions/add`,
+  createExam: `http://localhost:4200/api/exams/add`,
 };
 
 let questionBank = [];

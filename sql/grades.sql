@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS grades;
 CREATE TABLE IF NOT EXISTS grades (
   id INT AUTO_INCREMENT,
 
+  -- student who took the exam
   student VARCHAR(64) NOT NULL,
 
   -- instructor who graded the exam (NULLABLE)
@@ -14,12 +15,15 @@ CREATE TABLE IF NOT EXISTS grades (
   -- '["Two Sum", "Add Nums", "Concat"]'
   questions TINYTEXT,
 
-  -- array of question points
+  -- array of student's code
+  code TEXT,
+
+  -- array of question points (NULLABLE)
   -- '[25, 25, 25, ...]'
   points TINYTEXT,
 
-  -- array of test case objects
-  test_cases TEXT,
+  -- array of comments
+  comments TEXT,
 
   PRIMARY KEY(id)
 );
