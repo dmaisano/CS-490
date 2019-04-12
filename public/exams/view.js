@@ -9,7 +9,7 @@ let selectedExam = {};
 
 // fetch urls
 const urls = {
-  getExams: `http://128.235.211.21:3000/api/exams`,
+  getExams: `https://serious-bulldog-88.localtunnel.me/api/exams`,
 };
 
 (function() {

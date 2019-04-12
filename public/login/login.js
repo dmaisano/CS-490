@@ -26,7 +26,7 @@ function login() {
   const user = document.querySelector('#username').value || '';
   const pass = document.querySelector('#password').value || '';
 
-  const url = 'http://128.235.211.21:3000/api/user';
+  const url = 'https://serious-bulldog-88.localtunnel.me/api/user';
 
   postObj(url, {
     user,
@@ -45,31 +45,4 @@ function login() {
 
       sessionStorage.setItem('user', JSON.stringify(user));
     });
-
-  fetch('http://128.235.211.21:3000/api/user', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      user,
-      pass,
-    }),
-  })
-    .then(res => {
-      if (res.status !== 200) {
-        alert('Failed To Log In');
-        return false;
-      }
-
-      return res.json();
-    })
-    .then(user => {
-      if (!user) return;
-
-      sessionStorage.setItem('user', JSON.stringify(user));
-
-      redirect(user);
-    })
-    .catch(() => {});
 }
