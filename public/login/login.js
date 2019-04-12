@@ -26,7 +26,7 @@ function login() {
   const user = document.querySelector('#username').value || '';
   const pass = document.querySelector('#password').value || '';
 
-  const url = 'http://localhost:4200/api/user';
+  const url = 'http://128.235.211.21:3000/api/user';
 
   postObj(url, {
     user,
@@ -46,7 +46,7 @@ function login() {
       sessionStorage.setItem('user', JSON.stringify(user));
     });
 
-  fetch('http://localhost:4200/api/user', {
+  fetch('http://128.235.211.21:3000/api/user', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

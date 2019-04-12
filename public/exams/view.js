@@ -9,7 +9,7 @@ let selectedExam = {};
 
 // fetch urls
 const urls = {
-  getExams: `http://localhost:4200/api/exams`,
+  getExams: `http://128.235.211.21:3000/api/exams`,
 };
 
 (function() {

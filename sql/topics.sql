@@ -2,7 +2,7 @@
 
 DROP TABLE IF EXISTS topics;
 
-CREATE TABLE IF NOT EXISTS topics (
+CREATE TABLE topics (
   topic VARCHAR(64),
 
   PRIMARY KEY(topic)
