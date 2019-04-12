@@ -81,7 +81,7 @@
 
       .exam > .questions > .question {
         display: grid;
-        grid-template-columns: 1fr 0.25fr auto auto;
+        grid-template-columns: 0.75fr 0.25fr repeat(3, auto);
         grid-column-gap: 0.5rem;
       }
 
@@ -90,12 +90,27 @@
       }
 
       .exam > .questions > .question > textarea {
-        grid-column: span 4;
+        grid-column: span 5;
         margin-top: 0.25rem;
       }
 
       .question:not(last-child) {
         margin-top: 0.5rem;
+      }
+
+      .btn {
+        font-weight: 600;
+      }
+
+      .test_cases {
+        grid-column: span 5;
+      }
+
+      .test_case {
+        margin-top: 0.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        grid-column-gap: 0.5rem;
       }
     </style>
 
@@ -188,7 +203,7 @@
       <div class="card">
         <div class="card-title">Exam Preview</div>
         <div class="card-body exam">
-          <input type="text" id="name" placeholder="Exam Name" required />
+          <input type="text" id="examName" placeholder="Exam Name" required />
 
           <h2 class="title" style="color: #3b4350; text-align: center;">
             Questions

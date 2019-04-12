@@ -4,11 +4,14 @@ import { autosize } from '../scripts/autosize.js';
 
 let questionBank = [];
 
+// expose functions to the document window
 window.filterQuestions = filterQuestions;
 window.assignQuestion = assignQuestion;
 window.removeQuestion = removeQuestion;
 window.createQuestion = createQuestion;
 window.toggleDescription = toggleDescription;
+window.addTestCase = addTestCase;
+window.removeTestCase = removeTestCase;
 window.createExam = createExam;
 
 (function() {
@@ -76,6 +79,7 @@ function renderQuestions() {
     const elem = document.createElement('div');
     elem.setAttribute('class', 'question');
     elem.setAttribute('id', id);
+    elem.setAttribute('data-function_name', question.function_name);
     elem.setAttribute('data-difficulty', question.difficulty);
     elem.setAttribute('data-topic', question.topic);
 
@@ -178,12 +182,20 @@ function assignQuestion(id) {
   const elem = document.createElement('div');
   elem.setAttribute('class', 'question');
   elem.setAttribute('id', id);
+  elem.setAttribute('data-function_name', question.function_name);
   elem.setAttribute('data-difficulty', question.difficulty);
   elem.setAttribute('data-topic', question.topic);
 
   const markUp = `
     <input type="text" value="${question.question_name}" disabled />
-    <input type="text" placeholder="Points" required />
+    <input type="text" id="points" placeholder="Points" required />
+    <button
+      type="button"
+      class="btn btn-success"
+      onclick="addTestCase('${id}')"
+    >
+      Add Test Case
+    </button>
     <button
       type="button"
       class="btn btn-secondary"
@@ -194,6 +206,7 @@ function assignQuestion(id) {
     <button type="button" class="btn btn-danger" onclick="removeQuestion('${id}')">
       X
     </button>
+    <div class="test_cases"></div>
     <textarea rows="3" style="display: none;" disabled>${
       question.question_description
     }</textarea>
@@ -201,6 +214,10 @@ function assignQuestion(id) {
 
   elem.innerHTML = markUp;
   examQuestions.appendChild(elem);
+
+  // add two initial test cases
+  addTestCase(id, true);
+  addTestCase(id, true);
 }
 
 // add the question to DB
@@ -277,8 +294,7 @@ function createQuestion() {
 function removeQuestion(id) {
   const elem = document.querySelector(`.exam > .questions > #${id}`);
 
-  const examQuestions = document.querySelector(`.exam > .questions`);
-  examQuestions.removeChild(elem);
+  elem.parentNode.removeChild(elem);
 
   // set back to visible
   const questionElem = document.querySelector(`.bank > #${id}`);
@@ -298,15 +314,157 @@ function toggleDescription(query) {
 
   if (visibility === 'none') {
     elem.style.display = 'inherit';
-    elem.style.height = `${textarea.scrollHeight}px`;
+    elem.style.height = `${elem.scrollHeight}px`;
   } else {
     elem.style.display = 'none';
   }
 }
 
 /**
+ * add a field for a question test case
+ * @param {string} id
+ * @param {boolean} disabled
+ */
+function addTestCase(id, disabled = false) {
+  const questionElem = document.querySelector(`.exam > .questions > #${id}`);
+  const testCasesElem = questionElem.querySelector('.test_cases');
+
+  // current number of test cases for the specific question
+  const len = questionElem.querySelectorAll('.test_cases > *').length;
+
+  if (len > 6) {
+    return;
+  }
+
+  const elem = document.createElement('div');
+  elem.setAttribute('class', 'test_case');
+  elem.setAttribute('id', `${id}_test_case_${len}`);
+
+  let markUp = `
+    <input type="text" value="" placeholder="Enter args" required/>
+    <input type="text" value="" placeholder="Enter expected output" required/>
+    <button type="button" class="btn btn-danger" onclick="removeTestCase('${id}_test_case_${len}')">X</button>
+  `;
+
+  if (disabled) {
+    markUp = `
+      <input type="text" value="" placeholder="Enter args" required/>
+      <input type="text" value="" placeholder="Enter expected output" required/>
+      <button type="button" class="btn btn-danger" onclick="removeTestCase('${id}_test_case_${len}')" disabled>X</button>
+    `;
+  }
+
+  elem.innerHTML = markUp;
+  testCasesElem.appendChild(elem);
+}
+
+/**
+ * remove a test case
+ * @param {string} id
+ */
+function removeTestCase(id) {
+  const elem = document.querySelector(`.exam > .questions #${id}`);
+
+  elem.parentNode.removeChild(elem);
+}
+
+/**
  * submit the exam details to the backend
  */
 function createExam() {
-  console.log('oh boi owo');
+  const exam_name = document.querySelector('.exam > #examName').value || '';
+
+  if (!exam_name) {
+    alert('Missing exam name!');
+    return;
+  }
+
+  const examQuestionsHTML = document.querySelectorAll('.exam > .questions > *');
+
+  let question_names = [];
+
+  let function_names = [];
+
+  // array of question points
+  let points = [];
+
+  // array of test case objects
+  let test_cases = [];
+
+  if (examQuestionsHTML.length < 1) {
+    alert('Missing exam questions!');
+    return;
+  }
+
+  for (const questionElem of examQuestionsHTML) {
+    const question_name = questionElem.querySelector('input:first-child').value;
+    const function_name = questionElem.getAttribute('data-function_name');
+    let questionPoints = questionElem.querySelector('#points').value || '';
+
+    const test_cases_elems = questionElem.querySelectorAll(
+      '.test_cases > .test_case'
+    );
+
+    let currentCases = [];
+    for (const test_case_elem of test_cases_elems) {
+      const args =
+        test_case_elem.querySelector('input:nth-child(1)').value || '';
+      const output =
+        test_case_elem.querySelector('input:nth-child(2)').value || '';
+
+      currentCases.push({
+        args,
+        output,
+      });
+    }
+
+    if (!questionPoints) {
+      alert(`Missing points for question '${question_name}'`);
+      return;
+    }
+
+    questionPoints = Number.parseInt(questionPoints);
+
+    question_names.push(question_name);
+    function_names.push(function_name);
+    points.push(questionPoints);
+    test_cases.push(currentCases);
+  }
+
+  // check if the points all up to 100
+  let totalPoints = points.reduce((total, num) => (total += num));
+
+  // floor / ceil login
+  if (totalPoints === 99 || totalPoints === 101) {
+    totalPoints = 100;
+  }
+
+  if (totalPoints !== 100) {
+    alert(`Exam must be out of 100 possible max points`);
+    return;
+  }
+
+  // get the instructor / user
+  let instructor = sessionStorage.getItem('user');
+  instructor = JSON.parse(instructor).user;
+
+  const requestObj = {
+    exam_name,
+    instructor,
+    question_names,
+    function_names,
+    points,
+    test_cases,
+  };
+
+  console.log({
+    request: JSON.stringify(requestObj),
+  });
+
+  // send to middle / grader
+  const url = '';
+
+  if (url) {
+    postObj('http://localhost:4200/api/questions', requestObj);
+  }
 }
