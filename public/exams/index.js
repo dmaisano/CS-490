@@ -10,7 +10,7 @@ let user = {};
 
 // fetch urls
 const urls = {
-  getExams: `http://localhost:4200/api/exams`,
+  getExams: `'https://web.njit.edu/~jps78/middle/sendingCurl.php'`,
 };
 
 (function() {

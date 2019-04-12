@@ -16,7 +16,9 @@ const port = process.env.PORT || 4200;
 const ip = process.env.IP || '127.0.0.1';
 app.listen(port, ip, () => {
   if (ip === '127.0.0.1') {
-    console.log(`api running: http://localhost:${port}/api`);
+    console.log(
+      `api running: 'https://web.njit.edu/~jps78/middle/sendingCurl.php'`
+    );
   } else {
     console.log(`api running: http://${ip}:${port}/api`);
   }

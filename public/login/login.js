@@ -1,5 +1,6 @@
 import { postObj } from '../scripts/fetch.js';
 import { redirect } from '../scripts/redirect.js';
+import * as foo from '../scripts/urls.js';
 
 // reference: https://stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
 // tldr; globally exposing the function as per the nature of ES6 modules
@@ -7,6 +8,8 @@ window.login = login;
 
 (function() {
   let user = sessionStorage.getItem('user');
+
+  console.log(foo);
 
   // redirect if logged in
   // if (user) {

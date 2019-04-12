@@ -4,10 +4,10 @@ import { autosize } from '../scripts/autosize.js';
 
 // fetch urls
 const urls = {
-  getTopics: `http://localhost:4200/api/topics`,
-  getQuestions: `http://localhost:4200/api/questions`,
-  addQuestion: `http://localhost:4200/api/questions/add`,
-  createExam: `http://localhost:4200/api/exams/add`,
+  getTopics: `https://web.njit.edu/~jps78/middle/sendingCurl.php`,
+  getQuestions: `https://web.njit.edu/~jps78/middle/sendingCurl.php'`,
+  addQuestion: `https://web.njit.edu/~jps78/middle/sendingCurl.php'`,
+  createExam: `https://web.njit.edu/~jps78/middle/sendingCurl.php'`,
 };
 
 let questionBank = [];
