@@ -6,14 +6,17 @@ exports.addQuestion = function(db) {
       question_description,
       difficulty,
       topic,
+      question_constraint,
+      test_cases,
     } = req.body;
 
     if (
-      !function_name ||
       !question_name ||
+      !function_name ||
       !question_description ||
       !difficulty ||
-      !topic
+      !topic ||
+      !test_cases
     ) {
       return res.json({
         error: true,
@@ -25,11 +28,14 @@ exports.addQuestion = function(db) {
 
     const query = `
       INSERT INTO questions VALUES (
+        DEFAULT,
         ${db.escape(question_name)},
-        ${db.escape(function_name)},
+        '${function_name}',
         ${db.escape(question_description)},
         '${difficulty}',
-        '${topic}'
+        '${topic}',
+        '${question_constraint}',
+        '${test_cases}'
       )
     `;
 

@@ -12,13 +12,11 @@ app.use(cors());
 app.use('/api', require('./routes'));
 
 require('dotenv').config();
-const port = process.env.PORT || 4200;
+const port = process.env.PORT || 3000;
 const ip = process.env.IP || '127.0.0.1';
 app.listen(port, ip, () => {
   if (ip === '127.0.0.1') {
-    console.log(
-      `api running: 'https://web.njit.edu/~jps78/middle/sendingCurl.php'`
-    );
+    console.log(`api running: http://localhost:${port}/api`);
   } else {
     console.log(`api running: http://${ip}:${port}/api`);
   }

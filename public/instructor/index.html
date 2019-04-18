@@ -14,15 +14,25 @@
         padding: 1rem;
       }
 
+      .titles {
+        max-height: 30%;
+      }
+
       .title {
-        font-size: 3rem;
+        font-size: 2.2rem;
         text-align: center;
+      }
+
+      .user {
+        font-size: 1.5rem;
+        margin-bottom: 0;
       }
 
       .button-group {
         display: flex;
         flex-direction: column;
         align-items: center;
+        max-height: 70%;
       }
 
       .btn {
@@ -30,11 +40,17 @@
         font-size: 2rem;
         margin: 5vh 0;
       }
+
+      .btn:last-child {
+        margin-bottom: 0;
+      }
     </style>
 
     <div class="container">
-      <h1 class="title">Instructor Home</h1>
-      <h2 class="title user"></h2>
+      <div class="titles">
+        <h1 class="title">Instructor Home</h1>
+        <h2 class="title user"></h2>
+      </div>
 
       <div class="button-group">
         <!-- <a class="btn" href="../grades/index.html">View Grades</a> -->
@@ -43,6 +59,8 @@
         <a class="btn" href="../exams/index.html">View Exams</a>
 
         <a class="btn" href="../exams/create.html">Create Exam</a>
+
+        <a class="btn" href="../questions/">Create Questions</a>
       </div>
     </div>
 

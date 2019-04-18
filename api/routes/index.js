@@ -8,13 +8,12 @@ router.get('/', (req, res) => {
   res.json({
     success: true,
     msg: 'express api works',
-    foo: db.escape('foo'),
   });
 });
 
 // user
 const { getUser } = require('../users');
-router.post('/user', getUser(db));
+router.post('/login', getUser(db));
 
 // topics
 const { getTopics } = require('../topics');

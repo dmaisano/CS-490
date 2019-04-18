@@ -1,14 +1,7 @@
 import { postObj } from '../scripts/fetch.js';
 import { redirect } from '../scripts/redirect.js';
 import { autosize } from '../scripts/autosize.js';
-
-// fetch urls
-const urls = {
-  getTopics: `http://localhost:4200/api/topics`,
-  getQuestions: `http://localhost:4200/api/questions`,
-  addQuestion: `http://localhost:4200/api/questions/add`,
-  createExam: `http://localhost:4200/api/exam/add`,
-};
+import { urls } from '../scripts/urls.js';
 
 let questionBank = [];
 

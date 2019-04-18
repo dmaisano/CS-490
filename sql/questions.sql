@@ -13,7 +13,8 @@ CREATE TABLE questions (
 
   topic VARCHAR(32)  NOT NULL,
 
-  question_constraint VARCHAR(32)  NOT NULL,
+  -- can be empty string
+  question_constraint VARCHAR(32),
 
   -- JSON array of test case objects
   test_cases TEXT NOT NULL,
