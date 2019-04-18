@@ -1,13 +1,22 @@
--- USE demo;
-
 DROP TABLE IF EXISTS questions;
 
-CREATE TABLE IF NOT EXISTS questions (
-  question_name VARCHAR(255), -- name of the question (ie. "Two Sum")
-  function_name VARCHAR(64),
-  question_description TEXT,
-  difficulty VARCHAR(16),
-  topic VARCHAR(32),
+CREATE TABLE questions (
+  id INT AUTO_INCREMENT,
 
-  PRIMARY KEY(question_name)
+  question_name VARCHAR(255)  NOT NULL,
+
+  function_name VARCHAR(64)  NOT NULL,
+
+  question_description TEXT  NOT NULL,
+
+  difficulty VARCHAR(16)  NOT NULL,
+
+  topic VARCHAR(32)  NOT NULL,
+
+  question_constraint VARCHAR(32)  NOT NULL,
+
+  -- JSON array of test case objects
+  test_cases TEXT NOT NULL,
+
+  PRIMARY KEY(id)
 );

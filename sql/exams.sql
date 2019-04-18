@@ -1,28 +1,18 @@
--- USE demo;
-
 DROP TABLE IF EXISTS exams;
 
-CREATE TABLE IF NOT EXISTS exams (
-  -- name of the question (ie. "Midterm I")
-  exam_name VARCHAR(255),
+CREATE TABLE exams (
+  id INT AUTO_INCREMENT,
+
+  exam_name VARCHAR(255) NOT NULL,
 
   -- instructor who created the exam
-  instructor VARCHAR(64),
+  instructor VARCHAR(64) NOT NULL,
 
-  -- array of question names
-  -- '["Two Sum", "Add Nums", "Concat"]'
-  question_names TINYTEXT,
+  -- JSON array of question ids
+  question_ids TINYTEXT NOT NULL,
 
-  -- array of function names
-  -- '["twoSum", "addNums", "concat"]'
-  function_names TINYTEXT,
+  -- JSON array of max points per questions
+  points_max TINYTEXT NOT NULL,
 
-  -- array of question points
-  -- '[25, 25, 25, ...]'
-  points TINYTEXT,
-
-  -- array of test case objects
-  test_cases TEXT,
-
-  PRIMARY KEY(exam_name)
+  PRIMARY KEY(id)
 );

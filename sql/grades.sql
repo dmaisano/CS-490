@@ -1,29 +1,25 @@
--- USE demo;
-
 DROP TABLE IF EXISTS grades;
 
-CREATE TABLE IF NOT EXISTS grades (
+CREATE TABLE grades (
   id INT AUTO_INCREMENT,
+
+  -- name of the question (ie. "Midterm I")
+  exam_name VARCHAR(255),
 
   -- student who took the exam
   student VARCHAR(64) NOT NULL,
 
-  -- instructor who graded the exam (NULLABLE)
+  -- instructor who created the exam (NULLABLE)
   instructor VARCHAR(64),
 
-  -- array of question names
-  -- '["Two Sum", "Add Nums", "Concat"]'
-  questions TINYTEXT,
+  -- JSON array of question ids
+  questions_ids TINYTEXT NOT NULL,
 
-  -- array of student's code
-  code TEXT,
+  -- JSON array of max points per questions
+  points_earned TINYTEXT NOT NULL,
 
-  -- array of question points (NULLABLE)
-  -- '[25, 25, 25, ...]'
-  points TINYTEXT,
-
-  -- array of comments
-  comments TEXT,
+  -- JSON array of max points per questions
+  points_max TINYTEXT NOT NULL,
 
   PRIMARY KEY(id)
 );

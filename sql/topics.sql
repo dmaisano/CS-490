@@ -1,5 +1,3 @@
--- USE demo;
-
 DROP TABLE IF EXISTS topics;
 
 CREATE TABLE topics (
