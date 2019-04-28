@@ -18,6 +18,9 @@ CREATE TABLE grades (
   -- JSON array of student's code
   student_responses TEXT,
 
+  -- JSON array of instructor comments
+  instructor_comments TEXT,
+
   -- JSON array of max points per questions
   points_earned TINYTEXT NOT NULL,
 

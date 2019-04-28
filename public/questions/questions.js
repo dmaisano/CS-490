@@ -8,6 +8,7 @@ import { renderQuestions, renderTopics } from '../scripts/questions.js';
 window.addTestCase = addTestCase;
 window.removeTestCase = removeTestCase;
 window.addToBank = addToBank;
+window.clearQuestionForm = clearQuestionForm;
 
 let questionBank = [];
 
@@ -21,6 +22,7 @@ let questionBank = [];
     .then(res => res.json())
     .then(res => {
       questionBank = res;
+      console.log(res);
     })
     .then(() => {
       renderQuestions('.card .bank', questionBank);
@@ -30,7 +32,7 @@ let questionBank = [];
 })();
 
 /**
- * add a test case element
+ * Add a test case element
  */
 function addTestCase() {
   const testCases = document.querySelector('.newQuestion > .test-cases');
@@ -58,7 +60,7 @@ function addTestCase() {
 }
 
 /**
- * remove a test case element
+ * Remove a test case element
  * @param {string} id
  */
 function removeTestCase(id = '') {
@@ -72,7 +74,7 @@ function removeTestCase(id = '') {
 }
 
 /**
- * adds the newly created question to the question bank
+ * Adds the newly created question to the question bank
  */
 function addToBank() {
   const question_name =
@@ -96,12 +98,18 @@ function addToBank() {
         .selectedOptions[0].value
     : '';
 
-  const question_constraint = document.querySelector(
-    '.newQuestion > .custom-select > #constraint'
-  ).selectedOptions.length
-    ? document.querySelector('.newQuestion > .custom-select > #constraint')
-        .selectedOptions[0].value
-    : '';
+  const question_constraints = [];
+  const constraintOptions = document.querySelector(
+    '.newQuestion > .custom-select > #constraints'
+  ).selectedOptions;
+
+  if (constraintOptions.length === 0) {
+    question_constraints.push('');
+  } else {
+    for (const option of constraintOptions) {
+      question_constraints.push(option.value);
+    }
+  }
 
   const test_cases = [];
   const testCaseElems = document.querySelectorAll(
@@ -142,13 +150,49 @@ function addToBank() {
     question_description,
     difficulty,
     topic,
-    question_constraint,
+    question_constraints,
     test_cases,
   };
 
   postObj(urls.createQuestion, question)
     .then(res => res.json())
     .then(res => {
-      console.log(res);
+      if (res.success) {
+        alert('Successfully Added Question!');
+
+        // clear the form
+        clearQuestionForm();
+      }
     });
+}
+
+function clearQuestionForm() {
+  document.querySelector('.newQuestion > #questionName').value = '';
+  document.querySelector('.newQuestion > #functionName').value = '';
+  document.querySelector('.newQuestion > #description').value = '';
+
+  document.querySelector(
+    '.newQuestion > .custom-select > #difficulty'
+  ).selectedIndex = 0;
+
+  document.querySelector(
+    '.newQuestion > .custom-select > #topics'
+  ).selectedIndex = 0;
+
+  const constraintOptions = document.querySelector(
+    '.newQuestion > .custom-select > #constraints'
+  ).selectedOptions;
+
+  for (const option of constraintOptions) {
+    option.selected = false;
+  }
+
+  const testCaseElems = document.querySelectorAll(
+    '.newQuestion > .test-cases > .test-case'
+  );
+
+  for (let testCase of testCaseElems) {
+    testCase.querySelector('input:nth-child(1)').value = '';
+    testCase.querySelector('input:nth-child(2)').value = '';
+  }
 }

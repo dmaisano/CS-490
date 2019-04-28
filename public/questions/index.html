@@ -42,7 +42,7 @@
         grid-gap: 0.5rem;
       }
 
-      .test-cases-title {
+      .seperator {
         grid-column: span 2;
         color: #3b4350;
         margin: 0.5rem 0;
@@ -82,6 +82,7 @@
       }
 
       .newTopic {
+        display: none;
         margin-bottom: 1.25rem;
       }
 
@@ -93,6 +94,13 @@
 
       .bank {
         padding-top: 0;
+      }
+
+      .grid-header:nth-child(2),
+      .grid-header:nth-last-child(3),
+      .bank > .question > input:nth-child(2),
+      .bank > .question > input:nth-child(3) {
+        text-align: center;
       }
 
       .grid-header,
@@ -165,20 +173,22 @@
               required
             ></textarea>
 
-            <!-- Constraint -->
+            <div class="seperator">
+              Constraints
+            </div>
+
+            <!-- Constraints -->
             <div class="custom-select" style="grid-column: span 2;">
-              <select id="constraint">
+              <select id="constraints" multiple style="grid-column: span 2;">
                 <option value="">Constraint</option>
                 <option value="">No Constraint</option>
                 <option value="If">If Statement</option>
                 <option value="Print">Print Statement</option>
                 <option value="For">For Loop</option>
               </select>
-
-              <i class="fas fa-sort-down"></i>
             </div>
 
-            <div class="test-cases-title">
+            <div class="seperator">
               Test Cases
             </div>
 

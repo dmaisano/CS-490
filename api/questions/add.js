@@ -6,7 +6,7 @@ exports.addQuestion = function(db) {
       question_description,
       difficulty,
       topic,
-      question_constraint,
+      question_constraints,
       test_cases,
     } = req.body;
 
@@ -30,13 +30,9 @@ exports.addQuestion = function(db) {
       question_description,
       difficulty,
       topic,
-      question_constraint,
+      question_constraints: JSON.stringify(question_constraints),
       test_cases: JSON.stringify(test_cases),
     });
-
-    // return res.json({
-    //   success: true,
-    // });
 
     const query = `
       INSERT INTO questions VALUES (
@@ -46,7 +42,7 @@ exports.addQuestion = function(db) {
         ${db.escape(question_description)},
         '${difficulty}',
         '${topic}',
-        '${question_constraint}',
+        ${db.escape(JSON.stringify(question_constraints))},
         ${db.escape(JSON.stringify(test_cases))}
       )
     `;
