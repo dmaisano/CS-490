@@ -32,7 +32,7 @@
       }
 
       .container > div:first-child {
-        border-right: 5px solid #dfe1e5;
+        border-right: 5px solid #ccc;
       }
 
       .card {
@@ -133,12 +133,14 @@
           <div class="card-body filter-box">
             <input type="text" id="question_name" placeholder="Question Name" />
 
-            <select id="difficulty" class="custom-select">
-              <option value="">Difficulty</option>
-              <option value="Easy">Easy</option>
-              <option value="Medium">Medium</option>
-              <option value="Hard">Hard</option>
-            </select>
+            <div class="custom-select">
+              <select id="difficulty" class="custom-select">
+                <option value="">Difficulty</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </div>
 
             <select id="topics" class="custom-select">
               <option value="">Topics</option>

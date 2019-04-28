@@ -13,7 +13,10 @@ CREATE TABLE grades (
   instructor VARCHAR(64),
 
   -- JSON array of question ids
-  questions_ids TINYTEXT NOT NULL,
+  question_ids TINYTEXT NOT NULL,
+
+  -- JSON array of student's code
+  student_responses TEXT,
 
   -- JSON array of max points per questions
   points_earned TINYTEXT NOT NULL,

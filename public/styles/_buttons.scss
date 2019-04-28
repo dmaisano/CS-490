@@ -17,19 +17,19 @@ a:disabled {
 }
 
 .btn {
+  display: flex;
+  align-items: center;
+
   font-size: 1rem;
   color: #fff;
   @include button-bg($primary);
   border: 0;
   border-radius: 0.15rem;
-  width: 100%;
-  cursor: pointer;
-  text-align: center;
 
-  $btn-padding: 1rem;
-  padding: 0;
-  padding: $btn-padding/1.5 $btn-padding * 2.5 $btn-padding/1.5 $btn-padding *
-    2.5;
+  width: 100%;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
 
   &:disabled {
     background-color: #a0a6ab !important;

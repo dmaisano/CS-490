@@ -6,7 +6,7 @@ import { convertQuestion } from '../scripts/utils.js';
  * render the list of questions
  * @param {string} query
  */
-export function renderQuestions(query) {
+export function renderQuestions(query, questionBank) {
   const bank = document.querySelector(query);
 
   if (questionBank.length < 1) return;
@@ -17,7 +17,6 @@ export function renderQuestions(query) {
 
   // populate the questions
   for (const question of questionBank) {
-    // const id = question.question_name.split(' ').join('_');
     const id = convertQuestion(question.question_name, 'id');
     const elem = document.createElement('div');
     elem.setAttribute('class', 'question');

@@ -26,7 +26,7 @@
       }
 
       .container > div:first-child {
-        border-right: 5px solid #dfe1e5;
+        border-right: 5px solid #ccc;
       }
 
       .card {
@@ -42,10 +42,47 @@
         grid-gap: 0.5rem;
       }
 
+      .test-cases-title {
+        grid-column: span 2;
+        color: #3b4350;
+        margin: 0.5rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: underline;
+      }
+
+      .test-cases {
+        grid-column: span 2;
+      }
+
+      .test-case {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        grid-column-gap: 0.5rem;
+      }
+
+      .test-case:not(:first-child) {
+        margin-top: 0.5rem;
+      }
+
+      .form-action-box {
+        margin-top: 0.5rem;
+        grid-column: span 2;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 0.5rem;
+      }
+
       .grid-header > input {
         background: transparent;
         text-align: center;
         border: none;
+      }
+
+      .newTopic {
+        margin-bottom: 1.25rem;
       }
 
       .newTopic > .card-body {
@@ -72,17 +109,6 @@
       .btn {
         font-weight: 600;
       }
-
-      .test_cases {
-        grid-column: span 5;
-      }
-
-      .test_case {
-        margin-top: 0.5rem;
-        display: grid;
-        grid-template-columns: 1fr 1fr auto;
-        grid-column-gap: 0.5rem;
-      }
     </style>
 
     <div class="container">
@@ -90,24 +116,46 @@
         <!-- Create New Question -->
         <div class="card">
           <div class="card-title">Add Question</div>
+
           <div class="card-body newQuestion">
-            <input type="text" id="name" placeholder="Question Name" required />
-            <select id="topics" class="custom-select">
-              <option value="">Topics</option>
-            </select>
+            <!-- Question Name -->
+            <input
+              type="text"
+              id="questionName"
+              placeholder="Question Name"
+              required
+            />
+
+            <!-- Topics -->
+            <div class="custom-select">
+              <select id="topics">
+                <option value="">Topics</option>
+              </select>
+
+              <i class="fas fa-sort-down"></i>
+            </div>
+
+            <!-- Function Name -->
             <input
               type="text"
               id="functionName"
               placeholder="Function Name"
               required
             />
-            <select id="difficulty" class="custom-select">
-              <option value="">Difficulty</option>
-              <option value="Easy">Easy</option>
-              <option value="Medium">Medium</option>
-              <option value="Hard">Hard</option>
-            </select>
 
+            <!-- Difficulty -->
+            <div class="custom-select">
+              <select id="difficulty">
+                <option value="">Difficulty</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+
+              <i class="fas fa-sort-down"></i>
+            </div>
+
+            <!-- Description -->
             <textarea
               name="description"
               id="description"
@@ -117,14 +165,59 @@
               required
             ></textarea>
 
-            <button
-              type="button"
-              class="btn btn-success"
-              style="grid-column: span 2;"
-              onclick="createQuestion()"
-            >
-              Add Test Case
-            </button>
+            <!-- Constraint -->
+            <div class="custom-select" style="grid-column: span 2;">
+              <select id="constraint">
+                <option value="">Constraint</option>
+                <option value="">No Constraint</option>
+                <option value="If">If Statement</option>
+                <option value="Print">Print Statement</option>
+                <option value="For">For Loop</option>
+              </select>
+
+              <i class="fas fa-sort-down"></i>
+            </div>
+
+            <div class="test-cases-title">
+              Test Cases
+            </div>
+
+            <!-- Test Cases -->
+            <div class="test-cases">
+              <div class="test-case">
+                <input type="text" placeholder="Args" required />
+                <input type="text" placeholder="Output" required />
+                <button type="button" class="btn" disabled>
+                  <div class="fas fa-times"></div>
+                </button>
+              </div>
+              <div class="test-case">
+                <input type="text" placeholder="Args" required />
+                <input type="text" placeholder="Output" required />
+                <button type="button" class="btn" disabled>
+                  <div class="fas fa-times"></div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-action-box">
+              <button
+                type="button"
+                class="btn btn-success"
+                onclick="addTestCase()"
+              >
+                Add Test Case
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-success submit"
+                onclick="addToBank()"
+              >
+                Add To Bank
+              </button>
+            </div>
           </div>
         </div>
 

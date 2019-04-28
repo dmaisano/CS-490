@@ -7,7 +7,7 @@ textarea {
   font-weight: 600;
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #dfe1e5;
+  border: 1px solid #ccc;
   border-radius: 0.15rem;
 
   &:focus {
@@ -30,26 +30,44 @@ textarea {
 }
 
 .custom-select {
-  display: block;
-  font-size: 1rem;
-  font-family: sans-serif;
-  font-weight: 600;
-  color: #fff;
-  line-height: 1.3;
-  padding: 0.6rem 1.4rem 0.5rem 0.8rem;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  margin: 0;
-  border: none;
-  background-color: $secondary;
-  -webkit-border-radius: 0;
-  border-radius: 0;
-  border: 0;
-  outline: 1px inset #fff;
-  outline-offset: -1px;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  background: #fff;
 
-  option {
-    font-weight: normal;
+  overflow: hidden;
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-column-gap: 0.25rem;
+  padding: 0.75rem 0.5rem;
+
+  select,
+  .fa-sort-down {
+    display: flex;
+    align-items: center;
+
+    color: #3b4350;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  select {
+    width: 100%;
+    height: auto;
+
+    background: transparent;
+    border: none;
+
+    // hide default appearance
+    -webkit-appearance: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .fa-sort-down {
+    margin-bottom: 0.25rem;
   }
 }
