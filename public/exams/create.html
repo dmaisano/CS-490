@@ -84,6 +84,7 @@
         <div class="card">
           <div class="card-title">Exam Preview</div>
           <div class="card-body exam">
+            <!-- Exam Name -->
             <input
               type="text"
               class="exam-name"
@@ -120,6 +121,75 @@
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal hidden">
+      <div class="card">
+        <div class="card-title">
+          <button type="button" class="btn btn-danger">
+            <i class="fas fa-times"></i>
+          </button>
+          <div id="question-name">Two Sum</div>
+          <button type="button" class="btn btn-danger" onclick="closeModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="function-name">Function Name</label>
+            <input type="text" name="function-name" value="twoSum()" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="function-name">Topic</label>
+            <input
+              type="text"
+              name="function-name"
+              value="Functions"
+              readonly
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="function-name">Difficulty</label>
+            <input type="text" name="function-name" value="Hard" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" readonly></textarea>
+          </div>
+
+          <div class="modal-header">
+            Constraints
+          </div>
+
+          <div class="constraints">
+            <div class="item"><i class="far fa-square"></i> If Statement</div>
+            <div class="item">
+              <i class="far fa-square"></i> Print Statement
+            </div>
+            <div class="item"><i class="far fa-square"></i> For Loop</div>
+            <div class="item"><i class="far fa-square"></i> While Loop</div>
+          </div>
+
+          <div class="modal-header">
+            Constraints
+          </div>
+
+          <div class="test-cases-header">
+            <input type="text" value="Args" readonly />
+            <input type="text" value="Output" readonly />
+          </div>
+
+          <div class="test-cases">
+            <!-- <div class="test-case form-group">
+              <input type="text" value="foo" readonly />
+              <input type="text" value="bar" readonly />
+            </div> -->
           </div>
         </div>
       </div>

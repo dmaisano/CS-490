@@ -141,13 +141,13 @@ textarea {
 input:focus,
   textarea:focus {
   border-color: #8285dd;
-  box-shadow: inset 0 0 0 0.1rem rgba(88, 90, 214, 0.75);
+  box-shadow: inset 0 0 0 0.1rem rgba(21, 127, 251, 0.25);
 }
 
 input:required:focus,
   textarea:required:focus {
   border-color: #d93749;
-  box-shadow: 0 0 0 0.1rem rgba(217, 55, 73, 0.85);
+  box-shadow: 0 0 0 0.1rem rgba(217, 55, 73, 0.25);
 }
 
 input:disabled,
@@ -194,6 +194,129 @@ textarea {
 
 .custom-select .fa-sort-down {
   margin-bottom: 0.25rem;
+}
+
+.modal {
+  background: rgba(43, 43, 43, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-header {
+  color: #3b4350;
+  margin: 1rem 0 0.75rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.modal .card {
+  padding: 0;
+  width: 75vw;
+  height: 85vh;
+  max-height: 85vh;
+  overflow: auto;
+  z-index: 999;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.5);
+}
+
+.modal .card-body {
+  margin-top: 10vh;
+}
+
+.modal .card-title {
+  width: 75vw;
+  height: 10vh;
+  max-height: 10vh;
+  overflow: hidden;
+  background: #fbfbfb;
+  position: fixed;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+}
+
+.modal .card-title button:first-child {
+  visibility: hidden;
+}
+
+.modal .card-title > div,
+      .modal .card-title > button {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.modal .form-group label {
+  color: #3b4350;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal .form-group input {
+  font-size: 1.25rem;
+}
+
+.modal .form-group:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.modal .constraints {
+  width: 75%;
+  margin: 0 7.5% 0 17.5%;
+  color: #3b4350;
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1rem;
+}
+
+.modal .constraints > div {
+  cursor: pointer;
+}
+
+.modal .constraints > div:not(:first-child) {
+  margin-top: 0.25rem;
+}
+
+.modal .test-cases > .test-case, .modal .test-cases-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.modal .test-cases > input {
+  text-align: center;
+}
+
+.modal .test-cases-header {
+  margin-bottom: 0.25rem;
+}
+
+.modal .test-cases-header input {
+  text-align: center;
+  background: transparent;
+  border: none;
+  user-select: none;
+}
+
+@media (min-width: 992px) {
+  .modal .card {
+    width: 60vw;
+    height: 85vh;
+    max-height: 85vh;
+  }
+
+  .modal .card-title {
+    width: 60vw;
+  }
 }
 
 .split {

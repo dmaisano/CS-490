@@ -7,6 +7,8 @@ import { convertQuestion } from '../scripts/utils.js';
 
 window.addExamQuestion = addExamQuestion;
 window.removeExamQuestion = removeExamQuestion;
+window.openModal = openModal;
+window.closeModal = closeModal;
 
 let questionBank = [];
 
@@ -19,7 +21,7 @@ let questionBank = [];
     }
   });
 
-  autosize();
+  // autosize();
 
   // get the questions from the DB
   postObj(urls.getQuestions, {})
@@ -62,7 +64,7 @@ function addExamQuestion(index = null) {
     <input type="text" value="${question.question_name}" disabled />
     <input type="text" value="${question.topic}" disabled />
     <input type="text" value="${question.difficulty}" disabled />
-    <button type="button" class="btn"><i class="fas fa-caret-down"></i></button>
+    <button type="button" class="btn" onclick="openModal('${id}', ${index})"><i class="fas fa-info-circle"></i></button>
     <button type="button" class="btn btn-danger" onclick="removeExamQuestion('${id}', ${index})"><i class="fas fa-times"></i></button>
   `;
 
@@ -70,7 +72,7 @@ function addExamQuestion(index = null) {
 }
 
 function removeExamQuestion(id = '', index = null) {
-  if (id === '' || index === null) return;
+  if (!id || index === null) return;
 
   const examBank = document.querySelector('.card .exam-bank');
   const question = examBank.querySelector(`#${id}`);
@@ -94,4 +96,57 @@ function removeExamQuestion(id = '', index = null) {
     `;
     examBank.appendChild(elem);
   }
+}
+
+function openModal(id = '', index = null) {
+  if (!id || index === null) return;
+  const modal = document.querySelector('.modal');
+  modal.classList.remove('hidden');
+
+  const question = questionBank[index];
+
+  function setDescription() {
+    const description = modal.querySelector('#description');
+    description.value = question.question_description;
+    description.style.height = `${description.scrollHeight}px`;
+  }
+
+  function renderConstraints() {}
+
+  function renderTestCases() {
+    const testCaseElems = modal.querySelector('.test-cases');
+
+    const existingCases = testCaseElems.querySelectorAll('.test-case');
+
+    // remove existing test cases
+    if (existingCases) {
+      for (const testCase of existingCases) {
+        testCase.parentNode.removeChild(testCase);
+      }
+    }
+
+    for (const testCase of question.test_cases) {
+      const elem = document.createElement('div');
+      elem.setAttribute('class', 'test-case form-group');
+
+      elem.innerHTML = `
+        <input type="text" value="${testCase.args}" readonly />
+        <input type="text" value="${testCase.output}" readonly />
+      `;
+
+      testCaseElems.appendChild(elem);
+    }
+  }
+
+  console.log(question);
+
+  setDescription();
+  renderConstraints();
+  renderTestCases();
+}
+
+function closeModal() {
+  const modal = document.querySelector('.modal');
+
+  modal.classList.add('hidden');
 }
