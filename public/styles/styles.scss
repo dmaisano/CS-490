@@ -6,6 +6,7 @@
 @import 'buttons';
 @import 'cards';
 @import 'forms';
+@import 'split';
 
 // css reset
 html,
@@ -49,6 +50,10 @@ select,
 input,
 button {
   outline: none;
+}
+
+.hidden {
+  display: none !important;
 }
 
 // Font Awesome SVGs

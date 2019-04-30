@@ -3,7 +3,7 @@ import { redirect } from '../scripts/redirect.js';
 import { autosize } from '../scripts/autosize.js';
 import { urls } from '../scripts/urls.js';
 
-import { renderQuestions, renderTopics } from '../scripts/questions.js';
+import { renderQuestionBank, renderTopics } from '../scripts/questions.js';
 
 window.addTestCase = addTestCase;
 window.removeTestCase = removeTestCase;
@@ -13,7 +13,13 @@ window.clearQuestionForm = clearQuestionForm;
 let questionBank = [];
 
 (function() {
-  redirect('instructor');
+  redirect('instructor').then(res => {
+    if (res === true) {
+      document.querySelector('.container').classList.remove('hidden');
+    } else {
+      window.location.href = '../login';
+    }
+  });
 
   autosize();
 
@@ -22,10 +28,9 @@ let questionBank = [];
     .then(res => res.json())
     .then(res => {
       questionBank = res;
-      console.log(res);
     })
     .then(() => {
-      renderQuestions('.card .bank', questionBank);
+      renderQuestionBank(document.querySelector('.card .bank'), questionBank);
     });
 
   renderTopics();

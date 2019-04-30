@@ -1,0 +1,116 @@
+// Split Screen View
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  height: 100vh;
+  max-height: 100vh;
+
+  &-item {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &:first-child {
+      border-right: 0.25rem solid #ccc;
+    }
+  }
+
+  textarea {
+    overflow: visible;
+  }
+
+  .card {
+    width: 95%;
+    /* height: auto; */
+    height: 95vh;
+    max-height: 95vh;
+
+    overflow: auto;
+  }
+
+  .filter-box {
+    display: grid;
+    grid-template-columns: 1fr repeat(4, auto);
+    grid-column-gap: 0.125rem;
+  }
+
+  .question-bank {
+    & > .question,
+    &-header {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) auto;
+      grid-column-gap: 0.25rem;
+
+      &:not(:first-child) {
+        margin-top: 0.25rem;
+      }
+    }
+
+    & > .question {
+      text-align: center;
+
+      & > input {
+        &:nth-child(2),
+        &:nth-child(3) {
+          text-align: center;
+        }
+      }
+    }
+
+    &-header {
+      input {
+        color: #3b4350;
+        background: transparent;
+        border: none;
+        padding: 0.5rem !important;
+        text-align: center;
+      }
+    }
+  }
+
+  .exam {
+    &-name {
+      width: 100%;
+      margin: 1rem auto;
+    }
+
+    &-bank {
+      .question {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) auto auto;
+        grid-column-gap: 0.25rem;
+
+        &:not(:first-child) {
+          margin-top: 0.25rem;
+        }
+
+        & > input {
+          &:nth-child(2),
+          &:nth-child(3) {
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    &-bank-header {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) auto auto;
+      grid-column-gap: 0.25rem;
+      margin-top: 0.25rem;
+
+      input {
+        color: #3b4350;
+        background: transparent;
+        border: none;
+        padding: 0.5rem !important;
+        text-align: center;
+      }
+    }
+  }
+}

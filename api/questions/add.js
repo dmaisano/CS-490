@@ -24,15 +24,8 @@ exports.addQuestion = function(db) {
       });
     }
 
-    console.log({
-      question_name,
-      function_name,
-      question_description,
-      difficulty,
-      topic,
-      question_constraints: JSON.stringify(question_constraints),
-      test_cases: JSON.stringify(test_cases),
-    });
+    // console.log(req.body);
+    // console.log(JSON.stringify(req.body));
 
     const query = `
       INSERT INTO questions VALUES (

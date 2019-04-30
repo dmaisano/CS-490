@@ -19,6 +19,7 @@ export function redirect(type = '') {
       return Promise.resolve(true);
     }
   } else {
-    window.location.href = '../login';
+    // window.location.href = '../login';
+    return Promise.resolve(false);
   }
 }
