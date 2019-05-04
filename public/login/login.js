@@ -34,7 +34,7 @@ function login() {
     .then(user => {
       if (!user) return;
 
-      sessionStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(user));
 
       redirect('login');
     })

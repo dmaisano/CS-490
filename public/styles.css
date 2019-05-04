@@ -267,9 +267,20 @@ textarea {
   margin-top: 1rem;
 }
 
+.modal .topic-difficulty {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 2rem;
+  margin-top: 1rem;
+}
+
+.modal .topic-difficulty > .form-group {
+  margin: 0;
+}
+
 .modal .constraints {
   width: 75%;
-  margin: 0 7.5% 0 17.5%;
+  margin: 2rem 7.5% 2rem 17.5%;
   color: #3b4350;
   font-size: 1.25rem;
   font-weight: 600;
@@ -297,6 +308,7 @@ textarea {
 }
 
 .modal .test-cases-header {
+  font-size: 1.5rem;
   margin-bottom: 0.25rem;
 }
 
@@ -346,16 +358,21 @@ textarea {
 
 .split .card {
   width: 95%;
-    /* height: auto; */
   height: 95vh;
   max-height: 95vh;
   overflow: auto;
 }
 
-.split .filter-box {
+.split #filter-box {
   display: grid;
   grid-template-columns: 1fr repeat(4, auto);
   grid-column-gap: 0.125rem;
+}
+
+.split .question-bank {
+  height: 100%;
+  max-height: 100%;
+  overflow: auto;
 }
 
 .split .question-bank > .question, .split .question-bank-header {
@@ -389,9 +406,15 @@ textarea {
   margin: 1rem auto;
 }
 
+.split .exam-bank {
+  height: 55vh;
+  max-height: 55vh;
+  overflow: auto;
+}
+
 .split .exam-bank .question {
   display: grid;
-  grid-template-columns: repeat(3, 1fr) auto auto;
+  grid-template-columns: 1fr 0.5fr auto auto;
   grid-column-gap: 0.25rem;
 }
 
@@ -399,13 +422,9 @@ textarea {
   margin-top: 0.25rem;
 }
 
-.split .exam-bank .question > input:nth-child(2), .split .exam-bank .question > input:nth-child(3) {
-  text-align: center;
-}
-
 .split .exam-bank-header {
   display: grid;
-  grid-template-columns: repeat(3, 1fr) auto auto;
+  grid-template-columns: 1fr 0.5fr auto auto;
   grid-column-gap: 0.25rem;
   margin-top: 0.25rem;
 }
@@ -416,6 +435,10 @@ textarea {
   border: none;
   padding: 0.5rem !important;
   text-align: center;
+}
+
+.split .exam-submit {
+  margin-top: 1rem;
 }
 
 html,

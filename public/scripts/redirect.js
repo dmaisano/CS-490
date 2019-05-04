@@ -5,7 +5,7 @@
  * @param {string} type
  */
 export function redirect(type = '') {
-  let user = sessionStorage.getItem('user');
+  let user = localStorage.getItem('user');
 
   if (user) {
     user = JSON.parse(user);

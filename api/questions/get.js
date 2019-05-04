@@ -11,18 +11,14 @@ exports.getQuestions = function(db) {
         return res.json([]);
       }
 
-      const result = [];
-
       for (const question of questions) {
         question.test_cases = JSON.parse(question.test_cases);
         question.question_constraints = JSON.parse(
           question.question_constraints
         );
-
-        result.push(question);
       }
 
-      return res.json(result);
+      return res.json(questions);
     });
   };
 };

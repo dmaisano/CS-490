@@ -8,7 +8,12 @@ import { convertQuestion } from '../scripts/utils.js';
  * @param {Array} questions array of question objects
  * @param {string} type general purpose flag
  */
-export function renderQuestionBank(bank = null, questions = [], type = '') {
+export function renderQuestionBank(
+  bank = null,
+  questions = [],
+  type = '',
+  filterOptions = null
+) {
   if (!bank) {
     console.error('renderQuestionBank: missing bank element');
   } else if (questions === [] || questions.length < 1) {
@@ -31,10 +36,13 @@ export function renderQuestionBank(bank = null, questions = [], type = '') {
     question.parentNode.removeChild(question);
   }
 
-  // for (let index = 0; index < 10; index++) {
-  // populate the questions
+  // populate the question bank
   for (let i = 0; i < questions.length; i++) {
     const question = questions[i];
+
+    if (filterOptions) {
+      const { question_name, di }
+    }
 
     // convert the question name to a valid ID
     const id = convertQuestion(question.question_name, 'id');
@@ -44,9 +52,6 @@ export function renderQuestionBank(bank = null, questions = [], type = '') {
     elem.setAttribute('class', 'question');
     elem.setAttribute('id', id);
     elem.setAttribute('data-index', i);
-    // elem.setAttribute('data-function_name', question.function_name);
-    // elem.setAttribute('data-difficulty', question.difficulty);
-    // elem.setAttribute('data-topic', question.topic);
 
     let markUp = '';
 
@@ -56,7 +61,9 @@ export function renderQuestionBank(bank = null, questions = [], type = '') {
             <input type="text" value="${question.question_name}" disabled />
             <input type="text" value="${question.topic}" disabled />
             <input type="text" value="${question.difficulty}" disabled />
-            <button type="button" class="btn btn-success" onclick="addExamQuestion(${i})"><i class="fas fa-plus"></i></button>
+            <button type="button" class="btn btn-success" onclick="addExamQuestion(${i})">
+              <i class="fas fa-plus"></i>
+            </button>
           `;
         break;
 
@@ -72,10 +79,13 @@ export function renderQuestionBank(bank = null, questions = [], type = '') {
     elem.innerHTML = markUp;
     bank.appendChild(elem);
   }
-  // }
 }
 
-export function filterQuestionBank(filter = '', elem = '', questionBnk = []) {
+export function filterQuestionBank(
+  filter = {},
+  filterBox = document.querySelector('#filter-box'),
+  questionBnk = []
+) {
   return 'owo';
 }
 

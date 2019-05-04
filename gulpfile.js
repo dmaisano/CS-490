@@ -21,14 +21,9 @@ gulp.task('serve', ['sass'], () => {
     },
   });
 
-  gulp.watch(`${staticDir}/styles/**/*.scss`, ['sass']);
+  gulp.watch(`${staticDir}/**/*.scss`, ['sass']);
   gulp
-    .watch([
-      `${staticDir}/**/*.html`,
-      `${staticDir}/styles/**/*.scss`,
-      `${staticDir}/**/*.css`,
-      `${staticDir}/**/*.js`,
-    ])
+    .watch([`${staticDir}/**/*.html`, `${staticDir}/**/*.js`])
     .on('change', browserSync.reload);
 });
 
