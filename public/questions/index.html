@@ -16,12 +16,7 @@
           <div class="card-body">
             <div class="form">
               <!-- Name -->
-              <input
-                type="text"
-                id="question-name"
-                placeholder="Question Name"
-                required
-              />
+              <input type="text" id="question-name" placeholder="Question Name" required />
 
               <!-- Topics -->
               <div class="custom-select">
@@ -33,12 +28,7 @@
               </div>
 
               <!-- Function Name -->
-              <input
-                type="text"
-                id="function-name"
-                placeholder="Function Name"
-                required
-              />
+              <input type="text" id="function-name" placeholder="Function Name" required />
 
               <!-- Difficulty -->
               <div class="custom-select">
@@ -65,39 +55,19 @@
 
             <!-- Constraints -->
             <div class="constraints">
-              <div
-                class="item"
-                value="if"
-                data-checked="false"
-                onclick="toggleConstraint(1)"
-              >
+              <div class="item" value="if" data-checked="false" onclick="toggleConstraint(1)">
                 <i class="far fa-square"></i>
                 If Statement
               </div>
-              <div
-                class="item"
-                value="print"
-                data-checked="false"
-                onclick="toggleConstraint(2)"
-              >
+              <div class="item" value="print" data-checked="false" onclick="toggleConstraint(2)">
                 <i class="far fa-square"></i>
                 Print Statement
               </div>
-              <div
-                class="item"
-                value="for"
-                data-checked="false"
-                onclick="toggleConstraint(3)"
-              >
+              <div class="item" value="for" data-checked="false" onclick="toggleConstraint(3)">
                 <i class="far fa-square"></i>
                 For Loop
               </div>
-              <div
-                class="item"
-                value="while"
-                data-checked="false"
-                onclick="toggleConstraint(4)"
-              >
+              <div class="item" value="while" data-checked="false" onclick="toggleConstraint(4)">
                 <i class="far fa-square"></i>
                 While Loop
               </div>
@@ -123,19 +93,11 @@
 
             <!-- Form Actions -->
             <div class="form-actions">
-              <button
-                type="button"
-                class="btn btn-success"
-                onclick="addTestCase()"
-              >
+              <button type="button" class="btn btn-success" onclick="addTestCase()">
                 Add Test Case
               </button>
 
-              <button
-                type="button"
-                class="btn btn-success submit"
-                onclick="addToBank()"
-              >
+              <button type="button" class="btn btn-success submit" onclick="addToBank()">
                 Add To Bank
               </button>
             </div>
@@ -154,16 +116,18 @@
                 type="text"
                 id="question_name"
                 placeholder="Question Name"
+                onkeydown="filterQuestions()"
               />
+
               <div class="custom-select">
-                <select id="topics">
+                <select id="topics" onchange="filterQuestions()">
                   <option value="">Topics</option>
                 </select>
 
                 <i class="fas fa-sort-down"></i>
               </div>
               <div class="custom-select">
-                <select id="difficulty">
+                <select id="difficulty" onchange="filterQuestions()">
                   <option value="">Difficulty</option>
                   <option value="Easy">Easy</option>
                   <option value="Medium">Medium</option>
@@ -171,19 +135,8 @@
                 </select>
                 <i class="fas fa-sort-down"></i>
               </div>
-              <button
-                type="button"
-                class="btn btn-warning"
-                onclick="filterQuestions(true)"
-              >
+              <button type="button" class="btn btn-warning" onclick="filterQuestions(true)">
                 Reset
-              </button>
-              <button
-                type="button"
-                class="btn btn-success"
-                onclick="filterQuestions()"
-              >
-                Submit
               </button>
             </div>
 
@@ -191,11 +144,7 @@
               <input type="text" value="Question Name" disabled />
               <input type="text" value="Topic" disabled />
               <input type="text" value="Difficulty" disabled />
-              <button
-                style="visibility: hidden;"
-                type="button"
-                class="btn btn-success"
-              >
+              <button style="visibility: hidden;" type="button" class="btn btn-success">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
@@ -232,55 +181,30 @@
 
             <div class="form-group">
               <label>Difficulty</label>
-              <input
-                id="difficulty"
-                type="text"
-                name="function-name"
-                readonly
-              />
+              <input id="difficulty" type="text" name="function-name" readonly />
             </div>
           </div>
 
           <div class="form-group" id="description">
             <label>Description</label>
-            <textarea name="description" readonly></textarea>
+            <textarea name="description" rows="5" readonly></textarea>
           </div>
 
           <!-- Constraints -->
           <div class="constraints">
-            <div
-              class="item"
-              value="if"
-              data-checked="false"
-              onclick="toggleConstraint(1)"
-            >
+            <div class="item" value="if" data-checked="false" onclick="toggleConstraint(1)">
               <i class="far fa-square"></i>
               If Statement
             </div>
-            <div
-              class="item"
-              value="print"
-              data-checked="false"
-              onclick="toggleConstraint(2)"
-            >
+            <div class="item" value="print" data-checked="false" onclick="toggleConstraint(2)">
               <i class="far fa-square"></i>
               Print Statement
             </div>
-            <div
-              class="item"
-              value="for"
-              data-checked="false"
-              onclick="toggleConstraint(3)"
-            >
+            <div class="item" value="for" data-checked="false" onclick="toggleConstraint(3)">
               <i class="far fa-square"></i>
               For Loop
             </div>
-            <div
-              class="item"
-              value="while"
-              data-checked="false"
-              onclick="toggleConstraint(4)"
-            >
+            <div class="item" value="while" data-checked="false" onclick="toggleConstraint(4)">
               <i class="far fa-square"></i>
               While Loop
             </div>

@@ -46,13 +46,14 @@
 
     <script type="module">
       import { redirect } from '../scripts/redirect.js';
+      import { getUser } from '../scripts/utils.js';
 
       (function() {
         redirect().then(() => {
-          const user = JSON.parse(localStorage.getItem('user'));
+          const user = getUser();
 
           const elem = document.querySelector('.user');
-          elem.innerHTML = user.user;
+          elem.innerHTML = user.user.toUpperCase();
         });
       })();
     </script>

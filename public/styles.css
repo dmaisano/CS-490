@@ -207,6 +207,11 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* 
+  #description > textarea {
+    height: 142px;
+  }
+ */;
 }
 
 .modal-header {
@@ -220,8 +225,8 @@ textarea {
 
 .modal .card {
   padding: 0;
-  width: 90vw;
-  height: 90vh;
+  width: 95vw;
+  height: 95vh;
   max-height: 90vh;
   z-index: 999;
   box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.5);
@@ -267,10 +272,6 @@ textarea {
 
 .modal .topic-difficulty > .form-group {
   margin: 0;
-}
-
-.modal #description > textarea {
-  height: 142px;
 }
 
 .modal .constraints {
@@ -319,9 +320,9 @@ textarea {
 
 @media (min-width: 992px) {
   .modal .card {
-    width: 70vw;
-    height: 90vh;
-    max-height: 90vh;
+    width: 75vw;
+    height: 95vh;
+    max-height: 95vh;
   }
 
   .modal .constraints {
@@ -363,7 +364,7 @@ textarea {
 
 .split #filter-box {
   display: grid;
-  grid-template-columns: 1fr repeat(4, auto);
+  grid-template-columns: 0.8fr repeat(3, auto);
   grid-column-gap: 0.125rem;
 }
 
@@ -372,10 +373,11 @@ textarea {
   display: grid;
   grid-template-columns: 1fr 0.5fr;
   grid-gap: 0.5rem;
-}
-
-.split .new-question .form textarea {
-  height: 142px;
+    /* 
+      textarea {
+        height: 142px;
+      }
+      */;
 }
 
 .split .new-question .seperator {
@@ -469,8 +471,8 @@ textarea {
 }
 
 .split .exam-bank {
-  height: 70vh;
-  max-height: 70vh;
+  height: 65vh;
+  max-height: 65vh;
   overflow: auto;
 }
 

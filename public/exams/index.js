@@ -1,5 +1,7 @@
 import { postObj } from '../scripts/fetch.js';
 import { redirect } from '../scripts/redirect.js';
+import { getUser } from '../scripts/utils.js';
+import { urls } from '../scripts/urls.js';
 
 window.selectExam = selectExam;
 
@@ -7,14 +9,9 @@ let exams = [];
 let selectedExam = {};
 let user = {};
 
-// fetch urls
-const urls = {
-  getExams: `'https://web.njit.edu/~jps78/middle/sendingCurl.php'`,
-};
-
 (function() {
   redirect('instructor').then(() => {
-    user = JSON.parse(localStorage.getItem('user'));
+    user = getUser();
 
     getExams(user);
   });
@@ -25,9 +22,9 @@ const urls = {
  */
 function getExams() {
   // get the list of exams
-  return postObj(urls.getExams, {})
-    .then(res => res.json())
-    .then(res => {
+  return postObj(urls, {})
+    .then((res) => res.json())
+    .then((res) => {
       exams = res;
       console.log(res);
     })

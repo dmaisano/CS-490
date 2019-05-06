@@ -22,8 +22,8 @@
 
   .card {
     padding: 0;
-    width: 90vw;
-    height: 90vh;
+    width: 95vw;
+    height: 95vh;
     max-height: 90vh;
     z-index: 999;
     box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.5);
@@ -74,9 +74,11 @@
     }
   }
 
+  /* 
   #description > textarea {
     height: 142px;
   }
+ */
 
   .constraints {
     height: 10vh;
@@ -130,9 +132,9 @@
   @media (min-width: 992px) {
     & {
       .card {
-        width: 70vw;
-        height: 90vh;
-        max-height: 90vh;
+        width: 75vw;
+        height: 95vh;
+        max-height: 95vh;
       }
 
       .constraints {

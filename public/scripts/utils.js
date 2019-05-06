@@ -15,6 +15,13 @@ export function convertQuestion(question_name, type) {
 }
 
 /**
+ * returns the user object
+ */
+export function getUser() {
+  return JSON.parse(localStorage.getItem('user')) || false;
+}
+
+/**
  * returns true if question exists
  * @param {string} question_name
  * @param {string} query

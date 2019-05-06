@@ -1,10 +1,5 @@
 import { postObj } from '../scripts/fetch.js';
-import {
-  closeModal,
-  openModal,
-  renderQuestionBank,
-  renderTopics,
-} from '../scripts/questions.js';
+import { closeModal, openModal, renderQuestionBank, renderTopics } from '../scripts/questions.js';
 import { redirect } from '../scripts/redirect.js';
 import { urls } from '../scripts/urls.js';
 
@@ -19,7 +14,7 @@ window.filterQuestions = filterQuestions;
 let questionBank = [];
 
 (function() {
-  redirect('instructor').then(res => {
+  redirect('instructor').then((res) => {
     if (res === true) {
       if (document.querySelector('.split')) {
         document.querySelector('.split').classList.remove('hidden');
@@ -41,17 +36,12 @@ let questionBank = [];
  */
 function getQuestions(filterOptions = null) {
   postObj(urls.getQuestions, {})
-    .then(res => res.json())
-    .then(res => {
+    .then((res) => res.json())
+    .then((res) => {
       questionBank = res;
     })
     .then(() => {
-      renderQuestionBank(
-        document.querySelector('.question-bank'),
-        questionBank,
-        '',
-        filterOptions
-      );
+      renderQuestionBank(document.querySelector('.question-bank'), questionBank, '', filterOptions);
     });
 }
 
@@ -157,16 +147,6 @@ function addToBank() {
     });
   }
 
-  let question = {
-    question_name,
-    function_name,
-    question_description,
-    difficulty,
-    topic,
-    question_constraints,
-    test_cases,
-  };
-
   // check if any fields are missing
   if (
     !question_name ||
@@ -180,19 +160,19 @@ function addToBank() {
     return;
   }
 
-  question = {
+  const question = {
     question_name,
     function_name,
     question_description,
     difficulty,
     topic,
-    question_constraints,
+    question_constraints: question_constraints.sort(),
     test_cases,
   };
 
   postObj(urls.createQuestion, question)
-    .then(res => res.json())
-    .then(res => {
+    .then((res) => res.json())
+    .then((res) => {
       if (res.success) {
         alert('Successfully Added Question!');
 
@@ -215,14 +195,8 @@ function clearQuestionForm() {
   elem.querySelector('#difficulty').selectedIndex = 0;
   elem.querySelector('#topics').selectedIndex = 0;
 
-  for (
-    let i = 1;
-    i <= elem.querySelectorAll('.constraints > .item').length;
-    i++
-  ) {
-    const constraint = elem.querySelector(
-      `.constraints > .item:nth-child(${i})`
-    );
+  for (let i = 1; i <= elem.querySelectorAll('.constraints > .item').length; i++) {
+    const constraint = elem.querySelector(`.constraints > .item:nth-child(${i})`);
 
     const checked = constraint.getAttribute('data-checked') === 'true';
 
@@ -247,18 +221,14 @@ function questionInfo(index = null) {
 
 function filterQuestions(reset = false) {
   if (reset) {
-    return renderQuestionBank(
-      document.querySelector('.question-bank'),
-      questionBank
-    );
+    return renderQuestionBank(document.querySelector('.question-bank'), questionBank);
   }
 
   const filterBox = document.querySelector('#filter-box');
 
   const question_name = filterBox.querySelector('#question_name').value || '';
 
-  const difficulty = filterBox.querySelector('#difficulty').selectedOptions
-    .length
+  const difficulty = filterBox.querySelector('#difficulty').selectedOptions.length
     ? filterBox.querySelector('#difficulty').selectedOptions[0].value
     : '';
 
@@ -266,14 +236,9 @@ function filterQuestions(reset = false) {
     ? filterBox.querySelector('#topics').selectedOptions[0].value
     : '';
 
-  renderQuestionBank(
-    document.querySelector('.question-bank'),
-    questionBank,
-    '',
-    {
-      question_name,
-      difficulty,
-      topic,
-    }
-  );
+  renderQuestionBank(document.querySelector('.question-bank'), questionBank, '', {
+    question_name,
+    difficulty,
+    topic,
+  });
 }

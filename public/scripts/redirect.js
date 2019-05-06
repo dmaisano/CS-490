@@ -1,3 +1,5 @@
+import { getUser } from './utils.js';
+
 /**
  * determine if user is instructor or student
  * if student tries to access instructor pages, redirect them
@@ -5,10 +7,9 @@
  * @param {string} type
  */
 export function redirect(type = '') {
-  let user = localStorage.getItem('user');
+  const user = getUser();
 
   if (user) {
-    user = JSON.parse(user);
     if (type === 'login') {
       window.location.href = `../${user.type}`;
     } else if (type === 'instructor' && user.type !== 'instructor') {

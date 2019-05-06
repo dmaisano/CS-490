@@ -1,45 +1,28 @@
 exports.addExam = function(db) {
   return (req, res) => {
-    let {
-      exam_name,
-      instructor,
-      question_names,
-      function_names,
-      points,
-      test_cases,
-    } = req.body;
+    let { exam_name, instructor, question_ids, points_max } = req.body;
 
-    if (
-      !exam_name ||
-      !instructor ||
-      !question_names ||
-      !function_names ||
-      !points ||
-      !test_cases
-    ) {
+    if (!exam_name || !instructor || !question_ids || !points_max) {
       return res.json({
         error: true,
         msg: 'Missing Field',
       });
     }
 
-    question_names = JSON.stringify(question_names);
-    function_names = JSON.stringify(function_names);
-    points = JSON.stringify(points);
-    test_cases = JSON.stringify(test_cases);
+    question_ids = JSON.stringify(question_ids);
+    points_max = JSON.stringify(points_max);
 
     const query = `
       INSERT INTO exams VALUES (
+        DEFAULT,
         ${db.escape(exam_name)},
-        ${db.escape(instructor)},
-        ${db.escape(question_names)},
-        ${db.escape(function_names)},
-        ${db.escape(points)},
-        ${db.escape(test_cases)}
+        '${instructor}',
+        ${db.escape(question_ids)},
+        ${db.escape(points_max)}
       )
     `;
 
-    db.query(query, err => {
+    db.query(query, (err) => {
       if (err) {
         return res.json({
           error: true,

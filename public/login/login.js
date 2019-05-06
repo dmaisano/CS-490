@@ -7,7 +7,7 @@ import { urls } from '../scripts/urls.js';
 
 window.login = login;
 
-document.querySelector('#password').addEventListener('keyup', event => {
+document.querySelector('#password').addEventListener('keyup', (event) => {
   if (event.key !== 'Enter') return;
 
   login();
@@ -19,11 +19,16 @@ function login() {
   const user = document.querySelector('#username').value || '';
   const pass = document.querySelector('#password').value || '';
 
+  console.log({
+    user,
+    pass,
+  });
+
   postObj(urls.login, {
     user,
     pass,
   })
-    .then(res => {
+    .then((res) => {
       if (res.status !== 200) {
         alert('Failed To Log In');
         return false;
@@ -31,7 +36,9 @@ function login() {
 
       return res.json();
     })
-    .then(user => {
+    .then((user) => {
+      console.log(user);
+
       if (!user) return;
 
       localStorage.setItem('user', JSON.stringify(user));
@@ -39,6 +46,6 @@ function login() {
       redirect('login');
     })
     .catch(() => {
-      alert('Failed to Login In');
+      alert('Failed to Log In');
     });
 }

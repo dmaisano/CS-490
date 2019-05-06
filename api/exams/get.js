@@ -1,8 +1,14 @@
 exports.getExams = function(db) {
   return (req, res) => {
-    const user = req.body.user || '';
+    const userType = req.body.type || '';
 
-    console.log(user);
+    if (!userType || userType !== 'instructor') {
+      res.status(403);
+      return res.json({
+        error: true,
+        message: 'Not Auth',
+      });
+    }
 
     const query = `SELECT * FROM exams`;
 
@@ -15,25 +21,12 @@ exports.getExams = function(db) {
         return res.json([]);
       }
 
-      const data = [];
-
       for (const exam of exams) {
-        const question_names = JSON.parse(exam.question_names);
-        const function_names = JSON.parse(exam.function_names);
-        const points = JSON.parse(exam.points);
-        const test_cases = JSON.parse(exam.test_cases);
-
-        data.push({
-          exam_name: exam.exam_name,
-          instructor: exam.instructor,
-          question_names,
-          function_names,
-          points,
-          test_cases,
-        });
+        exam.question_ids = JSON.parse(exam.question_ids);
+        exam.points_max = JSON.parse(exam.points_max);
       }
 
-      return res.send(data);
+      return res.send(exams);
     });
   };
 };

@@ -21,16 +21,18 @@
                 type="text"
                 id="question_name"
                 placeholder="Question Name"
+                onkeydown="filterQuestions()"
               />
+
               <div class="custom-select">
-                <select id="topics">
+                <select id="topics" onchange="filterQuestions()">
                   <option value="">Topics</option>
                 </select>
 
                 <i class="fas fa-sort-down"></i>
               </div>
               <div class="custom-select">
-                <select id="difficulty">
+                <select id="difficulty" onchange="filterQuestions()">
                   <option value="">Difficulty</option>
                   <option value="Easy">Easy</option>
                   <option value="Medium">Medium</option>
@@ -38,19 +40,8 @@
                 </select>
                 <i class="fas fa-sort-down"></i>
               </div>
-              <button
-                type="button"
-                class="btn btn-warning"
-                onclick="filterQuestions(true)"
-              >
+              <button type="button" class="btn btn-warning" onclick="filterQuestions(true)">
                 Reset
-              </button>
-              <button
-                type="button"
-                class="btn btn-success"
-                onclick="filterQuestions()"
-              >
-                Submit
               </button>
             </div>
 
@@ -58,11 +49,7 @@
               <input type="text" value="Question Name" disabled />
               <input type="text" value="Topic" disabled />
               <input type="text" value="Difficulty" disabled />
-              <button
-                style="visibility: hidden;"
-                type="button"
-                class="btn btn-success"
-              >
+              <button style="visibility: hidden;" type="button" class="btn btn-success">
                 <i class="fas fa-plus"></i>
               </button>
             </div>
@@ -78,29 +65,16 @@
           <div class="card-title">Exam Preview</div>
           <div class="card-body exam">
             <!-- Exam Name -->
-            <input
-              type="text"
-              class="exam-name"
-              placeholder="Exam Name"
-              required
-            />
+            <input type="text" class="exam-name" placeholder="Exam Name" required />
 
             <div class="exam-bank">
               <div class="exam-bank-header">
                 <input type="text" value="Question Name" disabled />
                 <input type="text" value="Points" disabled />
-                <button
-                  style="visibility: hidden;"
-                  type="button"
-                  class="btn btn-success"
-                >
+                <button style="visibility: hidden;" type="button" class="btn btn-success">
                   <i class="fas fa-plus"></i>
                 </button>
-                <button
-                  style="visibility: hidden;"
-                  type="button"
-                  class="btn btn-success"
-                >
+                <button style="visibility: hidden;" type="button" class="btn btn-success">
                   <i class="fas fa-plus"></i>
                 </button>
               </div>
@@ -114,11 +88,7 @@
               </div>
             </div>
 
-            <button
-              type="button"
-              class="btn btn-success exam-submit"
-              onclick="createExam()"
-            >
+            <button type="button" class="btn btn-success exam-submit" onclick="createExam()">
               Create Exam
             </button>
           </div>
@@ -152,55 +122,30 @@
 
             <div class="form-group">
               <label>Difficulty</label>
-              <input
-                id="difficulty"
-                type="text"
-                name="function-name"
-                readonly
-              />
+              <input id="difficulty" type="text" name="function-name" readonly />
             </div>
           </div>
 
           <div class="form-group" id="description">
             <label>Description</label>
-            <textarea name="description" readonly></textarea>
+            <textarea name="description" rows="5" readonly></textarea>
           </div>
 
           <!-- Constraints -->
           <div class="constraints">
-            <div
-              class="item"
-              value="if"
-              data-checked="false"
-              onclick="toggleConstraint(1)"
-            >
+            <div class="item" value="if" data-checked="false" onclick="toggleConstraint(1)">
               <i class="far fa-square"></i>
               If Statement
             </div>
-            <div
-              class="item"
-              value="print"
-              data-checked="false"
-              onclick="toggleConstraint(2)"
-            >
+            <div class="item" value="print" data-checked="false" onclick="toggleConstraint(2)">
               <i class="far fa-square"></i>
               Print Statement
             </div>
-            <div
-              class="item"
-              value="for"
-              data-checked="false"
-              onclick="toggleConstraint(3)"
-            >
+            <div class="item" value="for" data-checked="false" onclick="toggleConstraint(3)">
               <i class="far fa-square"></i>
               For Loop
             </div>
-            <div
-              class="item"
-              value="while"
-              data-checked="false"
-              onclick="toggleConstraint(4)"
-            >
+            <div class="item" value="while" data-checked="false" onclick="toggleConstraint(4)">
               <i class="far fa-square"></i>
               While Loop
             </div>
