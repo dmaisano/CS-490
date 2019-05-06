@@ -21,10 +21,8 @@ gulp.task('serve', ['sass'], () => {
     },
   });
 
+  gulp.watch([`${staticDir}/**/*.html`, `${staticDir}/**/*.js`]).on('change', browserSync.reload);
   gulp.watch(`${staticDir}/**/*.scss`, ['sass']);
-  gulp
-    .watch([`${staticDir}/**/*.html`, `${staticDir}/**/*.js`])
-    .on('change', browserSync.reload);
 });
 
 // compile scss to formatted css

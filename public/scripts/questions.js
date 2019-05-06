@@ -1,6 +1,6 @@
 import { postObj } from '../scripts/fetch.js';
 import { urls } from '../scripts/urls.js';
-import { convertQuestion } from '../scripts/utils.js';
+import { convertName } from '../scripts/utils.js';
 
 /**
  * render the question bank
@@ -8,12 +8,7 @@ import { convertQuestion } from '../scripts/utils.js';
  * @param {Array} questions array of question objects
  * @param {string} type general purpose flag
  */
-export function renderQuestionBank(
-  bank = null,
-  questions = [],
-  type = '',
-  filterOptions = null
-) {
+export function renderQuestionBank(bank = null, questions = [], type = '', filterOptions = null) {
   if (!bank) {
     console.error('renderQuestionBank: missing bank element');
   } else if (questions === [] || questions.length < 1) {
@@ -63,7 +58,7 @@ export function renderQuestionBank(
     }
 
     // convert the question name to a valid ID
-    const id = convertQuestion(question.question_name, 'id');
+    const id = convertName(question.question_name, 'id');
 
     // create new question elem
     const elem = document.createElement('div');
@@ -71,11 +66,11 @@ export function renderQuestionBank(
     elem.setAttribute('id', id);
     elem.setAttribute('data-index', i);
 
-    let markUp = '';
+    let markup = '';
 
     switch (type) {
       case 'add':
-        markUp = `
+        markup = `
             <input type="text" value="${question.question_name}" disabled />
             <input type="text" value="${question.topic}" disabled />
             <input type="text" value="${question.difficulty}" disabled />
@@ -86,7 +81,7 @@ export function renderQuestionBank(
         break;
 
       default:
-        markUp = `
+        markup = `
             <input type="text" value="${question.question_name}" disabled />
             <input type="text" value="${question.topic}" disabled />
             <input type="text" value="${question.difficulty}" disabled />
@@ -97,7 +92,7 @@ export function renderQuestionBank(
         break;
     }
 
-    elem.innerHTML = markUp;
+    elem.innerHTML = markup;
     bank.appendChild(elem);
   }
 }
@@ -107,8 +102,8 @@ export function renderQuestionBank(
  */
 export function renderTopics() {
   postObj(urls.getTopics, {})
-    .then(res => res.json())
-    .then(res => {
+    .then((res) => res.json())
+    .then((res) => {
       const elems = document.querySelectorAll('#topics');
 
       for (const el of elems) {
@@ -138,8 +133,7 @@ export function openModal(question = null) {
 
   modal.querySelector('#topic').value = question.topic || 'No Topic';
 
-  modal.querySelector('#difficulty').value =
-    question.difficulty || 'No Difficulty';
+  modal.querySelector('#difficulty').value = question.difficulty || 'No Difficulty';
 
   function setDescription() {
     const description = modal.querySelector('#description > textarea');
@@ -148,9 +142,7 @@ export function openModal(question = null) {
 
   function renderConstraints() {
     for (let i = 0; i < 4; i++) {
-      const constraint = modal.querySelector(
-        `.constraints .item:nth-child(${i + 1})`
-      );
+      const constraint = modal.querySelector(`.constraints .item:nth-child(${i + 1})`);
 
       const constraints = question.question_constraints;
 

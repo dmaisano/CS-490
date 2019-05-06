@@ -127,6 +127,66 @@ a:disabled {
   border-bottom-right-radius: 0.1rem;
 }
 
+.exam {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.exam .card {
+  width: 95%;
+  height: 95%;
+  max-height: 95%;
+}
+
+.exam .card .questions .question {
+  background: #f9f9f9;
+  border: 0.05rem solid #dadee4;
+  border-radius: 0.15rem;
+  box-shadow: 0 0.25rem 1rem rgba(48, 55, 66, 0.15);
+  height: auto;
+  width: 100%;
+  padding: 0.25rem 0.4rem;
+}
+
+.exam-title {
+  height: 5vh;
+}
+
+.exam-links {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+}
+
+.exam-links .title {
+  height: 5vh;
+  margin: 2.5vh 0;
+  color: #fbfbfb;
+  font-size: 2em;
+  text-align: center;
+}
+
+.exam-links .container {
+  height: 76vh;
+  max-height: 76vh;
+  width: 50%;
+  margin: 0 auto 0 auto;
+  overflow-y: auto;
+}
+
+.exam-links .container .btn {
+  font-size: 2rem;
+}
+
+.exam-links .container .btn:not(:first-child) {
+  margin-top: 5%;
+}
+
 input,
 textarea {
   color: #3b4350;

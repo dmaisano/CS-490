@@ -2,7 +2,7 @@ import { postObj } from '../scripts/fetch.js';
 import { closeModal, openModal, renderQuestionBank, renderTopics } from '../scripts/questions.js';
 import { redirect } from '../scripts/redirect.js';
 import { urls } from '../scripts/urls.js';
-import { convertQuestion, getUser } from '../scripts/utils.js';
+import { convertName, getUser } from '../scripts/utils.js';
 
 window.addExamQuestion = addExamQuestion;
 window.removeExamQuestion = removeExamQuestion;
@@ -49,7 +49,7 @@ function addExamQuestion(index = null) {
   }
 
   const question = questionBank[index];
-  const id = convertQuestion(question.question_name, 'id');
+  const id = convertName(question.question_name, 'id');
 
   const questionBankElems = document.querySelector(`.card .question-bank`);
 
@@ -169,7 +169,7 @@ function filterQuestions(reset = false) {
 }
 
 function createExam() {
-  const exam = document.querySelector('.card .exam');
+  const exam = document.querySelector('.card .examBank');
 
   const exam_name = exam.querySelector('.exam-name').value || '';
 

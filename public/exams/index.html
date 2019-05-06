@@ -8,34 +8,24 @@
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body>
-    <style>
-      .exam-links {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: auto;
-        height: 100%;
-        width: 50%;
-      }
-
-      .exam-links .btn {
-        font-size: 2rem;
-      }
-
-      .exam-links > .btn:not(:first-child) {
-        margin-top: 5%;
-      }
-
-      .title {
-        text-align: center;
-      }
-    </style>
-
     <div class="exam-links">
-      <h1 class="title">Exams</h1>
+      <div class="title">Exams</div>
+
+      <div class="container"></div>
     </div>
 
-    <div class="exam"></div>
+    <div class="exam hidden">
+      <div class="card">
+        <div class="card-title"></div>
+        <div class="card-body">
+          <div class="questions">
+            <!-- <div class="question">
+              <textarea name="description" rows="5" readonly></textarea>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script type="module" src="./index.js"></script>
   </body>

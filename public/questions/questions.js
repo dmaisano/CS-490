@@ -80,7 +80,7 @@ function addTestCase() {
   elem.setAttribute('class', 'test-case');
   elem.setAttribute('id', id);
 
-  const markUp = `
+  const markup = `
     <input type="text" placeholder="Args" required />
     <input type="text" placeholder="Output" required />
     <button type="button" class="btn btn-danger" onclick="removeTestCase('${id}')">
@@ -88,7 +88,7 @@ function addTestCase() {
     </button>
   `;
 
-  elem.innerHTML = markUp;
+  elem.innerHTML = markup;
   testCases.appendChild(elem);
 }
 

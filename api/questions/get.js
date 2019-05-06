@@ -4,6 +4,10 @@ exports.getQuestions = function(db) {
 
     const questionIds = req.body.question_ids;
 
+    if (questionIds) {
+      console.log(questionIds);
+    }
+
     const result = [];
 
     db.query(query, (err, questions) => {
@@ -17,9 +21,7 @@ exports.getQuestions = function(db) {
 
       for (const question of questions) {
         question.test_cases = JSON.parse(question.test_cases);
-        question.question_constraints = JSON.parse(
-          question.question_constraints
-        );
+        question.question_constraints = JSON.parse(question.question_constraints);
 
         if (questionIds && questionIds.length) {
           if (questionIds.includes(question.id)) {

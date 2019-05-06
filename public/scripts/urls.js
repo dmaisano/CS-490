@@ -9,6 +9,7 @@ export const urls = {
   getTopics: `${baseUrl}/topics`,
   getQuestions: `${baseUrl}/questions`,
   createQuestion: `${baseUrl}/questions/add`,
+  getExams: `${baseUrl}/exams`,
   createExam: `${baseUrl}/exams/add`,
 };
 

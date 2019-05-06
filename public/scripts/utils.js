@@ -1,14 +1,14 @@
 /**
- * helper function to convert question names to ids and vice-versa
- * @param {string} question_name
- * @param {string} 'id' or 'name'
+ * helper function to a name to valid id and vice-versa
+ * @param {string} name
+ * @param {string} type name or id
  * @returns {string}
  */
-export function convertQuestion(question_name, type) {
+export function convertName(name, type) {
   if (type === 'id') {
-    return question_name.split(' ').join('-');
+    return name.split(' ').join('-');
   } else if (type === 'name') {
-    return question_name.split('-').join(' ');
+    return name.split('-').join(' ');
   }
 
   return '';
