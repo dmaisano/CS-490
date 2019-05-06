@@ -14,6 +14,7 @@ window.toggleConstraint = toggleConstraint;
 window.addToBank = addToBank;
 window.questionInfo = questionInfo;
 window.closeModal = closeModal;
+window.filterQuestions = filterQuestions;
 
 let questionBank = [];
 
@@ -38,7 +39,7 @@ let questionBank = [];
 /**
  * get the questions from the DB
  */
-function getQuestions() {
+function getQuestions(filterOptions = null) {
   postObj(urls.getQuestions, {})
     .then(res => res.json())
     .then(res => {
@@ -47,7 +48,9 @@ function getQuestions() {
     .then(() => {
       renderQuestionBank(
         document.querySelector('.question-bank'),
-        questionBank
+        questionBank,
+        '',
+        filterOptions
       );
     });
 }
@@ -121,12 +124,12 @@ function addToBank() {
   const function_name = elem.querySelector('#function-name').value || '';
   const question_description = elem.querySelector('#description').value || '';
 
-  const difficulty = elem.querySelector('#difficulty').selectedOptions.length
-    ? elem.querySelector('#difficulty').selectedOptions[0].value
-    : '';
-
   const topic = elem.querySelector('#topics').selectedOptions.length
     ? elem.querySelector('#topics').selectedOptions[0].value
+    : '';
+
+  const difficulty = elem.querySelector('#difficulty').selectedOptions.length
+    ? elem.querySelector('#difficulty').selectedOptions[0].value
     : '';
 
   const question_constraints = [];
@@ -240,4 +243,37 @@ function questionInfo(index = null) {
   console.log(index);
 
   openModal(questionBank[index]);
+}
+
+function filterQuestions(reset = false) {
+  if (reset) {
+    return renderQuestionBank(
+      document.querySelector('.question-bank'),
+      questionBank
+    );
+  }
+
+  const filterBox = document.querySelector('#filter-box');
+
+  const question_name = filterBox.querySelector('#question_name').value || '';
+
+  const difficulty = filterBox.querySelector('#difficulty').selectedOptions
+    .length
+    ? filterBox.querySelector('#difficulty').selectedOptions[0].value
+    : '';
+
+  const topic = filterBox.querySelector('#topics').selectedOptions.length
+    ? filterBox.querySelector('#topics').selectedOptions[0].value
+    : '';
+
+  renderQuestionBank(
+    document.querySelector('.question-bank'),
+    questionBank,
+    '',
+    {
+      question_name,
+      difficulty,
+      topic,
+    }
+  );
 }

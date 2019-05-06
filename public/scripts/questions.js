@@ -40,14 +40,26 @@ export function renderQuestionBank(
   for (let i = 0; i < questions.length; i++) {
     const question = questions[i];
 
-    if (filterOptions) {
-      const { question_name, difficulty, topics } = filterOptions;
+    if (filterOptions !== null) {
+      let { question_name, difficulty, topic } = filterOptions;
 
-      console.log({
-        question_name,
-        difficulty,
-        topics,
-      });
+      console.log(filterOptions);
+
+      if (question_name !== '') {
+        question_name = question_name.toLowerCase().trim();
+
+        if (!question.question_name.toLowerCase().includes(question_name)) {
+          continue;
+        }
+      }
+
+      if (difficulty !== '' && question.difficulty !== difficulty) {
+        continue;
+      }
+
+      if (topic !== '' && question.topic !== topic) {
+        continue;
+      }
     }
 
     // convert the question name to a valid ID
@@ -88,14 +100,6 @@ export function renderQuestionBank(
     elem.innerHTML = markUp;
     bank.appendChild(elem);
   }
-}
-
-export function filterQuestionBank(
-  filter = {},
-  filterBox = document.querySelector('#filter-box'),
-  questionBnk = []
-) {
-  return 'owo';
 }
 
 /**

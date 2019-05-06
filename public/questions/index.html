@@ -246,31 +246,52 @@
             <textarea name="description" readonly></textarea>
           </div>
 
+          <!-- Constraints -->
           <div class="constraints">
-            <div class="item">
+            <div
+              class="item"
+              value="if"
+              data-checked="false"
+              onclick="toggleConstraint(1)"
+            >
               <i class="far fa-square"></i>
               If Statement
             </div>
-            <div class="item">
+            <div
+              class="item"
+              value="print"
+              data-checked="false"
+              onclick="toggleConstraint(2)"
+            >
               <i class="far fa-square"></i>
               Print Statement
             </div>
-            <div class="item">
+            <div
+              class="item"
+              value="for"
+              data-checked="false"
+              onclick="toggleConstraint(3)"
+            >
               <i class="far fa-square"></i>
               For Loop
             </div>
-            <div class="item">
+            <div
+              class="item"
+              value="while"
+              data-checked="false"
+              onclick="toggleConstraint(4)"
+            >
               <i class="far fa-square"></i>
               While Loop
             </div>
           </div>
 
-          <div class="test-cases">
-            <div class="test-cases-header">
-              <input type="text" value="Args" readonly />
-              <input type="text" value="Output" readonly />
-            </div>
+          <div class="test-cases-header">
+            <input type="text" value="Args" readonly />
+            <input type="text" value="Output" readonly />
           </div>
+
+          <div class="test-cases"></div>
         </div>
       </div>
     </div>

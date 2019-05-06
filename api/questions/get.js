@@ -2,6 +2,10 @@ exports.getQuestions = function(db) {
   return (req, res) => {
     const query = `SELECT * FROM questions ORDER BY question_name`;
 
+    const questionIds = req.body.question_ids;
+
+    const result = [];
+
     db.query(query, (err, questions) => {
       if (err) {
         return res.send(err);
@@ -16,9 +20,17 @@ exports.getQuestions = function(db) {
         question.question_constraints = JSON.parse(
           question.question_constraints
         );
+
+        if (questionIds && questionIds.length) {
+          if (questionIds.includes(question.id)) {
+            result.push(question);
+          }
+        } else {
+          result.push(question);
+        }
       }
 
-      return res.json(questions);
+      return res.json(result);
     });
   };
 };

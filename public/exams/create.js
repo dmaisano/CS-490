@@ -45,67 +45,6 @@ let questionBank = [];
   renderTopics();
 })();
 
-function filterQuestions(reset = false) {
-  const questionBank = document.querySelector('.question-bank');
-
-  /**
-   * returns an array of question IDs which have already been added to the exam
-   */
-  function getAssignedQuestions() {
-    let res = [];
-
-    for (const question of document.querySelectorAll(
-      '.exam-bank > .question'
-    )) {
-      res.push(question.getAttribute('id'));
-    }
-
-    return res;
-  }
-
-  /**
-   * resets the question bank
-   * will hide questions currently assigned to the exam
-   */
-  function reset() {
-    const assignedQuestions = getAssignedQuestions();
-
-    for (const question of questionBank.querySelectorAll('.question')) {
-      const id = question.getAttribute('id');
-
-      // set question to visible if not assigned to the exam
-      if (!assignedQuestions.includes(id)) {
-        question.classList.remove('hidden');
-      }
-    }
-  }
-
-  if (reset) {
-    reset();
-    return;
-  }
-
-  const filterBox = document.querySelector('#filter-box');
-
-  const question_name = filterBox.querySelector('#question_name').value || '';
-  const topic =
-    filterBox.querySelector('#topicsss').selectedOptions[0].value || '';
-  const difficulty =
-    filterBox.querySelector('#difficulty').selectedOptions[0].value || '';
-
-  // render the question bank with the filterOptions
-  renderQuestionBank(
-    document.querySelector('.question-bank'),
-    questionBank,
-    '',
-    {
-      question_name,
-      difficulty,
-      topics,
-    }
-  );
-}
-
 function addExamQuestion(index = null) {
   if (index === null) return;
 
@@ -179,4 +118,37 @@ function questionInfo(index = null) {
   console.log(index);
 
   openModal(questionBank[index]);
+}
+
+function filterQuestions(reset = false) {
+  if (reset) {
+    return renderQuestionBank(
+      document.querySelector('.question-bank'),
+      questionBank
+    );
+  }
+
+  const filterBox = document.querySelector('#filter-box');
+
+  const question_name = filterBox.querySelector('#question_name').value || '';
+
+  const difficulty = filterBox.querySelector('#difficulty').selectedOptions
+    .length
+    ? filterBox.querySelector('#difficulty').selectedOptions[0].value
+    : '';
+
+  const topic = filterBox.querySelector('#topics').selectedOptions.length
+    ? filterBox.querySelector('#topics').selectedOptions[0].value
+    : '';
+
+  renderQuestionBank(
+    document.querySelector('.question-bank'),
+    questionBank,
+    '',
+    {
+      question_name,
+      difficulty,
+      topic,
+    }
+  );
 }
