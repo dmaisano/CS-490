@@ -1,6 +1,5 @@
 import { postObj } from '../scripts/fetch.js';
 import { redirect } from '../scripts/redirect.js';
-import { autosize } from '../scripts/autosize.js';
 
 window.selectExam = selectExam;
 
@@ -19,8 +18,6 @@ const urls = {
 
     getExams(user);
   });
-
-  autosize();
 })();
 
 /**

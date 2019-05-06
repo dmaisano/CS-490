@@ -24,9 +24,6 @@ exports.addQuestion = function(db) {
       });
     }
 
-    // console.log(req.body);
-    // console.log(JSON.stringify(req.body));
-
     const query = `
       INSERT INTO questions VALUES (
         DEFAULT,

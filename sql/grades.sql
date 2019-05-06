@@ -9,7 +9,7 @@ CREATE TABLE grades (
   -- student who took the exam
   student VARCHAR(64) NOT NULL,
 
-  -- instructor who created the exam (NULLABLE)
+  -- instructor who is leaving comments / feedback
   instructor VARCHAR(64),
 
   -- JSON array of question ids

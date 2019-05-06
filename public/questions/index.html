@@ -8,188 +8,99 @@
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body>
-    <style>
-      textarea {
-        overflow: visible !important;
-      }
-
-      .container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        justify-items: center;
-        height: 100vh;
-        max-height: 100vh;
-      }
-
-      .container > div {
-        width: 100%;
-      }
-
-      .container > div:first-child {
-        border-right: 5px solid #ccc;
-      }
-
-      .card {
-        max-width: 90%;
-        margin: auto;
-        margin-top: 1rem;
-      }
-
-      .newQuestion {
-        margin: 0.5rem 0;
-        display: grid;
-        grid-template-columns: 1fr 0.5fr;
-        grid-gap: 0.5rem;
-      }
-
-      .seperator {
-        grid-column: span 2;
-        color: #3b4350;
-        margin: 0.5rem 0;
-        font-size: 1.25rem;
-        font-weight: 600;
-        text-align: center;
-        text-decoration: underline;
-      }
-
-      .test-cases {
-        grid-column: span 2;
-      }
-
-      .test-case {
-        display: grid;
-        grid-template-columns: 1fr 1fr auto;
-        grid-column-gap: 0.5rem;
-      }
-
-      .test-case:not(:first-child) {
-        margin-top: 0.5rem;
-      }
-
-      .form-action-box {
-        margin-top: 0.5rem;
-        grid-column: span 2;
-
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-column-gap: 0.5rem;
-      }
-
-      .grid-header > input {
-        background: transparent;
-        text-align: center;
-        border: none;
-      }
-
-      .newTopic {
-        display: none;
-        margin-bottom: 1.25rem;
-      }
-
-      .newTopic > .card-body {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        grid-column-gap: 0.5rem;
-      }
-
-      .bank {
-        padding-top: 0;
-      }
-
-      .grid-header:nth-child(2),
-      .grid-header:nth-last-child(3),
-      .bank > .question > input:nth-child(2),
-      .bank > .question > input:nth-child(3) {
-        text-align: center;
-      }
-
-      .grid-header,
-      .bank > .question {
-        display: grid;
-        grid-template-columns: 1fr 0.5fr 0.5fr;
-        grid-column-gap: 0.5rem;
-      }
-
-      .question:not(last-child) {
-        margin-top: 0.5rem;
-      }
-
-      .btn {
-        font-weight: 600;
-      }
-    </style>
-
-    <div class="container hidden">
-      <div>
-        <!-- Create New Question -->
+    <div class="split hidden">
+      <div class="split-item new-question">
+        <!-- Question Bank -->
         <div class="card">
-          <div class="card-title">Add Question</div>
+          <div class="card-title">Create Question</div>
+          <div class="card-body">
+            <div class="form">
+              <!-- Name -->
+              <input
+                type="text"
+                id="question-name"
+                placeholder="Question Name"
+                required
+              />
 
-          <div class="card-body newQuestion">
-            <!-- Question Name -->
-            <input
-              type="text"
-              id="questionName"
-              placeholder="Question Name"
-              required
-            />
+              <!-- Topics -->
+              <div class="custom-select">
+                <select id="topics">
+                  <option value="">Topics</option>
+                </select>
 
-            <!-- Topics -->
-            <div class="custom-select">
-              <select id="topics">
-                <option value="">Topics</option>
-              </select>
+                <i class="fas fa-sort-down"></i>
+              </div>
 
-              <i class="fas fa-sort-down"></i>
-            </div>
+              <!-- Function Name -->
+              <input
+                type="text"
+                id="function-name"
+                placeholder="Function Name"
+                required
+              />
 
-            <!-- Function Name -->
-            <input
-              type="text"
-              id="functionName"
-              placeholder="Function Name"
-              required
-            />
+              <!-- Difficulty -->
+              <div class="custom-select">
+                <select id="difficulty">
+                  <option value="">Difficulty</option>
+                  <option value="Easy">Easy</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Hard">Hard</option>
+                </select>
 
-            <!-- Difficulty -->
-            <div class="custom-select">
-              <select id="difficulty">
-                <option value="">Difficulty</option>
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
-              </select>
+                <i class="fas fa-sort-down"></i>
+              </div>
 
-              <i class="fas fa-sort-down"></i>
-            </div>
-
-            <!-- Description -->
-            <textarea
-              name="description"
-              id="description"
-              rows="3"
-              placeholder="Question Description"
-              style="grid-column: span 2;"
-              required
-            ></textarea>
-
-            <div class="seperator">
-              Constraints
+              <!-- Description -->
+              <textarea
+                name="description"
+                id="description"
+                rows="5"
+                placeholder="Question Description"
+                style="grid-column: span 2;"
+                required
+              ></textarea>
             </div>
 
             <!-- Constraints -->
-            <div class="custom-select" style="grid-column: span 2;">
-              <select id="constraints" multiple style="grid-column: span 2;">
-                <option value="">Constraint</option>
-                <option value="">No Constraint</option>
-                <option value="If">If Statement</option>
-                <option value="Print">Print Statement</option>
-                <option value="For">For Loop</option>
-              </select>
-            </div>
-
-            <div class="seperator">
-              Test Cases
+            <div class="constraints">
+              <div
+                class="item"
+                value="if"
+                data-checked="false"
+                onclick="toggleConstraint(1)"
+              >
+                <i class="far fa-square"></i>
+                If Statement
+              </div>
+              <div
+                class="item"
+                value="print"
+                data-checked="false"
+                onclick="toggleConstraint(2)"
+              >
+                <i class="far fa-square"></i>
+                Print Statement
+              </div>
+              <div
+                class="item"
+                value="for"
+                data-checked="false"
+                onclick="toggleConstraint(3)"
+              >
+                <i class="far fa-square"></i>
+                For Loop
+              </div>
+              <div
+                class="item"
+                value="while"
+                data-checked="false"
+                onclick="toggleConstraint(4)"
+              >
+                <i class="far fa-square"></i>
+                While Loop
+              </div>
             </div>
 
             <!-- Test Cases -->
@@ -211,7 +122,7 @@
             </div>
 
             <!-- Form Actions -->
-            <div class="form-action-box">
+            <div class="form-actions">
               <button
                 type="button"
                 class="btn btn-success"
@@ -230,37 +141,135 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Add New Topic -->
-        <div class="card newTopic">
-          <div class="card-title">Add New Topic</div>
+      <div class="split-item">
+        <!-- Question Bank -->
+        <div class="card">
+          <div class="card-title">Question Bank</div>
           <div class="card-body">
-            <input type="text" id="topic" placeholder="Topic" required />
-            <button type="button" class="btn btn-success" onclick="addTopic()">
-              Add
-            </button>
+            <!-- Filter Box -->
+            <div id="filter-box">
+              <input
+                type="text"
+                id="question_name"
+                placeholder="Question Name"
+              />
+              <div class="custom-select">
+                <select id="topics">
+                  <option value="">Topics</option>
+                </select>
+
+                <i class="fas fa-sort-down"></i>
+              </div>
+              <div class="custom-select">
+                <select id="difficulty">
+                  <option value="">Difficulty</option>
+                  <option value="Easy">Easy</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Hard">Hard</option>
+                </select>
+                <i class="fas fa-sort-down"></i>
+              </div>
+              <button
+                type="button"
+                class="btn btn-warning"
+                onclick="filterQuestions(true)"
+              >
+                Reset
+              </button>
+              <button
+                type="button"
+                class="btn btn-success"
+                onclick="filterQuestions()"
+              >
+                Submit
+              </button>
+            </div>
+
+            <div class="question-bank-header">
+              <input type="text" value="Question Name" disabled />
+              <input type="text" value="Topic" disabled />
+              <input type="text" value="Difficulty" disabled />
+              <button
+                style="visibility: hidden;"
+                type="button"
+                class="btn btn-success"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+
+            <div class="question-bank"></div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div>
-        <!-- Bank -->
-        <div class="card">
-          <div class="card-title">Question Bank</div>
-          <div class="card-body grid-header">
-            <input type="text" value="Question Name" disabled />
-            <input type="text" value="Difficulty" disabled />
-            <input type="text" value="Topic" disabled />
+    <div class="modal hidden">
+      <div class="card">
+        <div class="card-title">
+          <button type="button" class="btn btn-danger">
+            <i class="fas fa-times"></i>
+          </button>
+          <div id="question-name">Two Sum</div>
+          <button type="button" class="btn btn-danger" onclick="closeModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="card-body">
+          <div id="function-name" class="form-group">
+            <label>Function Name</label>
+            <input type="text" name="function-name" readonly />
           </div>
-          <div class="card-body bank">
-            <!-- <div class="question">
+
+          <div class="topic-difficulty">
+            <div class="form-group">
+              <label>Topic</label>
+              <input id="topic" type="text" name="function-name" readonly />
+            </div>
+
+            <div class="form-group">
+              <label>Difficulty</label>
               <input
+                id="difficulty"
                 type="text"
-                style="grid-column: span 3"
-                value="No Questions"
-                disabled
+                name="function-name"
+                readonly
               />
-            </div> -->
+            </div>
+          </div>
+
+          <div class="form-group" id="description">
+            <label>Description</label>
+            <textarea name="description" readonly></textarea>
+          </div>
+
+          <div class="constraints">
+            <div class="item">
+              <i class="far fa-square"></i>
+              If Statement
+            </div>
+            <div class="item">
+              <i class="far fa-square"></i>
+              Print Statement
+            </div>
+            <div class="item">
+              <i class="far fa-square"></i>
+              For Loop
+            </div>
+            <div class="item">
+              <i class="far fa-square"></i>
+              While Loop
+            </div>
+          </div>
+
+          <div class="test-cases">
+            <div class="test-cases-header">
+              <input type="text" value="Args" readonly />
+              <input type="text" value="Output" readonly />
+            </div>
           </div>
         </div>
       </div>
