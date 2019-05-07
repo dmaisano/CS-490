@@ -3,7 +3,7 @@
  */
 
 // const baseUrl = `http://localhost:3000/api`;
-const baseUrl = 'https://unlucky-parrot-15.localtunnel.me/api';
+const baseUrl = 'https://stupid-lizard-47.localtunnel.me/api';
 
 export const urls = {
   login: `${baseUrl}/login`,

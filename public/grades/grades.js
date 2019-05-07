@@ -121,34 +121,6 @@ async function renderGradeLinks(user = getUser(), instructor = false) {
   }
 }
 
-async function editStudentGrade(index) {
-  let grades = await postObj(urls.getGrades, user);
-  grades = await grades.json();
-
-  document.querySelector('.student-links').classList.add('hidden');
-
-  const gradeElem = document.querySelector('.grade');
-  gradeElem.classList.remove('hidden');
-  document.querySelector('.grade-links').classList.add('hidden');
-
-  const grade = grades[index];
-
-  const totalGrade = grade.points_earned.reduce(
-    (total, points) => (total += points)
-  );
-
-  const titleElems = gradeElem.querySelectorAll('.card-title');
-  titleElems[0].innerHTML = `${grade.exam_name}`;
-  titleElems[1].innerHTML = `Total: ${totalGrade}`;
-
-  selectedGrade = grade;
-
-  let questions = await postObj(urls.getQuestions, {
-    question_ids: grade.question_ids,
-  });
-  questions = await questions.json();
-}
-
 async function viewGrade(index) {
   let grades = [];
 
@@ -178,7 +150,17 @@ async function viewGrade(index) {
   const titleElems = gradeElem.querySelectorAll('.card-title');
 
   titleElems[0].innerHTML = `${grade.exam_name}`;
-  titleElems[1].innerHTML = `Total: ${totalGrade}`;
+
+  if (examType === 'instructor-grades') {
+    titleElems[1].innerHTML = `
+      <input type="text" value="" placeholder="Points" required />
+    `;
+
+    const pointsBox = titleElems[1].querySelector('input');
+    pointsBox.placeholder = `Total: ${totalGrade}`;
+  } else {
+    titleElems[1].innerHTML = `Total: ${totalGrade}`;
+  }
 
   // .innerHTML = `${grade.exam_name}`;
 
