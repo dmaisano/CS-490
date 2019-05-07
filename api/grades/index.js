@@ -1,7 +1,11 @@
-const { getExams } = require('./get');
-const { addExam } = require('./add');
+const { grader } = require('./grader');
+const { getGrades } = require('./get');
+const { addGrade } = require('./add');
+const { updateGrade } = require('./update');
 
 module.exports = {
-  getExams,
-  addExam,
+  grader,
+  getGrades,
+  addGrade,
+  updateGrade,
 };

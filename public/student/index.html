@@ -40,13 +40,15 @@
         <!-- <a class="btn disabled" href="" disabl>View Grades</a> -->
         <button type="button" class="btn" disabled>View Grades</button>
 
-        <a class="btn" href="../exams/index.html">View Exams</a>
+        <a class="btn" onclick="viewExams()">Take Exam</a>
       </div>
     </div>
 
     <script type="module">
       import { redirect } from '../scripts/redirect.js';
       import { getUser } from '../scripts/utils.js';
+
+      window.viewExams = viewExams;
 
       (function() {
         redirect().then(() => {
@@ -56,6 +58,12 @@
           elem.innerHTML = user.user.toUpperCase();
         });
       })();
+
+      function viewExams() {
+        sessionStorage.setItem('exam-type', 'take-exam');
+
+        window.location.href = '../exams/index.html';
+      }
     </script>
   </body>
 </html>

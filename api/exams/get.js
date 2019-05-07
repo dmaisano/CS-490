@@ -2,7 +2,7 @@ exports.getExams = function(db) {
   return (req, res) => {
     const userType = req.body.type || '';
 
-    if (!userType || userType !== 'instructor') {
+    if (!userType) {
       res.status(403);
       return res.json({
         error: true,
@@ -10,7 +10,7 @@ exports.getExams = function(db) {
       });
     }
 
-    const query = `SELECT * FROM exams`;
+    let query = `SELECT * FROM exams`;
 
     db.query(query, (err, exams) => {
       if (err) {

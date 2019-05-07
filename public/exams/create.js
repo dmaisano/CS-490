@@ -1,5 +1,10 @@
 import { postObj } from '../scripts/fetch.js';
-import { closeModal, openModal, renderQuestionBank, renderTopics } from '../scripts/questions.js';
+import {
+  closeModal,
+  openModal,
+  renderQuestionBank,
+  renderTopics,
+} from '../scripts/questions.js';
 import { redirect } from '../scripts/redirect.js';
 import { urls } from '../scripts/urls.js';
 import { convertName, getUser } from '../scripts/utils.js';
@@ -14,7 +19,7 @@ window.createExam = createExam;
 let questionBank = [];
 
 (function() {
-  redirect('instructor').then((res) => {
+  redirect('instructor').then(res => {
     if (res === true) {
       document.querySelector('.split').classList.remove('hidden');
     } else {
@@ -24,14 +29,18 @@ let questionBank = [];
 
   // get the questions from the DB
   postObj(urls.getQuestions, {})
-    .then((res) => res.json())
-    .then((res) => {
-      res.forEach((question) => {
+    .then(res => res.json())
+    .then(res => {
+      res.forEach(question => {
         questionBank.push(question);
       });
     })
     .then(() => {
-      renderQuestionBank(document.querySelector('.question-bank'), questionBank, 'add');
+      renderQuestionBank(
+        document.querySelector('.question-bank'),
+        questionBank,
+        'add'
+      );
     });
 
   renderTopics();
@@ -54,7 +63,9 @@ function addExamQuestion(index = null) {
   const questionBankElems = document.querySelector(`.card .question-bank`);
 
   // hide selected question
-  questionBankElems.querySelector(`.question:nth-child(${index + 1})`).classList.add('hidden');
+  questionBankElems
+    .querySelector(`.question:nth-child(${index + 1})`)
+    .classList.add('hidden');
 
   // check if question bank is empty
   let isEmpty = true;
@@ -128,7 +139,9 @@ function removeExamQuestion(id = '', index = null) {
   }
 
   // check if question bank contains placeholder
-  for (const questionElem of document.querySelectorAll('.card .question-bank > .question')) {
+  for (const questionElem of document.querySelectorAll(
+    '.card .question-bank > .question'
+  )) {
     if (questionElem.classList.contains('question-placeholder')) {
       questionElem.parentNode.removeChild(questionElem);
       break;
@@ -139,21 +152,23 @@ function removeExamQuestion(id = '', index = null) {
 function questionInfo(index = null) {
   if (index === null) return;
 
-  console.log(index);
-
   openModal(questionBank[index]);
 }
 
 function filterQuestions(reset = false) {
   if (reset) {
-    return renderQuestionBank(document.querySelector('.question-bank'), questionBank);
+    return renderQuestionBank(
+      document.querySelector('.question-bank'),
+      questionBank
+    );
   }
 
   const filterBox = document.querySelector('#filter-box');
 
   const question_name = filterBox.querySelector('#question_name').value || '';
 
-  const difficulty = filterBox.querySelector('#difficulty').selectedOptions.length
+  const difficulty = filterBox.querySelector('#difficulty').selectedOptions
+    .length
     ? filterBox.querySelector('#difficulty').selectedOptions[0].value
     : '';
 
@@ -161,11 +176,16 @@ function filterQuestions(reset = false) {
     ? filterBox.querySelector('#topics').selectedOptions[0].value
     : '';
 
-  renderQuestionBank(document.querySelector('.question-bank'), questionBank, '', {
-    question_name,
-    difficulty,
-    topic,
-  });
+  renderQuestionBank(
+    document.querySelector('.question-bank'),
+    questionBank,
+    '',
+    {
+      question_name,
+      difficulty,
+      topic,
+    }
+  );
 }
 
 function createExam() {
@@ -187,7 +207,8 @@ function createExam() {
 
     const question = questionBank[index];
 
-    const question_name = questionElem.querySelector('input:nth-child(1)').value;
+    const question_name = questionElem.querySelector('input:nth-child(1)')
+      .value;
     const points = questionElem.querySelector('input:nth-child(2)').value || '';
 
     if (!points) {
@@ -217,8 +238,8 @@ function createExam() {
     question_ids,
     points_max,
   })
-    .then((res) => res.json())
-    .then((res) => {
+    .then(res => res.json())
+    .then(res => {
       if (res.error) {
         alert('Failed To Create Exam');
         console.error(res);

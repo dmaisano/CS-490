@@ -1,35 +1,31 @@
-exports.getExams = function(db) {
+exports.getGrades = function(db) {
   return (req, res) => {
-    const query = `SELECT * FROM exams`;
+    const user = req.body.user || null;
 
-    db.query(query, (err, result) => {
+    let query = `SELECT * FROM grades`;
+
+    if (user) {
+      query = `SELECT * FROM grades WHERE student = ${user.user}`;
+    }
+
+    db.query(query, (err, grades) => {
       if (err) {
         return res.send(err);
       }
 
-      if (result.length === 0) {
+      if (grades.length === 0) {
         return res.json([]);
       }
 
-      const data = [];
-
-      for (const exam of result) {
-        const question_names = JSON.parse(exam.question_names);
-        const function_names = JSON.parse(exam.function_names);
-        const points = JSON.parse(exam.points);
-        const test_cases = JSON.parse(exam.test_cases);
-
-        data.push({
-          exam_name: exam.exam_name,
-          instructor: exam.instructor,
-          question_names,
-          function_names,
-          points,
-          test_cases,
-        });
+      for (const grade of grades) {
+        grade.question_ids = JSON.parse(grade.question_ids);
+        grade.student_responses = JSON.parse(grade.student_responses);
+        grade.instructor_comments = JSON.parse(grade.instructor_comments);
+        grade.points_earned = JSON.parse(grade.points_earned);
+        grade.points_max = JSON.parse(grade.points_max);
       }
 
-      return res.send(data);
+      return res.send(grades);
     });
   };
 };

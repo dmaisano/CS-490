@@ -50,7 +50,11 @@ export function renderExamLinks(exams = null, container = null) {
  * @param {HTMLElement} links
  * @returns {String | Boolean}
  */
-export function selectExam(exams, index, links = document.querySelector('.exam-links')) {
+export function selectExam(
+  exams,
+  index,
+  links = document.querySelector('.exam-links')
+) {
   const exam = exams[index];
 
   if (!exam) return false;
@@ -64,26 +68,33 @@ export function selectExam(exams, index, links = document.querySelector('.exam-l
   renderExam(exam);
 }
 
-export function renderExam(exam = null, examElem = document.querySelector('.exam > .card')) {
+export function renderExam(
+  exam = null,
+  examElem = document.querySelector('.exam > .card')
+) {
   if (exam === null) {
     alert('Failed to Render Exam');
     return;
   }
 
-  console.log(exam.question_ids);
-  console.log(urls.getQuestions);
-
-  postObj(urls.getQuestions, {})
-    .then((res) => res.json())
-    .then((questions) => {
+  postObj(urls.getQuestions, {
+    question_ids: exam.question_ids,
+  })
+    .then(res => res.json())
+    .then(questions => {
       // set the title
       examElem.querySelector('.card-title').innerHTML = `${exam.exam_name}`;
 
       questions.forEach((question, index) => {
-        renderQuestion(question, index, examElem.querySelector('.questions'), 'view-exam');
+        renderQuestion(
+          question,
+          index,
+          exam.points_max[index],
+          examElem.querySelector('.questions')
+        );
       });
     })
-    .catch((err) => {
+    .catch(err => {
       alert('Failed to get Exam Questions');
       console.error(err);
       return;
@@ -93,25 +104,33 @@ export function renderExam(exam = null, examElem = document.querySelector('.exam
 function renderQuestion(
   question,
   index,
-  questionsElem = document.querySelector('.exam > .card > .card-body > .questions'),
-  type = 'view-exam'
+  points,
+  questionsElem = document.querySelector(
+    '.exam > .card > .card-body > .questions'
+  )
 ) {
   let elem = document.createElement('div');
   elem.setAttribute('class', 'question');
 
   let markup;
 
-  switch (type) {
+  switch (sessionStorage.getItem('exam-type')) {
     case 'take-exam':
+      markup = `
+        <label class="points">Points: ${points}</label>
+        <textarea name="description" class="description" rows="5" readonly></textarea>
+        <textarea name="code" class="code" rows="10" placeholder="Code"></textarea>
+      `;
       break;
 
     case 'view-grade':
       break;
 
+    // view exam
     default:
       markup = `
-          <textarea name="description" class="description" rows="5" readonly></textarea>
-          <input type="text" class="points" readonly></input>
+          <label class="points">Points: ${points}</label>
+          <textarea name="description" class="description" readonly></textarea>
         `;
       break;
   }
@@ -121,6 +140,60 @@ function renderQuestion(
 
   // grab the selected elem
   elem = questionsElem.querySelectorAll('.question')[index];
-  elem.querySelector('.description').value = question.question_description;
-  elem.querySelector('.points').value = question.question_description;
+
+  const description = elem.querySelector('.description');
+  description.value = question.question_description;
+  description.style.height = `${description.scrollHeight}px`;
+
+  const codebox = document.querySelector('.code');
+  if (codebox) {
+    // ? override textarea defaults to support tabs
+    HTMLTextAreaElement.prototype.getCaretPosition = function() {
+      //return the caret position of the textarea
+      return this.selectionStart;
+    };
+    HTMLTextAreaElement.prototype.setCaretPosition = function(position) {
+      //change the caret position of the textarea
+      this.selectionStart = position;
+      this.selectionEnd = position;
+      this.focus();
+    };
+    HTMLTextAreaElement.prototype.hasSelection = function() {
+      //if the textarea has selection then return true
+      if (this.selectionStart == this.selectionEnd) {
+        return false;
+      } else {
+        return true;
+      }
+    };
+    HTMLTextAreaElement.prototype.getSelectedText = function() {
+      //return the selection text
+      return this.value.substring(this.selectionStart, this.selectionEnd);
+    };
+    HTMLTextAreaElement.prototype.setSelection = function(start, end) {
+      //change the selection area of the textarea
+      this.selectionStart = start;
+      this.selectionEnd = end;
+      this.focus();
+    };
+
+    codebox.addEventListener('keydown', event => {
+      const { keyCode } = event;
+      const { value, selectionStart, selectionEnd } = codebox;
+
+      // tab
+      if (keyCode === 9) {
+        event.preventDefault();
+
+        codebox.value =
+          value.slice(0, selectionStart) + '  ' + value.slice(selectionEnd);
+
+        codebox.setSelectionRange(selectionStart + 2, selectionStart + 2);
+      }
+
+      const maxHeight = 275; // px
+
+      codebox.style.height = `${maxHeight}`;
+    });
+  }
 }

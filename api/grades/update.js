@@ -1,4 +1,4 @@
-exports.addGrade = function(db) {
+exports.updateGrade = function(db) {
   return (req, res) => {
     let {
       exam_name,

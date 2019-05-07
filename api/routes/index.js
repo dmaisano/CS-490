@@ -30,4 +30,12 @@ router.post('/exams', getExams(db));
 router.get('/exams', getExams(db));
 router.post('/exams/add', addExam(db));
 
+// grades
+const { grader, getGrades, addGrade, updateGrade } = require('../grades');
+router.post('/grader', grader(db));
+router.post('/grades', getGrades(db));
+router.get('/grades', getGrades(db));
+router.post('/grades/add', addGrade(db));
+router.post('/grades/updateGrade', updateGrade(db));
+
 module.exports = router;

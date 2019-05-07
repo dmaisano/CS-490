@@ -4,11 +4,7 @@ exports.getQuestions = function(db) {
 
     const questionIds = req.body.question_ids;
 
-    if (questionIds) {
-      console.log(questionIds);
-    }
-
-    const result = [];
+    const data = [];
 
     db.query(query, (err, questions) => {
       if (err) {
@@ -19,20 +15,33 @@ exports.getQuestions = function(db) {
         return res.json([]);
       }
 
-      for (const question of questions) {
-        question.test_cases = JSON.parse(question.test_cases);
-        question.question_constraints = JSON.parse(question.question_constraints);
+      // this is really bad for time complexity
+      // but we don't care :')
+      if (questionIds && questionIds.length) {
+        for (const id of questionIds) {
+          for (const question of questions) {
+            if (question.id !== id) continue;
 
-        if (questionIds && questionIds.length) {
-          if (questionIds.includes(question.id)) {
-            result.push(question);
+            question.test_cases = JSON.parse(question.test_cases);
+            question.question_constraints = JSON.parse(
+              question.question_constraints
+            );
+
+            data.push(question);
           }
-        } else {
-          result.push(question);
+        }
+      } else {
+        for (const question of questions) {
+          question.test_cases = JSON.parse(question.test_cases);
+          question.question_constraints = JSON.parse(
+            question.question_constraints
+          );
+
+          data.push(question);
         }
       }
 
-      return res.json(result);
+      return res.json(data);
     });
   };
 };

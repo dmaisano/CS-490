@@ -12,15 +12,32 @@
     height: 95%;
     max-height: 95%;
 
+    &-title {
+      height: 7.5vh;
+      padding-top: 2.5vh;
+    }
+
     .questions {
+      height: 75vh;
+      max-height: 75vh;
+      overflow: auto;
+
       .question {
-        background: #f9f9f9;
         border: 0.05rem solid lighten(#303742, 65%);
         border-radius: 0.15rem;
-        box-shadow: 0 0.25rem 1rem rgba(48, 55, 66, 0.15);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
         height: auto;
         width: 100%;
         padding: 0.25rem 0.4rem;
+
+        .points {
+          font-size: 1.25rem;
+          font-weight: 600;
+        }
+
+        &:not(:first-child) {
+          margin-top: 1rem;
+        }
       }
     }
   }
