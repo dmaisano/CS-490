@@ -1,6 +1,8 @@
 .DS_Store
 .ICEauthority
 
+*.py
+
 styles/**/*.css
 
 # sensitive config files

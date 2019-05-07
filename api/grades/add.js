@@ -2,45 +2,32 @@ exports.addGrade = function(db) {
   return (req, res) => {
     let {
       exam_name,
+      student,
       instructor,
-      question_names,
-      function_names,
-      points,
-      test_cases,
+      question_ids,
+      student_responses,
+      instructor_comments,
+      points_earned,
+      points_max,
     } = req.body;
 
-    if (
-      !exam_name ||
-      !instructor ||
-      !question_names ||
-      !function_names ||
-      !points ||
-      !test_cases
-    ) {
-      return res.json({
-        error: true,
-        msg: 'Missing Field',
-      });
-    }
-
-    question_names = JSON.stringify(question_names);
-    function_names = JSON.stringify(function_names);
-    points = JSON.stringify(points);
-    test_cases = JSON.stringify(test_cases);
-
     const query = `
-      INSERT INTO exams VALUES (
-        ${db.escape(exam_name)},
-        ${db.escape(instructor)},
-        ${db.escape(question_names)},
-        ${db.escape(function_names)},
-        ${db.escape(points)},
-        ${db.escape(test_cases)}
+      INSERT INTO grades VALUES (
+        DEFAULT,
+        '${exam_name}',
+        '${student}',
+        '${instructor}',
+        ${db.escape(JSON.stringify(question_ids))},
+        ${db.escape(JSON.stringify(student_responses))},
+        ${db.escape(JSON.stringify(instructor_comments))},
+        ${db.escape(JSON.stringify(points_earned))},
+        ${db.escape(JSON.stringify(points_max))}
       )
     `;
 
     db.query(query, err => {
       if (err) {
+        console.log(err);
         return res.json({
           error: true,
           msg: err,

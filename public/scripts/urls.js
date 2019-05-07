@@ -20,6 +20,7 @@ export const urls = {
   // grades
   grader: `${baseUrl}/grader`,
   getGrades: `${baseUrl}/grades`,
+  addGrade: `${baseUrl}/grades/add`,
   updateGrade: `${baseUrl}/grades/update`,
 };
 

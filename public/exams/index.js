@@ -15,8 +15,6 @@ let user = {};
   redirect().then(() => {
     user = getUser();
 
-    console.log(user);
-
     getExams(user);
 
     pageHandler();
@@ -30,10 +28,11 @@ function getExams(user = null) {
   if (user === null) return;
 
   // get the list of exams
-  return postObj(urls.getExams, user)
+  return postObj(urls.getExams, {
+    user,
+  })
     .then(res => res.json())
     .then(res => {
-      console.log(res);
       exams = res;
     })
     .then(() => {
@@ -108,17 +107,7 @@ async function submitExam() {
     question_constraints.push(question.question_constraints);
   }
 
-  console.log({
-    user,
-    function_names,
-    test_cases,
-    question_constraints,
-    ...selectedExam,
-    code,
-  });
-
   let gradeData = await postObj(urls.grader, {
-    user,
     function_names,
     test_cases,
     question_constraints,
@@ -131,7 +120,23 @@ async function submitExam() {
     (total, points) => (total += points)
   );
 
-  alert(`Earned ${earnedPoints} / 100`);
+  gradeData = {
+    user,
+    student: user.user,
+    instructor: selectedExam.instructor,
+    ...gradeData,
+    ...selectedExam,
+  };
 
-  console.log(gradeData);
+  postObj(urls.addGrade, gradeData)
+    .then(res => res.json())
+    .then(res => {
+      if (res.error) {
+        alert('Failed To Submit Exam');
+        console.error(res);
+        return;
+      }
+
+      alert(`Earned ${earnedPoints} / 100`);
+    });
 }

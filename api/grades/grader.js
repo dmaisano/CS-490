@@ -1,4 +1,3 @@
-const JSON5 = require('json5');
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('promisify-child-process');
@@ -8,13 +7,10 @@ const readline = require('readline');
 const writeFile = promisify(fs.writeFile);
 const platform = process.platform;
 
-const fetch = require('node-fetch');
-
 exports.grader = function(db) {
   return async (req, res, next) => {
     try {
       const {
-        user,
         function_names,
         test_cases,
         code,
@@ -22,12 +18,12 @@ exports.grader = function(db) {
         question_constraints,
       } = req.body;
 
-      if (user === undefined) {
-        return res.json(returnError('not auth'));
-      }
-
       if (code === undefined) {
-        return res.json(returnError('missing responses'));
+        res.status(500);
+        return res.json({
+          error: true,
+          msg: 'Missing Fields',
+        });
       }
 
       // data to return
@@ -217,11 +213,4 @@ async function getLines() {
         reject(err);
       });
   });
-}
-
-function returnError(msg) {
-  return {
-    error: true,
-    msg,
-  };
 }
