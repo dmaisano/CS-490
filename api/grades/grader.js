@@ -152,7 +152,7 @@ exports.grader = function(db) {
               );
 
               // run the program
-              const { stdout } = await spawn(
+              const { stdout, stderr } = await spawn(
                 platform === 'win32' ? 'python' : 'python3',
                 [path.join(__dirname, './code.py')],
                 { encoding: 'utf8' }
@@ -166,6 +166,11 @@ exports.grader = function(db) {
 
               if (!stdout.includes(testCase.output.toString())) {
                 points -= pointsToRemove;
+              }
+
+              if (stderr) {
+                points = 0;
+                comments = `Failed To Run Code`;
               }
             }
 

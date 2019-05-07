@@ -5,7 +5,7 @@ import { urls } from '../scripts/urls.js';
 
 window.viewGrade = viewGrade;
 window.selectStudent = selectStudent;
-window.editStudentGrade = editStudentGrade;
+// window.editStudentGrade = editStudentGrade;
 
 const examType = sessionStorage.getItem('exam-type');
 let user;
@@ -177,7 +177,6 @@ async function viewGrade(index) {
 
   const titleElems = gradeElem.querySelectorAll('.card-title');
 
-  console.log(titleElems[0]);
   titleElems[0].innerHTML = `${grade.exam_name}`;
   titleElems[1].innerHTML = `Total: ${totalGrade}`;
 
@@ -210,9 +209,6 @@ async function viewGrade(index) {
     let markup;
 
     switch (examType) {
-      case 'instructor-grades':
-        break;
-
       // student grades
       default:
         markup = `
