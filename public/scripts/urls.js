@@ -6,6 +6,7 @@ const baseUrl = `http://localhost:3000/api`;
 
 export const urls = {
   login: `${baseUrl}/login`,
+  getStudents: `${baseUrl}/students`,
 
   getTopics: `${baseUrl}/topics`,
 

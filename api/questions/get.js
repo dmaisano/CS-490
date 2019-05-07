@@ -1,8 +1,12 @@
 exports.getQuestions = function(db) {
   return (req, res) => {
+    const question_ids = req.body.question_ids;
+
     const query = `SELECT * FROM questions ORDER BY question_name`;
 
-    const questionIds = req.body.question_ids;
+    console.log({
+      question_ids,
+    });
 
     const data = [];
 
@@ -17,8 +21,8 @@ exports.getQuestions = function(db) {
 
       // this is really bad for time complexity
       // but we don't care :')
-      if (questionIds && questionIds.length) {
-        for (const id of questionIds) {
+      if (question_ids && question_ids.length) {
+        for (const id of question_ids) {
           for (const question of questions) {
             if (question.id !== id) continue;
 

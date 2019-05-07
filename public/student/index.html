@@ -37,10 +37,13 @@
       <h2 class="title user"></h2>
 
       <div class="button-group">
-        <!-- <a class="btn disabled" href="" disabl>View Grades</a> -->
-        <button type="button" class="btn" disabled>View Grades</button>
+        <button type="button" class="btn" onclick="viewGrades()">
+          View Grades
+        </button>
 
-        <a class="btn" onclick="viewExams()">Take Exam</a>
+        <button type="button" class="btn" onclick="viewExams()">
+          Take Exam
+        </button>
       </div>
     </div>
 
@@ -49,6 +52,7 @@
       import { getUser } from '../scripts/utils.js';
 
       window.viewExams = viewExams;
+      window.viewGrades = viewGrades;
 
       (function() {
         redirect().then(() => {
@@ -63,6 +67,12 @@
         sessionStorage.setItem('exam-type', 'take-exam');
 
         window.location.href = '../exams/index.html';
+      }
+
+      function viewGrades() {
+        sessionStorage.setItem('exam-type', 'student-grades');
+
+        window.location.href = '../grades/index.html';
       }
     </script>
   </body>

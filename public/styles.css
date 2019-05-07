@@ -127,6 +127,7 @@ a:disabled {
   border-bottom-right-radius: 0.1rem;
 }
 
+.grade,
 .exam {
   height: 100vh;
   width: 100vw;
@@ -135,24 +136,28 @@ a:disabled {
   align-items: center;
 }
 
-.exam .card {
+.grade .card,
+  .exam .card {
   width: 95%;
   height: 95%;
   max-height: 95%;
 }
 
-.exam .card-title {
+.grade .card-title,
+    .exam .card-title {
   height: 7.5vh;
   padding-top: 2.5vh;
 }
 
-.exam .card .questions {
+.grade .card .questions,
+    .exam .card .questions {
   height: 75vh;
   max-height: 75vh;
   overflow: auto;
 }
 
-.exam .card .questions .question {
+.grade .card .questions .question,
+      .exam .card .questions .question {
   border: 0.05rem solid #dadee4;
   border-radius: 0.15rem;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -161,20 +166,25 @@ a:disabled {
   padding: 0.25rem 0.4rem;
 }
 
-.exam .card .questions .question .points {
+.grade .card .questions .question .points,
+        .exam .card .questions .question .points {
   font-size: 1.25rem;
   font-weight: 600;
 }
 
-.exam .card .questions .question:not(:first-child) {
+.grade .card .questions .question:not(:first-child),
+        .exam .card .questions .question:not(:first-child) {
   margin-top: 1rem;
 }
 
-.exam-title {
+.grade-title,
+  .exam-title {
   height: 5vh;
 }
 
-.exam-links {
+.grade-links,
+  .exam-links,
+  .grade-links .student-links {
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -182,7 +192,9 @@ a:disabled {
   width: 100%;
 }
 
-.exam-links .title {
+.grade-links .title,
+    .exam-links .title,
+    .grade-links .student-links .title {
   height: 5vh;
   margin: 2.5vh 0;
   color: #fbfbfb;
@@ -190,7 +202,9 @@ a:disabled {
   text-align: center;
 }
 
-.exam-links .container {
+.grade-links .container,
+    .exam-links .container,
+    .grade-links .student-links .container {
   height: 76vh;
   max-height: 76vh;
   width: 50%;
@@ -198,11 +212,15 @@ a:disabled {
   overflow-y: auto;
 }
 
-.exam-links .container .btn {
+.grade-links .container .btn,
+      .exam-links .container .btn,
+      .grade-links .student-links .container .btn {
   font-size: 2rem;
 }
 
-.exam-links .container .btn:not(:first-child) {
+.grade-links .container .btn:not(:first-child),
+        .exam-links .container .btn:not(:first-child),
+        .grade-links .student-links .container .btn:not(:first-child) {
   margin-top: 5%;
 }
 

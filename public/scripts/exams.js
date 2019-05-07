@@ -1,33 +1,78 @@
-import { convertName } from '../scripts/utils.js';
+import { convertName, getUser } from '../scripts/utils.js';
 import { postObj } from '../scripts/fetch.js';
 import { urls } from './urls.js';
+
+const examType = sessionStorage.getItem('exam-type');
+
+export async function renderStudentLinks(container = null) {
+  if (!container) {
+    container = document.querySelector('.exam-links .container');
+  }
+
+  let students = await postObj(urls.getStudents, getUser());
+  students = await students.json();
+
+  console.log({
+    students,
+  });
+}
 
 /**
  * Render the exam links
  * @param {Array} exams
  * @param {*} container
  */
-export function renderExamLinks(exams = null, container = null) {
+export async function renderExamLinks(exams = null, container = null) {
   if (exams === null) return;
 
   if (!container) {
     container = document.querySelector('.exam-links .container');
   }
 
-  if (exams.length < 1) {
+  let availableExams = [];
+
+  let takenExams = [];
+
+  if (getUser().type === 'student' && examType === 'take-exam') {
+    takenExams = await postObj(urls.getExams, getUser());
+    takenExams = await takenExams.json();
+  }
+
+  // remove taken exams for students
+  if (takenExams.length) {
+    for (const exam of exams) {
+      for (let j = 0; j < takenExams.length; j++) {
+        const takenExam = takenExams[j];
+
+        if (exam.exam_name === takenExam.exam_name) {
+          break;
+        }
+
+        if (j === takenExams.length - 1) {
+          availableExams.push(exam);
+        }
+      }
+    }
+  } else {
+    for (const exam of exams) {
+      availableExams.push(exam);
+    }
+  }
+
+  if (availableExams.length < 1) {
     const link = document.createElement('button');
 
     link.setAttribute('type', 'button');
     link.setAttribute('class', 'btn');
     link.setAttribute('disabled', '');
-    link.innerHTML = `No Exams Added`;
+    link.innerHTML = `No Exams`;
 
     container.appendChild(link);
     return;
   }
 
-  for (let i = 0; i < exams.length; i++) {
-    const exam = exams[i];
+  for (let i = 0; i < availableExams.length; i++) {
+    const exam = availableExams[i];
 
     const link = document.createElement('button');
 
@@ -77,6 +122,10 @@ export function renderExam(
     return;
   }
 
+  if (examType === 'instructor-grades') {
+    console.log('owo');
+  }
+
   postObj(urls.getQuestions, {
     question_ids: exam.question_ids,
   })
@@ -114,7 +163,7 @@ function renderQuestion(
 
   let markup;
 
-  switch (sessionStorage.getItem('exam-type')) {
+  switch (examType) {
     case 'take-exam':
       markup = `
         <label class="points">Points: ${points}</label>
@@ -123,15 +172,30 @@ function renderQuestion(
       `;
       break;
 
-    case 'view-grade':
+    case 'instructor-grades':
+      markup = `
+        <label class="points">Points: ${points}</label>
+        <textarea name="description" class="description" rows="5" readonly></textarea>
+        <textarea name="code" class="code" rows="10" placeholder="Code"></textarea>
+      `;
       break;
 
-    // view exam
-    default:
+    case 'view-exams':
       markup = `
-          <label class="points">Points: ${points}</label>
-          <textarea name="description" class="description" readonly></textarea>
-        `;
+        <label class="points">Points: ${points}</label>
+        <textarea name="description" class="description" rows="5" readonly></textarea>
+      `;
+      break;
+
+    case 'student-grades':
+      markup = `
+        <label class="points">Points: ${points}</label>
+        <textarea name="description" class="description" rows="5" readonly></textarea>
+      `;
+      break;
+
+    default:
+      console.log('owo');
       break;
   }
 

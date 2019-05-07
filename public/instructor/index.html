@@ -53,10 +53,13 @@
       </div>
 
       <div class="button-group">
-        <!-- <a class="btn" href="../grades/index.html">View Grades</a> -->
-        <button type="button" class="btn" disabled>View Grades</button>
+        <button type="button" class="btn" onclick="viewGrades()">
+          View Grades
+        </button>
 
-        <a class="btn" href="../exams/index.html">View Exams</a>
+        <button type="button" class="btn" onclick="viewExams()">
+          View Exams
+        </button>
 
         <a class="btn" href="../exams/create.html">Create Exam</a>
 
@@ -68,6 +71,9 @@
       import { redirect } from '../scripts/redirect.js';
       import { getUser } from '../scripts/utils.js';
 
+      window.viewExams = viewExams;
+      window.viewGrades = viewGrades;
+
       (function() {
         redirect('instructor').then(() => {
           const user = getUser();
@@ -75,6 +81,18 @@
           document.querySelector('.user').innerHTML = user.user.toUpperCase();
         });
       })();
+
+      function viewExams() {
+        sessionStorage.setItem('exam-type', 'view-exams');
+
+        window.location.href = '../exams/index.html';
+      }
+
+      function viewGrades() {
+        sessionStorage.setItem('exam-type', 'instructor-grades');
+
+        window.location.href = '../grades/index.html';
+      }
     </script>
   </body>
 </html>

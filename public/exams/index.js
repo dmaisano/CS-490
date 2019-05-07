@@ -1,8 +1,14 @@
-import { renderExamLinks, selectExam } from '../scripts/exams.js';
+import {
+  renderExamLinks,
+  selectExam,
+  renderStudentLinks,
+} from '../scripts/exams.js';
 import { postObj } from '../scripts/fetch.js';
 import { redirect } from '../scripts/redirect.js';
 import { urls } from '../scripts/urls.js';
 import { getUser } from '../scripts/utils.js';
+
+const examType = sessionStorage.getItem('exam-type');
 
 window.viewExam = viewExam;
 window.submitExam = submitExam;
@@ -27,16 +33,49 @@ let user = {};
 function getExams(user = null) {
   if (user === null) return;
 
-  // get the list of exams
-  return postObj(urls.getExams, {
-    user,
-  })
+  let url;
+
+  switch (examType) {
+    case 'view-exams':
+      url = urls.getExams;
+      break;
+
+    case 'take-exam':
+      url = urls.getExams;
+      break;
+
+    case 'instructor-grades':
+      url = urls.getGrades;
+      break;
+
+    case 'student-grades':
+      url = urls.getGrades;
+      break;
+
+    default:
+      break;
+  }
+
+  return postObj(url, getUser())
     .then(res => res.json())
     .then(res => {
       exams = res;
     })
     .then(() => {
-      renderExamLinks(exams, document.querySelector('.exam-links .container'));
+      switch (examType) {
+        case 'instructor-grades':
+          renderStudentLinks(
+            document.querySelector('.student-links .container')
+          );
+          break;
+
+        default:
+          renderExamLinks(
+            exams,
+            document.querySelector('.exam-links .container')
+          );
+          break;
+      }
     });
 }
 
@@ -46,21 +85,21 @@ function getExams(user = null) {
  */
 function viewExam(index = null) {
   if (index === null) return;
-
-  const examType = sessionStorage.getItem('exam-type');
+  ``;
 
   selectedExam = exams[index];
+
   selectExam(exams, index, document.querySelector('.exam-links'), examType);
 }
 
 // handle the mode based on 'exam-type'
 function pageHandler() {
   const exam = document.querySelector('.exam > .card > .card-body');
-  const examType = sessionStorage.getItem('exam-type');
+
+  const submitBtn = document.createElement('button');
 
   switch (examType) {
     case 'take-exam':
-      const submitBtn = document.createElement('button');
       submitBtn.setAttribute('type', 'button');
       submitBtn.setAttribute('class', 'btn btn-success');
       submitBtn.setAttribute('onclick', 'submitExam()');
@@ -69,10 +108,15 @@ function pageHandler() {
       exam.appendChild(submitBtn);
       break;
 
-    case 'view-grade':
+    case 'instructor-grades':
+      submitBtn.setAttribute('type', 'button');
+      submitBtn.setAttribute('class', 'btn btn-success');
+      submitBtn.setAttribute('onclick', 'updateGrade()');
+      submitBtn.innerHTML = `Update Grade`;
+
+      exam.appendChild(submitBtn);
       break;
 
-    // view exam
     default:
       break;
   }
@@ -116,10 +160,6 @@ async function submitExam() {
   });
   gradeData = await gradeData.json();
 
-  const earnedPoints = gradeData.points_earned.reduce(
-    (total, points) => (total += points)
-  );
-
   gradeData = {
     user,
     student: user.user,
@@ -137,6 +177,6 @@ async function submitExam() {
         return;
       }
 
-      alert(`Earned ${earnedPoints} / 100`);
+      alert(`Successfully Submitted Exam ${selectedExam.exam_name}`);
     });
 }
