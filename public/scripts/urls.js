@@ -18,8 +18,9 @@ export const urls = {
   createExam: `${baseUrl}/exams/add`,
 
   // grades
-  getExams: `${baseUrl}/grades`,
   grader: `${baseUrl}/grader`,
+  getGrades: `${baseUrl}/grades`,
+  updateGrade: `${baseUrl}/grades/update`,
 };
 
 // 'https://web.njit.edu/~jps78/middle/sendingCurl.php'

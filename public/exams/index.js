@@ -15,6 +15,8 @@ let user = {};
   redirect().then(() => {
     user = getUser();
 
+    console.log(user);
+
     getExams(user);
 
     pageHandler();
@@ -31,6 +33,7 @@ function getExams(user = null) {
   return postObj(urls.getExams, user)
     .then(res => res.json())
     .then(res => {
+      console.log(res);
       exams = res;
     })
     .then(() => {
