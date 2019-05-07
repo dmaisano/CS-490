@@ -29,6 +29,10 @@
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
-    "mysql": "^2.16.0"
+    "json5": "^2.1.0",
+    "line-by-line": "^0.1.6",
+    "mysql": "^2.16.0",
+    "node-fetch": "^2.5.0",
+    "promisify-child-process": "^3.1.0"
   }
 }

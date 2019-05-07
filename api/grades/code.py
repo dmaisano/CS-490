@@ -1,4 +1,6 @@
 def add(a, b):
 	res = a + b
-	print(res)
 	return res
+
+
+print(add(0, 10))

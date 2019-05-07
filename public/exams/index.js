@@ -8,7 +8,7 @@ window.viewExam = viewExam;
 window.submitExam = submitExam;
 
 let exams = [];
-// let selectedExam = {};
+let selectedExam = {};
 let user = {};
 
 (function() {
@@ -50,6 +50,7 @@ function viewExam(index = null) {
 
   const examType = sessionStorage.getItem('exam-type');
 
+  selectedExam = exams[index];
   selectExam(exams, index, document.querySelector('.exam-links'), examType);
 }
 
@@ -78,8 +79,8 @@ function pageHandler() {
   }
 }
 
-function submitExam() {
-  const student_responses = [];
+async function submitExam() {
+  const code = [];
 
   let elem = document.querySelectorAll('.questions .code');
   for (let i = 0; i < elem.length; i++) {
@@ -91,20 +92,46 @@ function submitExam() {
       return;
     }
 
-    student_responses.push(response);
+    code.push(response);
   }
 
-  // postObj(urls.grader, {
-  //   user,
-  //   student_responses,
-  // })
-  //   .then(res => res.json())
-  //   .res(res => {
-  //     console.log(res);
-  //   })
-  //   .catch(err => {
-  //     alert('Failed to Submit Exam');
-  //     console.error(err);
-  //     return;
-  //   });
+  let questions = await postObj(urls.getQuestions, selectedExam.question_ids);
+  questions = await questions.json();
+
+  const question_constraints = [];
+  const test_cases = [];
+  const function_names = [];
+
+  for (const question of questions) {
+    function_names.push(question.function_name);
+    test_cases.push(question.test_cases);
+    question_constraints.push(question.question_constraints);
+  }
+
+  console.log({
+    user,
+    function_names,
+    test_cases,
+    question_constraints,
+    ...selectedExam,
+    code,
+  });
+
+  let gradeData = await postObj(urls.grader, {
+    user,
+    function_names,
+    test_cases,
+    question_constraints,
+    ...selectedExam,
+    code,
+  });
+  gradeData = await gradeData.json();
+
+  const earnedPoints = gradeData.points_earned.reduce(
+    (total, points) => (total += points)
+  );
+
+  alert(`Earned ${earnedPoints} / 100`);
+
+  console.log(gradeData);
 }
