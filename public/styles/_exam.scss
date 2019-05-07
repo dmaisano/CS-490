@@ -1,3 +1,4 @@
+.student,
 .grade,
 .exam {
   height: 100vh;
@@ -47,6 +48,7 @@
     height: 5vh;
   }
 
+  .student-links,
   &-links {
     display: flex;
     flex-direction: column;
@@ -83,6 +85,6 @@
   }
 }
 
-.grade-links .student-links {
-  @extend .exam-links;
-}
+// .grade-links .student-links {
+//   @extend .exam-links;
+// }

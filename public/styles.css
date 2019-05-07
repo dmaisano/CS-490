@@ -127,6 +127,7 @@ a:disabled {
   border-bottom-right-radius: 0.1rem;
 }
 
+.student,
 .grade,
 .exam {
   height: 100vh;
@@ -136,27 +137,31 @@ a:disabled {
   align-items: center;
 }
 
-.grade .card,
+.student .card,
+  .grade .card,
   .exam .card {
   width: 95%;
   height: 95%;
   max-height: 95%;
 }
 
-.grade .card-title,
+.student .card-title,
+    .grade .card-title,
     .exam .card-title {
   height: 7.5vh;
   padding-top: 2.5vh;
 }
 
-.grade .card .questions,
+.student .card .questions,
+    .grade .card .questions,
     .exam .card .questions {
   height: 75vh;
   max-height: 75vh;
   overflow: auto;
 }
 
-.grade .card .questions .question,
+.student .card .questions .question,
+      .grade .card .questions .question,
       .exam .card .questions .question {
   border: 0.05rem solid #dadee4;
   border-radius: 0.15rem;
@@ -166,25 +171,30 @@ a:disabled {
   padding: 0.25rem 0.4rem;
 }
 
-.grade .card .questions .question .points,
+.student .card .questions .question .points,
+        .grade .card .questions .question .points,
         .exam .card .questions .question .points {
   font-size: 1.25rem;
   font-weight: 600;
 }
 
-.grade .card .questions .question:not(:first-child),
+.student .card .questions .question:not(:first-child),
+        .grade .card .questions .question:not(:first-child),
         .exam .card .questions .question:not(:first-child) {
   margin-top: 1rem;
 }
 
-.grade-title,
+.student-title,
+  .grade-title,
   .exam-title {
   height: 5vh;
 }
 
-.grade-links,
-  .exam-links,
-  .grade-links .student-links {
+.student .student-links, .student-links,
+  .grade .student-links,
+  .grade-links,
+  .exam .student-links,
+  .exam-links {
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -192,9 +202,11 @@ a:disabled {
   width: 100%;
 }
 
-.grade-links .title,
-    .exam-links .title,
-    .grade-links .student-links .title {
+.student .student-links .title, .student-links .title,
+    .grade .student-links .title,
+    .grade-links .title,
+    .exam .student-links .title,
+    .exam-links .title {
   height: 5vh;
   margin: 2.5vh 0;
   color: #fbfbfb;
@@ -202,9 +214,11 @@ a:disabled {
   text-align: center;
 }
 
-.grade-links .container,
-    .exam-links .container,
-    .grade-links .student-links .container {
+.student .student-links .container, .student-links .container,
+    .grade .student-links .container,
+    .grade-links .container,
+    .exam .student-links .container,
+    .exam-links .container {
   height: 76vh;
   max-height: 76vh;
   width: 50%;
@@ -212,15 +226,19 @@ a:disabled {
   overflow-y: auto;
 }
 
-.grade-links .container .btn,
-      .exam-links .container .btn,
-      .grade-links .student-links .container .btn {
+.student .student-links .container .btn, .student-links .container .btn,
+      .grade .student-links .container .btn,
+      .grade-links .container .btn,
+      .exam .student-links .container .btn,
+      .exam-links .container .btn {
   font-size: 2rem;
 }
 
-.grade-links .container .btn:not(:first-child),
-        .exam-links .container .btn:not(:first-child),
-        .grade-links .student-links .container .btn:not(:first-child) {
+.student .student-links .container .btn:not(:first-child), .student-links .container .btn:not(:first-child),
+        .grade .student-links .container .btn:not(:first-child),
+        .grade-links .container .btn:not(:first-child),
+        .exam .student-links .container .btn:not(:first-child),
+        .exam-links .container .btn:not(:first-child) {
   margin-top: 5%;
 }
 

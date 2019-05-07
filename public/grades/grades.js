@@ -4,9 +4,11 @@ import { postObj } from '../scripts/fetch.js';
 import { urls } from '../scripts/urls.js';
 
 window.viewGrade = viewGrade;
+window.selectStudent = selectStudent;
 
 const examType = sessionStorage.getItem('exam-type');
 let user;
+let selectedStudent;
 
 (function() {
   redirect().then(() => {
@@ -14,19 +16,71 @@ let user;
 
     switch (examType) {
       case 'instructor-grades':
+        const studentLinks = document.querySelector('.student-links');
+        studentLinks.classList.remove('hidden');
+
+        renderStudentLinks();
+
         break;
 
       // student grades
       default:
         const gradeLinks = document.querySelector('.grade-links');
         gradeLinks.classList.remove('hidden');
+
         renderGradeLinks();
         break;
     }
   });
 })();
 
-export async function renderGradeLinks() {
+async function renderStudentLinks() {
+  const container = document.querySelector('.student-links .container');
+
+  let students = await postObj(urls.getStudents, user);
+  students = await students.json();
+
+  if (students.length < 1) {
+    const link = document.createElement('button');
+
+    link.setAttribute('type', 'button');
+    link.setAttribute('class', 'btn');
+    link.setAttribute('disabled', '');
+    link.innerHTML = `No Students`;
+
+    container.appendChild(link);
+    return;
+  }
+
+  for (const student of students) {
+    const link = document.createElement('button');
+
+    link.setAttribute('type', 'button');
+    link.setAttribute('class', 'btn');
+    link.setAttribute('data-student', student.user);
+    link.setAttribute('onclick', `selectStudent('${student.user}')`);
+
+    link.innerHTML = `${student.user}`;
+
+    container.appendChild(link);
+  }
+}
+
+function selectStudent(student) {
+  selectedStudent = student;
+
+  console.log(selectedStudent);
+
+  const studentLinks = document.querySelector('.student-links');
+  studentLinks.classList.add('hidden');
+
+  const gradeLinks = document.querySelector('.grade-links');
+  gradeLinks.classList.remove('hidden');
+
+  renderGradeLinks({ user: selectedStudent, type: 'student' }, true);
+}
+
+async function renderGradeLinks(user = getUser(), instructor = false) {
   const container = document.querySelector('.grade-links .container');
 
   let grades = await postObj(urls.getGrades, user);
@@ -52,13 +106,20 @@ export async function renderGradeLinks() {
     link.setAttribute('class', 'btn');
     link.setAttribute('id', convertName(grade.exam_name, 'id'));
     link.setAttribute('data-index', i);
-    link.setAttribute('onclick', `viewGrade(${i})`);
+
+    if (instructor) {
+      link.setAttribute('onclick', `editStudentGrade(${i})`);
+    } else {
+      link.setAttribute('onclick', `viewGrade(${i})`);
+    }
 
     link.innerHTML = `${grade.exam_name}`;
 
     container.appendChild(link);
   }
 }
+
+async function editStudentGrade(index) {}
 
 async function viewGrade(index) {
   let grades = await postObj(urls.getGrades, user);
