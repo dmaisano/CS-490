@@ -25,39 +25,33 @@ export async function renderStudentLinks(container = null) {
 export async function renderExamLinks(exams = null, container = null) {
   if (exams === null) return;
 
+  exams = await postObj(urls.getExams, {
+    user: 'professor',
+    type: 'instructor',
+  });
+  exams = await exams.json();
+
+  console.log(exams);
+
   if (!container) {
     container = document.querySelector('.exam-links .container');
   }
 
-  let availableExams = [];
-
-  let takenExams = [];
+  let availableExams;
 
   if (getUser().type === 'student' && examType === 'take-exam') {
-    takenExams = await postObj(urls.getExams, getUser());
-    takenExams = await takenExams.json();
-  }
-
-  // remove taken exams for students
-  if (takenExams.length) {
-    for (const exam of exams) {
-      for (let j = 0; j < takenExams.length; j++) {
-        const takenExam = takenExams[j];
-
-        if (exam.exam_name === takenExam.exam_name) {
-          break;
-        }
-
-        if (j === takenExams.length - 1) {
-          availableExams.push(exam);
-        }
-      }
-    }
+    availableExams = await postObj(urls.getAvailableExams, {
+      user: getUser().user,
+      type: 'student',
+    });
   } else {
-    for (const exam of exams) {
-      availableExams.push(exam);
-    }
+    availableExams = await postObj(urls.getAvailableExams, {
+      user: 'professor',
+      type: 'instructor',
+    });
   }
+
+  availableExams = await availableExams.json();
 
   if (availableExams.length < 1) {
     const link = document.createElement('button');
@@ -80,7 +74,7 @@ export async function renderExamLinks(exams = null, container = null) {
     link.setAttribute('class', 'btn');
     link.setAttribute('id', convertName(exam.exam_name, 'id'));
     link.setAttribute('data-index', i);
-    link.setAttribute('onclick', `viewExam(${i})`);
+    link.setAttribute('onclick', `viewExam('${exam.exam_name}')`);
 
     link.innerHTML = `${exam.exam_name}`;
 
@@ -96,18 +90,15 @@ export async function renderExamLinks(exams = null, container = null) {
  * @returns {String | Boolean}
  */
 export function selectExam(
-  exams,
-  index,
+  exam,
   links = document.querySelector('.exam-links')
 ) {
-  const exam = exams[index];
-
-  if (!exam) return false;
-
   // hide the links and show the exam
   links.classList.add('hidden');
 
   document.querySelector('.exam').classList.remove('hidden');
+
+  console.log(exam);
 
   // render the exam
   renderExam(exam);
@@ -125,6 +116,8 @@ export function renderExam(
   if (examType === 'instructor-grades') {
     console.log('owo');
   }
+
+  console.log(exam);
 
   postObj(urls.getQuestions, {
     question_ids: exam.question_ids,

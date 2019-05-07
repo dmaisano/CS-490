@@ -50,3 +50,62 @@ exports.getExams = function(db) {
     });
   };
 };
+
+exports.getAvailableExams = function(db) {
+  return async (req, res) => {
+    const { user, type } = req.body;
+
+    if (type === undefined) {
+      res.status(403);
+      return res.json({
+        error: true,
+        message: 'Not Auth',
+      });
+    }
+
+    let query = `SELECT * FROM exams`;
+
+    let takenExams = false;
+
+    if (type === 'student') {
+      takenExams = await getStudentGrades(db, user);
+    }
+
+    const data = [];
+
+    db.query(query, (err, exams) => {
+      if (err) {
+        return res.send(err);
+      }
+
+      if (exams.length === 0) {
+        return res.json([]);
+      }
+
+      for (const exam of exams) {
+        exam.question_ids = JSON.parse(exam.question_ids);
+        exam.points_max = JSON.parse(exam.points_max);
+
+        if (type === 'student') {
+          for (let i = 0; i < takenExams.length; i++) {
+            const takenExam = takenExams[i];
+
+            // if (exam.exam_name === takenExam.exam_name) {
+            //   data.push(exam);
+            // }
+
+            if (exam.exam_name === takenExam.exam_name) {
+              break;
+            }
+
+            if (i === takenExams.length - 1) {
+              data.push(exam);
+            }
+          }
+        }
+      }
+
+      return res.send(data);
+    });
+  };
+};

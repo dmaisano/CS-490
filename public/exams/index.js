@@ -83,13 +83,29 @@ function getExams(user = null) {
  * Choose the exam to view / take / grade
  * @param {number} index
  */
-function viewExam(index = null) {
-  if (index === null) return;
-  ``;
+async function viewExam(examName = null) {
+  console.log({
+    examName,
+  });
 
-  selectedExam = exams[index];
+  if (examName === null) return;
 
-  selectExam(exams, index, document.querySelector('.exam-links'), examType);
+  let foo = await postObj(urls.getExams, {
+    user: 'professor',
+    type: 'instructor',
+  });
+  foo = await foo.json();
+
+  for (const bar of foo) {
+    if (bar.exam_name == examName) {
+      selectedExam = bar;
+      break;
+    }
+  }
+
+  // selectedExam = exams[index];
+
+  selectExam(selectedExam, document.querySelector('.exam-links'), examType);
 }
 
 // handle the mode based on 'exam-type'

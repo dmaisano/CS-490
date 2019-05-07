@@ -27,9 +27,11 @@ router.post('/questions', getQuestions(db));
 router.post('/questions/add', addQuestion(db));
 
 // exams
-const { getExams, addExam } = require('../exams');
+const { getExams, getAvailableExams, addExam } = require('../exams');
 router.post('/exams', getExams(db));
 router.get('/exams', getExams(db));
+router.post('/exams/available', getAvailableExams(db));
+router.post('/exams/add', addExam(db));
 router.post('/exams/add', addExam(db));
 
 // grades

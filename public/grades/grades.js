@@ -5,10 +5,12 @@ import { urls } from '../scripts/urls.js';
 
 window.viewGrade = viewGrade;
 window.selectStudent = selectStudent;
+window.editStudentGrade = editStudentGrade;
 
 const examType = sessionStorage.getItem('exam-type');
 let user;
 let selectedStudent;
+let selectedGrade;
 
 (function() {
   redirect().then(() => {
@@ -108,7 +110,7 @@ async function renderGradeLinks(user = getUser(), instructor = false) {
     link.setAttribute('data-index', i);
 
     if (instructor) {
-      link.setAttribute('onclick', `editStudentGrade(${i})`);
+      link.setAttribute('onclick', `viewGrade(${i})`);
     } else {
       link.setAttribute('onclick', `viewGrade(${i})`);
     }
@@ -119,10 +121,46 @@ async function renderGradeLinks(user = getUser(), instructor = false) {
   }
 }
 
-async function editStudentGrade(index) {}
+async function editStudentGrade(index) {
+  let grades = await postObj(urls.getGrades, user);
+  grades = await grades.json();
+
+  document.querySelector('.student-links').classList.add('hidden');
+
+  const gradeElem = document.querySelector('.grade');
+  gradeElem.classList.remove('hidden');
+  document.querySelector('.grade-links').classList.add('hidden');
+
+  const grade = grades[index];
+
+  const totalGrade = grade.points_earned.reduce(
+    (total, points) => (total += points)
+  );
+
+  const titleElems = gradeElem.querySelectorAll('.card-title');
+  titleElems[0].innerHTML = `${grade.exam_name}`;
+  titleElems[1].innerHTML = `Total: ${totalGrade}`;
+
+  selectedGrade = grade;
+
+  let questions = await postObj(urls.getQuestions, {
+    question_ids: grade.question_ids,
+  });
+  questions = await questions.json();
+}
 
 async function viewGrade(index) {
-  let grades = await postObj(urls.getGrades, user);
+  let grades = [];
+
+  if (getUser().type === 'instructor') {
+    grades = await postObj(urls.getGrades, {
+      user: selectedStudent,
+      type: 'student',
+    });
+  } else {
+    grades = await postObj(urls.getGrades, user);
+  }
+
   grades = await grades.json();
 
   document.querySelector('.student-links').classList.add('hidden');

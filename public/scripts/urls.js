@@ -2,8 +2,8 @@
  * export backend urls
  */
 
-const baseUrl = `http://localhost:3000/api`;
-// const baseUrl = 'https://loud-starfish-52.localtunnel.me/api';
+// const baseUrl = `http://localhost:3000/api`;
+const baseUrl = 'https://rude-tiger-28.localtunnel.me/api';
 
 export const urls = {
   login: `${baseUrl}/login`,
@@ -17,6 +17,7 @@ export const urls = {
 
   // exams
   getExams: `${baseUrl}/exams`,
+  getAvailableExams: `${baseUrl}/exams/available`,
   createExam: `${baseUrl}/exams/add`,
 
   // grades
