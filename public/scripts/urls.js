@@ -2,27 +2,27 @@
  * export backend urls
  */
 
-const baseUrl = `http://localhost:3000/api`;
+const baseUrl = 'https://web.njit.edu/~jps78/middle/sendingCurl.php';
 
 export const urls = {
-  login: `${baseUrl}/login`,
-  getStudents: `${baseUrl}/students`,
+  login: baseUrl,
+  getStudents: baseUrl,
 
-  getTopics: `${baseUrl}/topics`,
+  getTopics: baseUrl,
 
   // questions
-  getQuestions: `${baseUrl}/questions`,
-  createQuestion: `${baseUrl}/questions/add`,
+  getQuestions: baseUrl,
+  createQuestion: baseUrl,
 
   // exams
-  getExams: `${baseUrl}/exams`,
-  createExam: `${baseUrl}/exams/add`,
+  getExams: baseUrl,
+  createExam: baseUrl,
 
   // grades
-  grader: `${baseUrl}/grader`,
-  getGrades: `${baseUrl}/grades`,
-  addGrade: `${baseUrl}/grades/add`,
-  updateGrade: `${baseUrl}/grades/update`,
+  grader: baseUrl,
+  getGrades: baseUrl,
+  addGrade: baseUrl,
+  updateGrade: baseUrl,
 };
 
 // 'https://web.njit.edu/~jps78/middle/sendingCurl.php'
