@@ -1,10 +1,11 @@
 {
-  "name": "490",
-  "version": "1.0.0",
+  "name": "trash-grading-system",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel src/index.html",
+    "why": "echo \"Why are you even using this app??\" && exit 69"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/dmaisano/CS-490/issues"
   },
-  "homepage": "https://github.com/dmaisano/CS-490#readme"
+  "homepage": "https://github.com/dmaisano/CS-490#readme",
+  "devDependencies": {
+    "parcel": "^1.12.3",
+    "sass": "^1.20.1",
+    "typescript": "^3.4.5"
+  }
 }

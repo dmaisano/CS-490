@@ -1,16 +1,19 @@
 .DS_Store
 .ICEauthority
+package-lock.json
+node_modules
+dist
+.cache
 
+# python student code
 *.py
 
-styles/**/*.css
+# css nonsense
+*.css
 
 # sensitive config files
 .env
-**/config/*.php
+database.php
 
 # ignore sample / test files
 test.*
-
-package-lock.json
-node_modules
