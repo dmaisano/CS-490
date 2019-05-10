@@ -1,38 +1,20 @@
 {
-  "name": "cs490",
-  "version": "0.3.0",
-  "description": "NJIT CS 490 Project",
+  "name": "490",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "serve": "gulp serve",
-    "api": "nodemon api/app.js --watch api/"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dmaisano/CS-490.git"
   },
   "keywords": [],
-  "author": "Domenico Maisano",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dmaisano/CS-490/issues"
   },
-  "homepage": "https://github.com/dmaisano/CS-490#readme",
-  "devDependencies": {
-    "browser-sync": "^2.26.3",
-    "gulp": "^3.9.1",
-    "gulp-cssbeautify": "^1.0.1",
-    "gulp-sass": "^3.1.0",
-    "node-sass": "^4.11.0",
-    "nodemon": "^1.19.0"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^7.0.0",
-    "express": "^4.16.4",
-    "json5": "^2.1.0",
-    "line-by-line": "^0.1.6",
-    "mysql": "^2.16.0",
-    "node-fetch": "^2.5.0",
-    "promisify-child-process": "^3.1.0"
-  }
+  "homepage": "https://github.com/dmaisano/CS-490#readme"
 }
