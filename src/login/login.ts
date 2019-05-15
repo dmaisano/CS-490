@@ -1,9 +1,21 @@
+import { createElem } from '../scripts/utils';
+
 export function LoginHandler(root: HTMLDivElement) {
   root.innerHTML = LoginPage;
 
   const card = root.querySelector('.login-card');
 
-  console.log(card);
+  const btn = createElem({
+    type: 'button',
+    innerHTML: `click me`,
+  });
+
+  root.appendChild(btn);
+
+  console.log({
+    card,
+    btn,
+  });
 }
 
 const LoginPage: string = /*html*/ `
