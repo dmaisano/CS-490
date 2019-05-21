@@ -1,16 +1,8 @@
-import { LoginHandler } from './login/login';
-
-const routes = {
-  '/': LoginHandler,
-};
+import { routeHandler } from './routes';
 
 const AppRoot: HTMLDivElement = document.querySelector('body #root');
 
 (function() {
-  const routeHandler = routes[getRoute()];
+  // initialize the router
   routeHandler(AppRoot);
 })();
-
-function getRoute(): string {
-  return window.location.pathname;
-}

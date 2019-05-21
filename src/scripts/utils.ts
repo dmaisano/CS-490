@@ -1,10 +1,4 @@
-export function createElem({
-  type,
-  id,
-  className,
-  attributes,
-  innerHTML,
-}: {
+export interface createElemOptions {
   type?: string;
   id?: string;
   className?: string;
@@ -13,26 +7,48 @@ export function createElem({
     data: string;
   }[];
   innerHTML?: string;
-}): HTMLElement {
-  const elem = document.createElement(type === null ? 'div' : type);
+}
 
-  if (id) {
-    elem.setAttribute('id', id);
+/**
+ * Creates and returns a new HTML element
+ *
+ * @param options options / config object
+ */
+export function createElem(options: createElemOptions): HTMLElement {
+  const elem = document.createElement(
+    options.type === null ? 'div' : options.type
+  );
+
+  if (options.id) {
+    elem.setAttribute('id', options.id);
   }
 
-  if (className) {
-    elem.setAttribute('class', className);
+  if (options.className) {
+    elem.setAttribute('class', options.className);
   }
 
-  if (attributes && attributes.length) {
-    for (const obj of attributes) {
+  if (options.attributes && options.attributes.length) {
+    for (const obj of options.attributes) {
       elem.setAttribute(obj.attribute, obj.data);
     }
   }
 
-  if (innerHTML) {
-    elem.innerHTML = innerHTML;
+  if (options.innerHTML) {
+    elem.innerHTML = options.innerHTML;
   }
 
   return elem;
+}
+
+/**
+ * Removes any children elems attached to the root elem
+ *
+ * @param AppRoot The root element of the app
+ */
+export function cleanRoot(
+  AppRoot: HTMLDivElement = document.querySelector('body #root')
+): void {
+  while (AppRoot.firstChild) {
+    AppRoot.removeChild(AppRoot.firstChild);
+  }
 }

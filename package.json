@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html",
-    "why": "echo \"Why are you even using this app??\" && exit 69"
+    "start": "parcel src/index.html"
   },
   "repository": {
     "type": "git",

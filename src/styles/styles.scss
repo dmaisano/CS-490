@@ -1,9 +1,18 @@
-// FA5
-@import url('https://use.fontawesome.com/releases/v5.8.2/css/all.css');
-
-// MDL
-@import '../../node_modules/material-design-lite/material.min.css';
-
+// CSS Reset
 * {
   box-sizing: border-box;
 }
+
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+}
+
+// utils
+@import '_card';
+
+// pages
+
+// FA5
+// @import url('https://use.fontawesome.com/releases/v5.8.2/css/all.css');
