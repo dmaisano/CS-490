@@ -1,6 +1,7 @@
-import { createElem } from '../scripts/utils';
 import highlander from '../assets/img/highlander.png';
 import './login.scss';
+
+window['login'] = login;
 
 export function LoginHandler(root: HTMLDivElement) {
   root.innerHTML = LoginPage;
@@ -9,13 +10,20 @@ export function LoginHandler(root: HTMLDivElement) {
 
   const cardImage: HTMLImageElement = card.querySelector(`.card-image > img`);
   cardImage.src = highlander;
+}
 
-  const btn = createElem({
-    type: 'button',
-    innerHTML: `click me`,
+function login() {
+  const user: HTMLInputElement = document.querySelector(
+    `.login .card-body input:nth-child(1)`
+  );
+  const pass: HTMLInputElement = document.querySelector(
+    `.login .card-body input:nth-child(2)`
+  );
+
+  console.log({
+    user: user.value,
+    pass: pass.value,
   });
-
-  root.appendChild(btn);
 }
 
 const LoginPage: string = /*html*/ `
@@ -27,7 +35,7 @@ const LoginPage: string = /*html*/ `
         <img src="">
       </div>
 
-      <div class="card-title">Login</div>
+      <div class="card-title">CS 490 Login</div>
 
       <div class="card-body">
         <input type="text" id="user" placeholder="Username" />
