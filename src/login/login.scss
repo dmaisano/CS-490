@@ -26,30 +26,36 @@
   }
 
   .card {
-    padding: 0 2rem;
+    padding: 1.5rem 1.5rem;
 
     &-title {
+      padding-bottom: 0;
+      margin-bottom: 1rem;
+
       font-size: 2.5rem;
       font-weight: 400;
       text-align: center;
     }
 
     &-body {
+      padding: 0;
+
       display: flex;
       flex-direction: column;
 
-      input:first-child {
+      input {
         margin-bottom: 1rem;
       }
     }
 
     &-footer {
+      padding: 0;
+
       .btn {
         text-transform: uppercase;
-        padding-left: 1.75rem;
-        padding-right: 1.75rem;
+        width: 100%;
         margin: auto;
-        font-size: 1.05rem;
+        font-size: 0.9rem;
       }
     }
   }

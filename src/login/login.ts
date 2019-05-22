@@ -1,28 +1,31 @@
 import highlander from '../assets/img/highlander.png';
 import './login.scss';
 
-window['login'] = login;
-
 export function LoginHandler(root: HTMLDivElement) {
   root.innerHTML = LoginPage;
 
   const card = root.querySelector(`.login .card`);
 
-  const cardImage: HTMLImageElement = card.querySelector(`.card-image > img`);
-  cardImage.src = highlander;
+  card.querySelector<HTMLImageElement>(`.card-image > img`).src = highlander;
+
+  const btn = card.querySelector<HTMLButtonElement>(`.btn-submit`);
+
+  btn.addEventListener('click', () => {
+    login();
+  });
 }
 
 function login() {
-  const user: HTMLInputElement = document.querySelector(
+  const user: string = document.querySelector<HTMLInputElement>(
     `.login .card-body input:nth-child(1)`
-  );
-  const pass: HTMLInputElement = document.querySelector(
+  ).value;
+  const pass: string = document.querySelector<HTMLInputElement>(
     `.login .card-body input:nth-child(2)`
-  );
+  ).value;
 
   console.log({
-    user: user.value,
-    pass: pass.value,
+    user,
+    pass,
   });
 }
 
@@ -43,7 +46,7 @@ const LoginPage: string = /*html*/ `
       </div>
 
       <div class="card-footer">
-        <button type="submit" class="btn btn-submit" onclick="login()">
+        <button type="submit" class="btn btn-submit">
           Login
         </button>
       </div>

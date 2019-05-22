@@ -1,4 +1,9 @@
-export interface createElemOptions {
+/**
+ * Creates and returns a new HTML element
+ *
+ * @param options object that contains the function args
+ */
+export function createElem(options: {
   type?: string;
   id?: string;
   className?: string;
@@ -7,33 +12,26 @@ export interface createElemOptions {
     data: string;
   }[];
   innerHTML?: string;
-}
+}): HTMLElement {
+  const { type, id, className, attributes, innerHTML } = options;
 
-/**
- * Creates and returns a new HTML element
- *
- * @param options options / config object
- */
-export function createElem(options: createElemOptions): HTMLElement {
-  const elem = document.createElement(
-    options.type === null ? 'div' : options.type
-  );
+  const elem = document.createElement(type === null ? 'div' : type);
 
-  if (options.id) {
+  if (id) {
     elem.setAttribute('id', options.id);
   }
 
-  if (options.className) {
+  if (className) {
     elem.setAttribute('class', options.className);
   }
 
-  if (options.attributes && options.attributes.length) {
+  if (attributes && options.attributes.length) {
     for (const obj of options.attributes) {
       elem.setAttribute(obj.attribute, obj.data);
     }
   }
 
-  if (options.innerHTML) {
+  if (innerHTML) {
     elem.innerHTML = options.innerHTML;
   }
 
