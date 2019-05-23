@@ -1,7 +1,27 @@
 /**
- * Creates and returns a new HTML element
- *
- * @param options object that contains the function args
+ * send a POST request
+ * @param url request url
+ * @param data data object
+ */
+export function postRequest(url: RequestInfo, data: object = {}): Promise<any> {
+  return fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  }).catch(err => {
+    console.error(`fetch error`);
+    console.error(err);
+  });
+}
+
+/**
+ * creates and returns a new HTML element
+ * @param options config object
  */
 export function createElem(options: {
   type?: string;
@@ -39,9 +59,8 @@ export function createElem(options: {
 }
 
 /**
- * Removes any children elems attached to the root elem
- *
- * @param AppRoot The root element of the app
+ * removes any children elems attached to the root elem
+ * @param AppRoot root element of the app
  */
 export function cleanRoot(
   AppRoot: HTMLDivElement = document.querySelector('body #root')
