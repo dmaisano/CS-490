@@ -1,7 +1,5 @@
 <?php
 
-include '../config/database.php';
-
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
@@ -18,16 +16,11 @@ if (!isset($jsonData['user']) || !isset($jsonData['pass'])) {
 $user = $jsonData['user'];
 $pass = $jsonData['pass'];
 
-$db = new Database();
-$pdo = $db->connect();
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, "https://aevitepr2.njit.edu/myhousing/login.cfm");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POST, true);
 
-$query = $pdo->prepare("SELECT * FROM users WHERE user = ?");
-
-$queryStatus = $query->execute(array($user));
-
-if ($queryStatus) {
-    $result = $query->fetchAll();
-} else {
-    header('HTTP/1.0 403 Forbidden', true, 403);
-    echo 'forbidden';
-}
+curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+$njitResponse = curl_exec($ch);
+curl_close($ch);
