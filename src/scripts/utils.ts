@@ -59,13 +59,13 @@ export function createElem(options: {
 }
 
 /**
- * removes any children elems attached to the root elem
+ * removes any children elems attached to the elem
  * @param AppRoot root element of the app
  */
-export function cleanRoot(
-  AppRoot: HTMLDivElement = document.querySelector('body #root')
+export function removeChildren(
+  elem: HTMLDivElement = document.querySelector('body #root')
 ): void {
-  while (AppRoot.firstChild) {
-    AppRoot.removeChild(AppRoot.firstChild);
+  while (elem.firstChild) {
+    elem.removeChild(elem.firstChild);
   }
 }
