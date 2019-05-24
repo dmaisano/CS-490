@@ -24,7 +24,6 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "https://aevitepr2.njit.edu/myhousing/login.cfm");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_POST, true);
-
 curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
 $njitResponse = curl_exec($ch);
 
@@ -39,7 +38,6 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "https://web.njit.edu/~ld277/");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_POST, true);
-
 curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
 $backendResponse = curl_exec($ch);
 
