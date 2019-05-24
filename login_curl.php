@@ -32,11 +32,7 @@ $njitResponse = curl_exec($ch);
 if ($njitResponse == false) {
     echo 'Response Error:' . curl_error($ch);
 }
-
 curl_close($ch);
-
-// Convert JSON to PHP array
-$njitJSONData = json_decode($njitResponse, true);
 
 // Setup backend cURL handler
 $ch = curl_init();
@@ -51,8 +47,8 @@ $backendResponse = curl_exec($ch);
 if ($backendResponse === false) {
     echo 'Response Error:' . curl_error($ch);
 }
-
 curl_close($ch);
 
 // Convert JSON to PHP array
+$njitJSONData = json_decode($njitResponse, true);
 $backendJSONData = json_decode($backendResponse, true);
