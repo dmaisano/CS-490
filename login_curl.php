@@ -27,7 +27,16 @@ curl_setopt($ch, CURLOPT_POST, true);
 
 curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
 $njitResponse = curl_exec($ch);
+
+// Check for errors
+if ($njitResponse == false) {
+    echo 'Response Error:' . curl_error($ch);
+}
+
 curl_close($ch);
+
+// Convert JSON to PHP array
+$njitJSONData = json_decode($njitResponse, true);
 
 // Setup backend cURL handler
 $ch = curl_init();
@@ -37,4 +46,13 @@ curl_setopt($ch, CURLOPT_POST, true);
 
 curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
 $backendResponse = curl_exec($ch);
+
+// Check for errors
+if ($backendResponse === false) {
+    echo 'Response Error:' . curl_error($ch);
+}
+
 curl_close($ch);
+
+// Convert JSON to PHP array
+$backendJSONData = json_decode($backendResponse, true);
