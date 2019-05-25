@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS users (
-  user VARCHAR(255),
+  id VARCHAR(255),
   pass VARCHAR(255),
 
-  PRIMARY KEY(user)
+  PRIMARY KEY(id)
 );
 
 -- insert test users
