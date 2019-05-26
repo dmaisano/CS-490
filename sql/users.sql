@@ -6,7 +6,3 @@ CREATE TABLE IF NOT EXISTS users (
 
   PRIMARY KEY(id)
 );
-
--- insert test users
-INSERT INTO users VALUES ("demo", "foo");
-INSERT INTO users VALUES ("test", "bar");

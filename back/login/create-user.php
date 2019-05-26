@@ -2,22 +2,36 @@
 
 include '../config/database.php';
 
-// ? to run script, type the following: php -f create.php
-// ! must CD'd in the users directory
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
 
-// manually enter credentials
-$user = '';
-$pass = '';
-$type = '';
+$jsonString = file_get_contents('php://input');
+$jsonData = json_decode($jsonString, true);
+
+// exit if no user / pass
+if (!isset($jsonData['user']) || !isset($jsonData['pass'])) {
+    exit404('missing field');
+}
+
+$user = $jsonData['user'];
+$pass = $jsonData['pass'];
 
 $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
 
 $db = new Database();
 $pdo = $db->connect();
 
-$query = "INSERT INTO users VALUES ('$user', '$hashedPass', '$type')";
-$query = $pdo->query($query);
+try {
+    $sql = "INSERT INTO users VALUES (?, ?)";
+    $stmt = $pdo->prepare($sql);
 
-if ($query->rowCount() > 0) {
-    echo 'added user';
+    $args = array($user, $hashedPass);
+    $status = $stmt->execute($args);
+
+    $response = array('success' => true, 'msg' => 'successfully added user "' . $user . '"');
+} catch (PDOException $error) {
+    $response = array('error' => $error);
+    header('HTTP/1.1 500 Internal Server Error');
 }
+
+echo json_encode($response);
