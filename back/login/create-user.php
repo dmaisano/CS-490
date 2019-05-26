@@ -8,13 +8,13 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
-// exit if no user / pass
-if (!isset($jsonData['user']) || !isset($jsonData['pass'])) {
-    exit404('missing field');
-}
-
 $user = $jsonData['user'];
 $pass = $jsonData['pass'];
+
+// exit if no user / pass
+if (!isset($user) || !isset($pass)) {
+    exit404('missing field');
+}
 
 $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
 
