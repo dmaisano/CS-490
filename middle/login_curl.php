@@ -38,7 +38,7 @@ function loginNJIT(string $user, string $pass)
     $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 
-    // is HTTP code == 302, user was successfully signed in
+    // if HTTP code == 302, user was successfully signed in
     if ($code === 302) {
         return true;
     }
