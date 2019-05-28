@@ -1,5 +1,7 @@
 import highlander from '../assets/img/highlander.png';
 import './login.scss';
+import { postRequest } from '../scripts/utils';
+import { urls } from '../scripts/urls';
 
 export function LoginHandler(root: HTMLDivElement) {
   root.innerHTML = LoginPage;
@@ -23,10 +25,14 @@ function login() {
     `.login .card-body input:nth-child(2)`
   ).value;
 
-  console.log({
+  postRequest(urls.login, {
     user,
     pass,
-  });
+  })
+    .then(res => res.json())
+    .then(res => {
+      console.log(res);
+    });
 }
 
 const LoginPage: string = /*html*/ `
