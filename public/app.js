@@ -3,22 +3,18 @@ import { LoginHandler } from './login/login.js';
 const AppRoot = document.querySelector('body #root');
 
 function AppRouter(AppRoot = document.querySelector('body #root')) {
-  let routeHandler;
-
   switch (window.location.pathname) {
     case '/':
-      routeHandler = LoginHandler;
+      LoginHandler(AppRoot);
       break;
 
     case '/login':
-      routeHandler = LoginHandler;
+      LoginHandler(AppRoot);
       break;
 
     default:
       break;
   }
-
-  routeHandler(AppRoot);
 }
 
 (function() {

@@ -1,13 +1,17 @@
+import highlander from '../img/highlander.png';
+
 /**
  * Login Logic
  * @param {HTMLDivElement} root
  */
-export async function LoginHandler(root) {
+export function LoginHandler(root) {
   root.innerHTML = LoginPage;
 
   const card = root.querySelector(`.login .card`);
 
-  const btn = card.querySelector(`.btn-submit`);
+  card.querySelector('.card-image > img').src = highlander;
+
+  const btn = card.querySelector(`#login-submit`);
 
   btn.addEventListener('click', () => {
     login();
@@ -32,7 +36,7 @@ const LoginPage = /*html*/ `
   <div class="login">
     <div class="card">
       <div class="card-image">
-        <img src="../img/highlander.png">
+        <img src="../img/highlander.png" alt="highlander">
       </div>
 
       <div class="card-title">CS 490 Login</div>
@@ -43,7 +47,7 @@ const LoginPage = /*html*/ `
       </div>
 
       <div class="card-footer">
-        <button type="submit" class="btn btn-submit">
+        <button type="submit" id="login-submit" class="btn btn-primary">
           Login
         </button>
       </div>

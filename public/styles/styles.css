@@ -1,3 +1,7 @@
+@import './button.css';
+@import './card.css';
+@import './input.css';
+
 /* variables */
 :root {
   --primary: #007ee5;
@@ -11,7 +15,7 @@
   --text-dark: #3b4351;
 }
 
-// CSS Reset
+/* css reset */
 * {
   box-sizing: border-box;
 }
@@ -26,4 +30,9 @@ body {
 
 .hidden {
   display: none;
+}
+
+/* disabled links */
+a:disabled {
+  background-color: #a0a6ab !important;
 }
