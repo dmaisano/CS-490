@@ -6,7 +6,8 @@
   "scripts": {
     "serve": "parcel src/index.html",
     "serve:api": "nodemon api/app.js --watch api/",
-    "build": "parcel build src/index.html"
+    "build": "parcel build --no-content-hash src/index.html --public-url '.'",
+    "prebuild": "rm -rf dist/*"
   },
   "repository": {
     "type": "git",
