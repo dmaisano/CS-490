@@ -12,14 +12,6 @@ $jsonData = json_decode($jsonString, true);
 $user = isset($jsonData['user']) ? $jsonData['user'] : '';
 $pass = isset($jsonData['pass']) ? $jsonData['pass'] : '';
 
-$authNJJIT = loginNJIT($user, $pass);
-$authDB = loginDB($user, $pass);
-
-echo json_encode(array('auth' => array(
-    'njit' => $authNJJIT,
-    'db' => $authDB,
-)));
-
 // curls to NJIT
 function loginNJIT(string $user, string $pass)
 {
@@ -46,33 +38,34 @@ function loginNJIT(string $user, string $pass)
     return false;
 }
 
-function loginDB(string $user, string $pass)
+function loginDB(string $user, string $pass, string $url = 'https://web.njit.edu/~ld277/490/back/login/login.php')
 {
+    // create the JSON string object
+    $jsonObj = json_encode(array(
+        'user' => $user,
+        'pass' => $pass,
+        'url' => $url,
+    ));
+
     // curl to NJIT
     $curl = curl_init();
-    $url = 'https://example.com';
 
-    curl_setopt_array($curl, [
+    curl_setopt_array($curl, array(
         CURLOPT_URL => $url,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => array(
-            'user' => $user,
-            'pass' => $pass,
-        ),
-        CURLOPT_CONNECTTIMEOUT => 3,
-        CURLOPT_TIMEOUT => 3,
         CURLOPT_RETURNTRANSFER => true,
-    ]);
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $jsonObj,
+    ));
 
     $response = curl_exec($curl);
     curl_close($curl);
 
-    $jsonData = json_decode($response);
+    $response = json_decode($response, true);
 
-    $dbUser = $jsonData['user'];
-    $dbAuth = $jsonData['auth'];
+    $dbAuth = $response['auth'];
+    $dbUser = $response['user'];
 
-    if (isset($dbAuth) && $dbAuth == false) {
+    if (isset($dbAuth)) {
         return false;
     }
 
@@ -82,3 +75,11 @@ function loginDB(string $user, string $pass)
 
     return false;
 }
+
+$authNJJIT = loginNJIT($user, $pass);
+$authDB = loginDB($user, $pass);
+
+echo json_encode(array(
+    'njit' => $authNJJIT,
+    'db' => $authDB,
+));

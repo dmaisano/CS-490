@@ -9,6 +9,7 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
+// promisify the connection query function
 db.query = promisify(db.query);
 
 exports.database = db;
