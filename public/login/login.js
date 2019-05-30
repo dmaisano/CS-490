@@ -23,7 +23,7 @@ function login() {
   const pass = document.querySelector(`.login .card-body input:nth-child(2)`)
     .value;
 
-  postRequest('https://web.njit.edu/~bm424/curl.php', {
+  postRequest('https://web.njit.edu/~dm583/490/public/curl.php', {
     user,
     pass,
   })
