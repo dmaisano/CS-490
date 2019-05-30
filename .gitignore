@@ -8,9 +8,6 @@ dist
 # python student code
 *.py
 
-# css nonsense
-*.css
-
 # sensitive config files
 .env
 database.php

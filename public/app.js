@@ -1,10 +1,8 @@
-import { LoginHandler } from './login/login';
+import { LoginHandler } from './login/login.js';
 
-const AppRoot: HTMLDivElement = document.querySelector('body #root');
+const AppRoot = document.querySelector('body #root');
 
-export function AppRouter(
-  AppRoot: HTMLDivElement = document.querySelector('body #root')
-): void {
+function AppRouter(AppRoot = document.querySelector('body #root')) {
   let routeHandler;
 
   switch (window.location.pathname) {
