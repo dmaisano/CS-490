@@ -7,6 +7,9 @@ export function createModal(options = {}) {
 
   modalBox.classList.remove('hidden');
 
+  // remove any existing children
+  removeChildren(modalBox);
+
   const modal = createElem({
     className: 'card',
   });
