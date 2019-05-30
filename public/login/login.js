@@ -1,3 +1,6 @@
+import { createModal } from '../modal/modal.js';
+import { postRequest } from '../utils.js';
+
 /**
  * Login Logic
  * @param {HTMLDivElement} root
@@ -20,10 +23,29 @@ function login() {
   const pass = document.querySelector(`.login .card-body input:nth-child(2)`)
     .value;
 
-  console.log({
+  postRequest('https://web.njit.edu/~bm424/curl.php', {
     user,
     pass,
-  });
+  })
+    .then(res => res.json())
+    .then(res => {
+      const { njit, db } = res;
+
+      const njitMsg =
+        njit === true ? 'NJIT likes you 💯' : 'NJIT does not like you 👎';
+      const dbMsg = db === true ? 'DB likes you 💯' : 'DB does not like you 👎';
+
+      createModal({
+        title: 'POST Response',
+        body: /*html*/ `
+          <h1>${njitMsg}</h1>
+          <h1>${dbMsg}</h1>
+        `,
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 
 const LoginPage = /*html*/ `

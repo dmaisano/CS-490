@@ -1,0 +1,49 @@
+.modal-box {
+  background: rgba(43, 43, 43, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box .card {
+  width: 65%;
+  z-index: 2;
+
+  padding: 1rem;
+}
+
+.modal-box .card-title {
+  padding-bottom: 0;
+  margin-bottom: 1rem;
+
+  display: flex;
+  justify-content: center;
+}
+
+.modal-box .card-body {
+  height: 75%;
+  width: 75%;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-box .card-footer {
+  padding: 0;
+}
+
+.modal-box .card-footer .btn {
+  text-transform: uppercase;
+  width: 100%;
+  margin: auto;
+  font-size: 0.9rem;
+}

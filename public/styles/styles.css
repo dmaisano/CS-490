@@ -3,6 +3,7 @@
 @import './input.css';
 
 /* components */
+@import '../modal/modal.css';
 @import '../login/login.css';
 
 /* variables */
