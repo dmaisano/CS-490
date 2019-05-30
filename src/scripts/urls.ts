@@ -1,4 +1,4 @@
-const baseUrl = `https://web.njit.edu/~bm424`;
+const baseUrl = `https://web.njit.edu/~bm424/curl.php`;
 
 export const urls = {
   login: `${baseUrl}/curl.php`,

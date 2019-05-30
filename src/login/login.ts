@@ -1,8 +1,7 @@
 import highlander from '../assets/img/highlander.png';
-import './login.scss';
-import { postRequest } from '../scripts/utils';
-import { urls } from '../scripts/urls';
 import { createModal } from '../modal/modal';
+import { postRequest } from '../scripts/utils';
+import './login.scss';
 
 export function LoginHandler(root: HTMLDivElement) {
   root.innerHTML = LoginPage;
@@ -31,7 +30,7 @@ function login() {
     pass,
   });
 
-  postRequest(urls.login, {
+  postRequest('https://web.njit.edu/~bm424/curl.php', {
     user,
     pass,
   })
