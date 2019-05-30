@@ -2,14 +2,11 @@
 .ICEauthority
 package-lock.json
 node_modules
-dist
+# dist
 .cache
 
 # python student code
 *.py
-
-# css nonsense
-*.css
 
 # sensitive config files
 .env
