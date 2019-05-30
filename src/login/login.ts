@@ -1,7 +1,6 @@
-import highlander from '../assets/img/highlander.png';
+import highlander from '../img/highlander.png';
 import { createModal } from '../modal/modal';
 import { postRequest } from '../scripts/utils';
-import './login.scss';
 
 export function LoginHandler(root: HTMLDivElement) {
   root.innerHTML = LoginPage;
@@ -63,7 +62,7 @@ const LoginPage: string = /*html*/ `
   <div class="login">
     <div class="card">
       <div class="card-image">
-        <img src="">
+        <img src="" alt="highlander">
       </div>
 
       <div class="card-title">CS 490 Login</div>

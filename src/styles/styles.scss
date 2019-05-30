@@ -1,4 +1,4 @@
-@import '_variables';
+@import 'variables';
 
 // CSS Reset
 * {
@@ -18,10 +18,10 @@ body {
 }
 
 // utils
-@import '_button';
-@import '_card';
-@import '_input';
-@import '_modal';
+@import 'button';
+@import 'card';
+@import 'input';
+@import 'modal';
 
-// FA5
-// @import url('https://use.fontawesome.com/releases/v5.8.2/css/all.css');
+// components
+@import '../login/login.scss';
