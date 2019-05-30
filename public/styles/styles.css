@@ -2,6 +2,9 @@
 @import './card.css';
 @import './input.css';
 
+/* components */
+@import '../login/login.css';
+
 /* variables */
 :root {
   --primary: #007ee5;

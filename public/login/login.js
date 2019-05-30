@@ -1,5 +1,3 @@
-import highlander from '../img/highlander.png';
-
 /**
  * Login Logic
  * @param {HTMLDivElement} root
@@ -8,8 +6,6 @@ export function LoginHandler(root) {
   root.innerHTML = LoginPage;
 
   const card = root.querySelector(`.login .card`);
-
-  card.querySelector('.card-image > img').src = highlander;
 
   const btn = card.querySelector(`#login-submit`);
 
