@@ -19,12 +19,12 @@ function loginNJIT(string $user, string $pass)
     $curl = curl_init();
     $url = 'https://myhub.njit.edu/vrs/ldapAuthenticateServlet?user_name=' . $user . '&passwd=' . $pass . '&SUBMIT=Login';
 
-    curl_setopt_array($curl, [
+    curl_setopt_array($curl, array(
         CURLOPT_URL => $url,
         CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_TIMEOUT => 30,
         CURLOPT_RETURNTRANSFER => true,
-    ]);
+    ));
 
     $response = curl_exec($curl);
     $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -38,8 +38,10 @@ function loginNJIT(string $user, string $pass)
     return false;
 }
 
-function loginDB(string $user, string $pass, string $url = 'https://web.njit.edu/~ld277/490/back/login/login.php')
+function loginDB($user, $pass)
 {
+    $url = 'https://web.njit.edu/~ld277/490/back/login/login.php';
+
     // create the JSON string object
     $jsonObj = json_encode(array(
         'user' => $user,
