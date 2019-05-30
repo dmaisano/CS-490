@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "serve": "parcel src/index.html",
-    "serve:api": "nodemon api/app.js --watch api/"
+    "serve:api": "nodemon api/app.js --watch api/",
+    "build": "parcel build src/index.html"
   },
   "repository": {
     "type": "git",

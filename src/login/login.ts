@@ -2,6 +2,7 @@ import highlander from '../assets/img/highlander.png';
 import './login.scss';
 import { postRequest } from '../scripts/utils';
 import { urls } from '../scripts/urls';
+import { createModal } from '../modal/modal';
 
 export function LoginHandler(root: HTMLDivElement) {
   root.innerHTML = LoginPage;
@@ -25,13 +26,35 @@ function login() {
     `.login .card-body input:nth-child(2)`
   ).value;
 
+  console.log({
+    user,
+    pass,
+  });
+
   postRequest(urls.login, {
     user,
     pass,
   })
     .then(res => res.json())
-    .then(res => {
-      console.log(res);
+    .then((res: { njit: boolean; db: boolean }) => {
+      const njitResponse =
+        res.njit === true ? 'NJIT Likes You' : 'NJIT Does Not Like You';
+      const dbResponse =
+        res.db === true ? 'The DB Likes You' : 'The DB Does Not Like You';
+
+      const modalBody = /*html*/ `
+        <div>${njitResponse}</div>
+        <div>${dbResponse}</div>
+      `;
+
+      // create the modal
+      createModal({
+        title: 'POST Response',
+        body: modalBody,
+      });
+    })
+    .catch(err => {
+      console.log(err);
     });
 }
 
