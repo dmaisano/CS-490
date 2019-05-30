@@ -39,6 +39,10 @@
   text-align: center;
 }
 
+.login .card .card-image img {
+  content: url('../img/highlander.png');
+}
+
 .login .card .card-body {
   padding: 0;
 }

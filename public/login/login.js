@@ -32,7 +32,7 @@ const LoginPage = /*html*/ `
   <div class="login">
     <div class="card">
       <div class="card-image">
-        <img src="../img/highlander.png" alt="highlander">
+        <img src="" alt="highlander">
       </div>
 
       <div class="card-title">CS 490 Login</div>
