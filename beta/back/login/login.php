@@ -21,10 +21,10 @@ $db = new Database();
 $pdo = $db->connect();
 
 try {
-    $sql = "SELECT * FROM users WHERE id=:id";
+    $sql = "SELECT * FROM users WHERE user_id=:user_id";
     $stmt = $pdo->prepare($sql);
 
-    $stmt->bindParam(':id', $user);
+    $stmt->bindParam(':user_id', $user);
     $stmt->execute();
 
     $result = $stmt->fetch();
