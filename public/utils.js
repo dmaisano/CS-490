@@ -1,10 +1,20 @@
+import { isDev, DEV_URLS, URLS, AFS_URLS } from './urls';
+
 /**
- *
- * @param {RequestInfo} url
+ * sends a post request
+ * @param {string} urlKey key used to access the url-endpoint based on the current environment
  * @param {object} data
+ * @returns {Promise}
  */
-export function postRequest(url, data = {}) {
-  return fetch(url, {
+export function postRequest(urlKey, data = {}) {
+  let postUrl = DEV_URLS[urlKey];
+
+  if (!isDev) {
+    postUrl = 'https://web.njit.edu/~dm583/490/public/curl.php';
+    data.url = AFS_URLS[urlKey]; // points to Lawrence's php page based on the urlKey
+  }
+
+  return fetch(postUrl, {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -13,10 +23,12 @@ export function postRequest(url, data = {}) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  }).catch(err => {
-    console.error(`fetch error`);
-    console.error(err);
-  });
+  })
+    .then(res => res.json())
+    .catch(err => {
+      console.error(`fetch error`);
+      console.error(err);
+    });
 }
 /**
  * @returns {HTMLElement} elem

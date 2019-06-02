@@ -23,29 +23,12 @@ function login() {
   const pass = document.querySelector(`.login .card-body input:nth-child(2)`)
     .value;
 
-  postRequest('https://web.njit.edu/~dm583/490/public/curl.php', {
+  postRequest('login', {
     user,
     pass,
-  })
-    .then(res => res.json())
-    .then(res => {
-      const { njit, db } = res;
-
-      const njitMsg =
-        njit === true ? 'NJIT likes you 💯' : 'NJIT does not like you 👎';
-      const dbMsg = db === true ? 'DB likes you 💯' : 'DB does not like you 👎';
-
-      createModal({
-        title: 'POST Response',
-        body: /*html*/ `
-          <h1>${njitMsg}</h1>
-          <h1>${dbMsg}</h1>
-        `,
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  }).then(res => {
+    console.log(res);
+  });
 }
 
 const LoginPage = /*html*/ `
@@ -53,9 +36,7 @@ const LoginPage = /*html*/ `
 
   <div class="login">
     <div class="card">
-      <div class="card-image">
-        <img src="" alt="highlander">
-      </div>
+      <div class="card-image"></div>
 
       <div class="card-title">CS 490 Login</div>
 
