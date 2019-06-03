@@ -1,24 +1,20 @@
-import { getUser, navigateUrl } from '../utils.js';
-
-// get the user
-const user = getUser();
+import { getUser, navigateUrl, User } from '../utils.js';
 
 /**
  * Student / Instructor Page
  * @param {HTMLDivElement} root
  */
 export function HomeHandler(root) {
+  // get the user
+  const user = getUser();
+
   if (!user) {
     navigateUrl('#/login');
   }
 
-  console.log({
-    user,
-  });
-
   switch (user.type) {
     case 'student':
-      root.innerHTML = STUDENT_HOME_PAGE;
+      root.innerHTML = STUDENT_HOME_PAGE(user);
       break;
 
     case 'instructor':
@@ -31,7 +27,12 @@ export function HomeHandler(root) {
   }
 }
 
-const STUDENT_HOME_PAGE = /*html*/ `
+/**
+ * @param {User} user
+ * @returns {string}
+ */
+const STUDENT_HOME_PAGE = function(user) {
+  return /*html*/ `
   <div class="home">
     <div class="title">
       <h1>Student Home</h1>
@@ -44,8 +45,14 @@ const STUDENT_HOME_PAGE = /*html*/ `
     </div>
   </div>
 `;
+};
 
-const INSTRUCTOR_HOME_PAGE = /*html*/ `
+/**
+ * @param {User} user
+ * @returns {string}
+ */
+const INSTRUCTOR_HOME_PAGE = function(user) {
+  return /*html*/ `
   <div class="home">
     <div class="title">
       <h1>Instructor Home</h1>
@@ -60,3 +67,4 @@ const INSTRUCTOR_HOME_PAGE = /*html*/ `
     </div>
   </div>
 `;
+};

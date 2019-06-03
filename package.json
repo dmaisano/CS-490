@@ -4,11 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prestart": "rm -rf dist/*",
-    "start": "parcel public/index.html",
-    "api": "nodemon api/app.js --watch api/",
-    "build": "parcel build public/index.html --public-url '.'",
-    "prebuild": "rm -rf dist/*"
+    "start": "serve public/",
+    "api": "nodemon api/app.js --watch api/"
   },
   "repository": {
     "type": "git",
@@ -30,6 +27,7 @@
   "devDependencies": {
     "nodemon": "^1.19.1",
     "parcel-bundler": "^1.12.3",
-    "sass": "^1.20.1"
+    "sass": "^1.20.1",
+    "serve": "^11.0.1"
   }
 }

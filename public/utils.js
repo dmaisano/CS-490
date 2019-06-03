@@ -1,4 +1,4 @@
-import { AFS_URLS, DEV_URLS, isDev } from './urls';
+import { AFS_URLS, DEV_URLS, isDev } from './urls.js';
 
 /**
  * sends a post request
