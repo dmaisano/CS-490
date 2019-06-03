@@ -10,6 +10,14 @@ export function LoginHandler(root) {
 
   const card = root.querySelector(`.login .card`);
 
+  for (const input of card.querySelectorAll('input')) {
+    input.addEventListener('keypress', event => {
+      if (event.key === 'Enter') {
+        login();
+      }
+    });
+  }
+
   const btn = card.querySelector(`#login-submit`);
 
   btn.addEventListener('click', () => {
@@ -23,12 +31,12 @@ function login() {
   const pass = document.querySelector(`.login .card-body input:nth-child(2)`)
     .value;
 
-  postRequest('login', {
-    user,
-    pass,
-  }).then(res => {
-    console.log(res);
-  });
+  // postRequest('login', {
+  //   user,
+  //   pass,
+  // }).then(res => {
+  //   console.log(res);
+  // });
 }
 
 const LoginPage = /*html*/ `
