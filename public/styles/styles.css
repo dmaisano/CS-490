@@ -30,6 +30,7 @@ body {
   height: 100vh;
   font-family: 'Open Sans', sans-serif, Arial, Helvetica;
   color: var(--text-dark);
+  background: #2c3037; /* default BG */
 }
 
 .hidden {

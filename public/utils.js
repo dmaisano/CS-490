@@ -1,4 +1,4 @@
-import { isDev, DEV_URLS, URLS, AFS_URLS } from './urls';
+import { AFS_URLS, DEV_URLS, isDev } from './urls';
 
 /**
  * sends a post request
@@ -60,11 +60,39 @@ export function createElem(options) {
 }
 
 /**
- *
  * @param {HTMLElement} elem
+ * @returns {void}
  */
 export function removeChildren(elem) {
   while (elem.firstChild) {
     elem.removeChild(elem.firstChild);
   }
+}
+
+/**
+ * navigate to the given hashUrl
+ * @param {string} hashUrl
+ * @returns {void}
+ */
+export function navigateUrl(hashUrl = '') {
+  if (hashUrl === '') {
+    hashUrl = '#/login';
+  }
+
+  window.location = hashUrl;
+}
+
+export class User {
+  constructor(id, pass, type) {
+    this.id = id;
+    this.pass = pass;
+    this.type = type;
+  }
+}
+
+/**
+ * @returns {User|null}
+ */
+export function getUser() {
+  return JSON.parse(localStorage.getItem('user')) || null;
 }

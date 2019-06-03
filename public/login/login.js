@@ -1,5 +1,4 @@
-import { createModal } from '../modal/modal.js';
-import { postRequest } from '../utils.js';
+import { navigateUrl, postRequest, User } from '../utils.js';
 
 /**
  * Login Logic
@@ -31,12 +30,22 @@ function login() {
   const pass = document.querySelector(`.login .card-body input:nth-child(2)`)
     .value;
 
-  // postRequest('login', {
-  //   user,
-  //   pass,
-  // }).then(res => {
-  //   console.log(res);
-  // });
+  postRequest('login', {
+    user,
+    pass,
+  }).then(res => {
+    if (res.success !== false && res.type) {
+      // save the user to local storage
+      localStorage.setItem(
+        'user',
+        JSON.stringify(new User(user, pass, res.type))
+      );
+
+      navigateUrl('#/home');
+    } else {
+      // error modal
+    }
+  });
 }
 
 const LoginPage = /*html*/ `
