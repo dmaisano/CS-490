@@ -18,7 +18,7 @@ export function HomeHandler(root) {
       break;
 
     case 'instructor':
-      root.innerHTML = INSTRUCTOR_HOME_PAGE;
+      root.innerHTML = INSTRUCTOR_HOME_PAGE(user);
       break;
 
     default:

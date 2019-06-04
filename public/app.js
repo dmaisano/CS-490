@@ -1,4 +1,5 @@
 import { HomeHandler } from './home/home.js';
+import { QuestionsHandler } from './questions/questions.js';
 import { LoginHandler } from './login/login.js';
 import { navigateUrl } from './utils.js';
 
@@ -9,12 +10,13 @@ export function AppRouter() {
   const AppRoot = document.querySelector('body #root');
 
   const url = location.hash.slice(1).toLowerCase() || '/';
-  const resource = url.split('/')[1] || null;
 
   if (url.includes('/login')) {
     LoginHandler(AppRoot);
   } else if (url.includes('/home')) {
     HomeHandler(AppRoot);
+  } else if (url.includes('/questions/create')) {
+    QuestionsHandler(AppRoot);
   } else {
     LoginHandler(AppRoot);
   }
@@ -25,7 +27,7 @@ export function AppRouter() {
   window.addEventListener('hashchange', AppRouter);
 
   // Listen on page load
-  window.addEventListener('load', AppRouter);
+  // window.addEventListener('load', AppRouter);
 
   // redirect to login if hash is not specified
   if (!window.location.hash) {

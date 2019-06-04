@@ -24,3 +24,41 @@ textarea:disabled {
 textarea {
   resize: vertical;
 }
+
+.custom-select {
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  background: #fff;
+
+  overflow: hidden;
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-column-gap: 0.25rem;
+  padding: 0.75rem 0.5rem;
+}
+
+.custom-select select,
+.custom-select > div {
+  display: flex;
+  align-items: center;
+
+  color: #3b4350;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.custom-select select {
+  width: 100%;
+  height: auto;
+
+  background: transparent;
+  border: none;
+
+  -webkit-appearance: none;
+}
+
+.custom-select select:focus {
+  outline: none;
+}

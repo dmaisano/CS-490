@@ -37,3 +37,7 @@
 .btn-warning {
   background: var(--warning);
 }
+
+.btn-info {
+  background: var(--info);
+}

@@ -5,7 +5,7 @@ import { navigateUrl, postRequest, User } from '../utils.js';
  * @param {HTMLDivElement} root
  */
 export function LoginHandler(root) {
-  root.innerHTML = LoginPage;
+  root.innerHTML = LOGIN_PAGE();
 
   const card = root.querySelector(`.login .card`);
 
@@ -48,7 +48,11 @@ function login() {
   });
 }
 
-const LoginPage = /*html*/ `
+/**
+ * @returns {string}
+ */
+const LOGIN_PAGE = function() {
+  return /*html*/ `
   <div class="login-bg"></div>
 
   <div class="login">
@@ -70,3 +74,4 @@ const LoginPage = /*html*/ `
     </div>
   </div>
 `;
+};
