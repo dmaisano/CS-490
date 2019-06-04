@@ -9,17 +9,19 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
-$code = isset($jsonData['code']); // Answer string stored here
-$max_points = isset($jsonData['max points']); // Max points earnable stored here
-$topic = isset($jsonData['topic']); // Question topic stored here
-$function_name = isset($jsonData['function name']); // Function name stored here
-$number_of_questions = isset($jsonData['number of questions']); // Number of questions on exam stored here
+$code = $jsonData['code']; // Answer string stored here
+$max_points = $jsonData['max points']; // Max points earnable stored here
+$topic = $jsonData['topic']; // Question topic stored here
+$function_name = $jsonData['function name']; // Function name stored here
+$number_of_questions = $jsonData['number of questions']; // Number of questions on exam stored here
+$test_cases = $jsonData['test cases']; // Test cases stored here
 
 $question_results = array();
 
 // Grade a single question
 function grade_question($code, $max_points, $topic)
 {
+    $points_gained = $max_points;
     // String search
     if ($code == "") {
         $points_gained = 0;
@@ -50,7 +52,20 @@ function grade_question($code, $max_points, $topic)
                 break;
         }
     }
-    // Run function using php.exec()
+    // Write the code to a file and run the function using php shell_exec()
+    $file = fopen('code.py', 'w');
+    fwrite($file, $code); // Code is overwritten in file for each question
+    for ($i = 0; $i < count($test_cases); $i++) {
+        $input = $test_cases[$i][0];
+        $expected_output = $test_cases[$i][1];
+        fwrite($file, '\nprint(' . $function_name . '(' . $input . '))'); // print(doubleIt(2))
+        $output = shell_exec('/~/Programs/490/' . $file);
+        if ($expected_output !== $output) {
+            $points_gained -= 5;
+        }
+    }
+    fclose($file);
+    return $points_gained;
 }
 
 // Sum up question grades
