@@ -96,3 +96,22 @@ export class User {
 export function getUser() {
   return JSON.parse(localStorage.getItem('user')) || null;
 }
+
+/**
+ * render the list of topics
+ */
+export function renderTopics() {
+  postRequest('topics').then(topics => {
+    /** @type {HTMLSelectElement} */
+    for (const elem of document.querySelectorAll('#topics')) {
+      for (const topic of topics) {
+        /**
+         * @type {HTMLOptionElement}
+         */
+        const option = document.createElement('option');
+        option.text = topic.topic;
+        elem.add(option);
+      }
+    }
+  });
+}

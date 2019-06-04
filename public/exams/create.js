@@ -7,8 +7,7 @@ import { removeChildren, postRequest } from '../utils.js';
 export function CreateExamHandler(root) {
   root.innerHTML = CREATE_EXAM_PAGE();
 
-  // const page = root.querySelector('.questions');
-  // QuestionBank.renderBank(page);
+  const page = root.querySelector('.questions');
 }
 
 /**
@@ -16,6 +15,10 @@ export function CreateExamHandler(root) {
  */
 function CREATE_EXAM_PAGE() {
   return /*html*/ `
+  <div class="split">
+    <div id="question-bank"></div>
+
     <div></div>
-  `;
+  </div>
+`;
 }

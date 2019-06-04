@@ -2,6 +2,8 @@ import { HomeHandler } from './home/home.js';
 import { QuestionsHandler } from './questions/questions.js';
 import { LoginHandler } from './login/login.js';
 import { navigateUrl } from './utils.js';
+import { TakeExamHandler } from './exams/take.js';
+import { CreateExamHandler } from './exams/create.js';
 
 export function AppRouter() {
   const AppRoot = document.querySelector('body #root');
@@ -14,6 +16,10 @@ export function AppRouter() {
     HomeHandler(AppRoot);
   } else if (url.includes('/questions/create')) {
     QuestionsHandler(AppRoot);
+  } else if (url.includes('/exams/create')) {
+    CreateExamHandler(AppRoot);
+  } else if (url.includes('/student/exam')) {
+    TakeExamHandler(AppRoot);
   } else {
     LoginHandler(AppRoot);
   }

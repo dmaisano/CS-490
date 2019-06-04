@@ -13,7 +13,11 @@
   padding: 0.75rem 1rem;
 }
 
-.btn:hover {
+.btn:disabled {
+  background: #5b6268;
+}
+
+.btn:hover:not(:disabled) {
   cursor: pointer;
   box-shadow: inset 0px 0px 400px 110px rgba(0, 0, 0, 0.1);
 }

@@ -51,7 +51,7 @@ function login() {
 /**
  * @returns {string}
  */
-const LOGIN_PAGE = function() {
+function LOGIN_PAGE() {
   return /*html*/ `
   <div class="login-bg"></div>
 
@@ -74,4 +74,4 @@ const LOGIN_PAGE = function() {
     </div>
   </div>
 `;
-};
+}

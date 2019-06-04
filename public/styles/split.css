@@ -1,0 +1,119 @@
+/* SPLIT SCREEN CSS */
+
+.split {
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+
+  display: flex;
+}
+
+.split > div:nth-child(1) {
+  width: 50%;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-right: 0.5rem solid #30353e;
+
+  overflow-y: auto;
+}
+
+.split > div:nth-child(2) {
+  width: 50%;
+  background: #f8f9fa;
+  padding: 1rem;
+
+  overflow-y: auto;
+}
+
+.split .new-question .input {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.split .new-question .select {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.split .new-question #test-cases {
+  padding: 0.25rem 0.5rem;
+  max-height: calc(var(--test-case-height) * 4);
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.split .new-question .test-case {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  height: var(--test-case-height);
+}
+
+.split .new-question .test-case .btn {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.split .new-question .input,
+.split .new-question .select,
+.split .new-question .test-case {
+  grid-column-gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.split .new-question .form-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1rem;
+}
+
+.split .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5vh;
+  margin-bottom: 1rem;
+}
+
+.split #question-bank #filter-box {
+  display: grid;
+  grid-template-columns: 0.65fr repeat(3, auto);
+  grid-column-gap: 0.15rem;
+
+  height: 5vh;
+}
+
+.split #question-bank #filter-box .btn {
+  font-size: 1.15rem;
+}
+
+.split #question-bank .grid {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.split #question-bank .question-bank-header,
+.split #question-bank .grid #question-box .question {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 0.5fr auto;
+  grid-column-gap: 0.25rem;
+}
+
+.split #question-bank .grid #question-box .question:not(:last-child) {
+  margin-bottom: 0.25rem;
+}
+
+.split #question-bank .question-bank-header > h3 {
+  display: flex;
+  align-self: center;
+}
+
+.split #question-bank .grid #question-box .question > .btn {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.split #question-bank .grid #question-box {
+  height: 70vh;
+  max-height: 70vh;
+  overflow-y: auto;
+}

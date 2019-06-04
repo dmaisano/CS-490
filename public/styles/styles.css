@@ -1,12 +1,13 @@
 @import './button.css';
 @import './card.css';
 @import './input.css';
+@import './split.css';
 
 /* components */
 @import '../modal/modal.css';
 @import '../login/login.css';
 @import '../home/home.css';
-@import '../questions/questions.css';
+/* @import '../questions/questions.css'; */
 
 /* variables */
 :root {

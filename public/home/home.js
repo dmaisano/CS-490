@@ -31,7 +31,7 @@ export function HomeHandler(root) {
  * @param {User} user
  * @returns {string}
  */
-const STUDENT_HOME_PAGE = function(user) {
+function STUDENT_HOME_PAGE(user) {
   return /*html*/ `
   <div class="home">
     <div class="title">
@@ -45,13 +45,13 @@ const STUDENT_HOME_PAGE = function(user) {
     </div>
   </div>
 `;
-};
+}
 
 /**
  * @param {User} user
  * @returns {string}
  */
-const INSTRUCTOR_HOME_PAGE = function(user) {
+function INSTRUCTOR_HOME_PAGE(user) {
   return /*html*/ `
   <div class="home">
     <div class="title">
@@ -61,10 +61,10 @@ const INSTRUCTOR_HOME_PAGE = function(user) {
 
     <div class="links">
       <a href="/#/instructor/grades" class="btn btn-primary">View Student Grades</a>
-      <a href="/#/instructor/exams" class="btn btn-primary">View Exams</a>
-      <a href="/#/exam/create" class="btn btn-primary">Create Exam</a>
+      <a href="/#/exams/view" class="btn btn-primary">View Exams</a>
+      <a href="/#/exams/create" class="btn btn-primary">Create Exam</a>
       <a href="/#/questions/create" class="btn btn-primary">Create Questions</a>
     </div>
   </div>
 `;
-};
+}
