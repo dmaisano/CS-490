@@ -3,9 +3,6 @@ import { QuestionsHandler } from './questions/questions.js';
 import { LoginHandler } from './login/login.js';
 import { navigateUrl } from './utils.js';
 
-/**
- * @returns {void}
- */
 export function AppRouter() {
   const AppRoot = document.querySelector('body #root');
 

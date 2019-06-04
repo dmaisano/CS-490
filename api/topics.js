@@ -6,7 +6,7 @@ exports.getTopics = function(db) {
       return res.json(result);
     } catch (error) {
       if (error) {
-        console.log({
+        console.error({
           error,
         });
       }

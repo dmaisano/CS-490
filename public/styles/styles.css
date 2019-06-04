@@ -20,6 +20,8 @@
   --gray: #6c757d;
   --dark-gray: #343a40;
   --text-dark: #3b4351;
+
+  --test-case-height: 2.75rem;
 }
 
 /* css reset */

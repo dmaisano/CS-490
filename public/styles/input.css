@@ -1,8 +1,8 @@
 input,
 textarea {
   color: var(--text-dark);
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 1rem;
-  font-weight: 600;
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #ccc;
@@ -59,7 +59,9 @@ textarea {
   -webkit-appearance: none;
 }
 
-.custom-select:active {
+.custom-select:active,
+.custom-select:focus,
+.custom-select:focus-within {
   border-color: #80bdff;
   outline: 0;
   outline-color: initial;
@@ -70,4 +72,13 @@ textarea {
 
 .custom-select select:focus {
   outline: none;
+}
+
+.form-group label {
+  display: inline-block;
+  padding-bottom: 0.25rem;
+
+  color: var(--text-dark);
+  font-size: 1.05rem;
+  font-weight: 600;
 }

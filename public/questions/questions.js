@@ -1,16 +1,10 @@
 import { removeChildren, postRequest } from '../utils.js';
 
-let questions;
-
 /**
  * Login Logic
  * @param {HTMLDivElement} root
  */
 export function QuestionsHandler(root) {
-  postRequest('questions').then(res => {
-    questions = res;
-  });
-
   root.innerHTML = QUESTIONS_PAGE();
 
   const page = root.querySelector('.questions');
@@ -21,6 +15,16 @@ export function QuestionsHandler(root) {
 
   // render topics
   renderTopics();
+
+  // add event listener for adding test cases
+  document.querySelector('.btn#add-test-case').addEventListener('click', () => {
+    addTestCase();
+  });
+
+  // add event listener for creating / submitting the quesiton
+  document.querySelector('.btn#create-question').addEventListener('click', () => {
+    createQuestion(page);
+  });
 }
 
 /**
@@ -30,7 +34,73 @@ const QUESTIONS_PAGE = function() {
   return /*html*/ `
   <div class="questions">
     <div class="new-question">
-      <h1 class="title">Add Question</h1>
+      <h1 class="title">Create Question</h1>
+
+      <div class="form">
+        <div class="input">
+          <div class="form-group">
+            <label>Question Name</label>
+            <input type="text" id="question-name" placeholder="Enter question name" required />
+          </div>
+
+          <div class="form-group">
+            <label>Function Name</label>
+            <input type="text" id="function-name" placeholder="Enter function name" required />
+          </div>
+        </div>
+
+        <div class="select">
+          <div class="custom-select">
+            <select id="topics">
+              <option value="">Topic</option>
+            </select>
+
+            <div>▼</div>
+          </div>
+
+          <div class="custom-select">
+            <select id="difficulty">
+              <option value="">Difficulty</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+
+            <div>▼</div>
+          </div>
+
+          <!-- constraints go here -->
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="description" rows="5" placeholder="Enter question description"></textarea>
+          </div>
+
+        <h2 class="title">Test Cases</h2>
+
+        <div id="test-cases">
+          <div class="test-case">
+            <input type="text" placeholder="Args" required />
+            <input type="text" placeholder="Output" required />
+            <button type="button" class="btn" disabled>
+              X
+            </button>
+          </div>
+          <div class="test-case">
+            <input type="text" placeholder="Args" required />
+            <input type="text" placeholder="Output" required />
+            <button type="button" class="btn" disabled>
+              X
+            </button>
+          </div>
+        </div>
+
+        <div class="form-buttons">
+          <button type="button" id="add-test-case" class="btn btn-success">Add Test Case</button>
+          <button type="button" id="create-question" class="btn btn-success">Create Question</button>
+        </div>
+      </div>
     </div>
 
     <div id="question-bank"></div>
@@ -39,14 +109,6 @@ const QUESTIONS_PAGE = function() {
 };
 
 export class QuestionBank {
-  constructor() {
-    /** @type {Promise} */
-    this.questions = postRequest('questions');
-
-    /** @type {Promise} */
-    this.topics = postRequest('topics');
-  }
-
   /**
    * @param {HTMLDivElement} questionBank
    */
@@ -75,7 +137,7 @@ export class QuestionBank {
         </div>
 
         <div class="custom-select">
-          <select>
+          <select id="difficulty">
             <option value="">Difficulty</option>
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
@@ -105,15 +167,7 @@ export class QuestionBank {
 }
 
 export class Question {
-  constructor(
-    id,
-    question_name,
-    functionName,
-    description,
-    difficulty,
-    topic,
-    testCases
-  ) {
+  constructor(id, question_name, functionName, description, difficulty, topic, testCases) {
     this.id = id;
     this.question_name = question_name;
     this.functionName = functionName;
@@ -129,7 +183,7 @@ export class Question {
  * @param {'assign' | 'info'} option
  */
 export function renderQuestions(option = 'info') {
-  postRequest('questions').then(res => {
+  postRequest('questions').then((res) => {
     const questionBox = document.querySelector('#question-box');
 
     /**
@@ -141,9 +195,9 @@ export function renderQuestions(option = 'info') {
     if (questions.length < 1) {
       const elem = document.createElement('div');
       elem.setAttribute('class', 'question');
-      elem.setAttribute('style', 'grid-column: span 3;');
       elem.innerHTML = /*html*/ `
         <input
+          style="grid-column: span 3;"
           type="text"
           value="No Questions"
           disabled
@@ -167,10 +221,12 @@ export function renderQuestions(option = 'info') {
         <input type="text" value="${question.question_name}" disabled />
         <input type="text" value="${question.topic}" disabled />
         <input type="text" value="${question.difficulty}" disabled />
-        <button type="button" class="btn ${
-          option === 'assign' ? 'btn-success' : 'btn-info'
-        }">
-        ${option === 'assign' ? '+' : '?'}
+        <button
+        type="button"
+        style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+        class="btn ${option === 'assign' ? 'btn-success' : 'btn-info'}"
+        >
+          ${option === 'assign' ? '+' : '?'}
         </button>
       `;
 
@@ -192,7 +248,7 @@ export function renderQuestions(option = 'info') {
  * render the list of topics
  */
 export function renderTopics() {
-  postRequest('topics').then(topics => {
+  postRequest('topics').then((topics) => {
     /** @type {HTMLSelectElement} */
     for (const elem of document.querySelectorAll('#topics')) {
       for (const topic of topics) {
@@ -204,5 +260,78 @@ export function renderTopics() {
         elem.add(option);
       }
     }
+  });
+}
+
+function addTestCase() {
+  const testCases = document.querySelector('#test-cases');
+
+  // can't add more test cases
+  if (document.querySelectorAll('#test-cases .test-case').length >= 5) return;
+
+  const elem = document.createElement('div');
+  elem.setAttribute('class', 'test-case');
+
+  elem.innerHTML = /*html*/ `
+    <input type="text" placeholder="Args" required />
+    <input type="text" placeholder="Output" required />
+    <button type="button" class="btn btn-danger">
+      X
+    </button>
+  `;
+
+  testCases.appendChild(elem);
+
+  elem.querySelector('.btn').addEventListener('click', () => {
+    elem.parentNode.removeChild(elem);
+  });
+}
+
+/**
+ *
+ * @param {HTMLDivElement} page
+ */
+function createQuestion(page) {
+  const questionForm = page.querySelector('.new-question .form');
+
+  const question_name = questionForm.querySelector('#question-name').value || '';
+  const function_name = questionForm.querySelector('#function-name').value || '';
+  const question_description = questionForm.querySelector('#description').value || '';
+
+  const topic = questionForm.querySelector('#topics').selectedOptions.length
+    ? questionForm.querySelector('#topics').selectedOptions[0].value
+    : '';
+
+  const difficulty = questionForm.querySelector('#difficulty').selectedOptions.length
+    ? questionForm.querySelector('#difficulty').selectedOptions[0].value
+    : '';
+
+  let test_cases = [];
+
+  for (const elem of questionForm.querySelectorAll('#test-cases .test-case')) {
+    const arg = elem.querySelector('input:first-child').value || '';
+    const output = elem.querySelector('input:first-child').value || '';
+
+    test_cases.push([arg, output]);
+  }
+
+  const requestObj = {
+    question_name,
+    function_name,
+    question_description,
+    topic,
+    difficulty,
+    test_cases,
+  };
+
+  console.log(requestObj);
+
+  postRequest('questionsAdd', requestObj).then((res) => {
+    if (!res.success) {
+      alert('Failed to add Question');
+      return;
+    }
+
+    renderQuestions('info');
   });
 }

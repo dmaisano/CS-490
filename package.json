@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "serve public/",
+    "start": "parcel public/index.html",
     "api": "nodemon api/app.js --watch api/"
   },
   "repository": {

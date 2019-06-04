@@ -15,6 +15,46 @@
   overflow-y: auto;
 }
 
+.questions .new-question .input {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.questions .new-question .select {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.questions .new-question #test-cases {
+  padding: 0.25rem 0.5rem;
+  max-height: calc(var(--test-case-height) * 4);
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.questions .new-question .test-case {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  height: var(--test-case-height);
+}
+
+.questions .new-question .test-case .btn {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.questions .new-question .input,
+.questions .new-question .select,
+.questions .new-question .test-case {
+  grid-column-gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.questions .new-question .form-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1rem;
+}
+
 .questions .title {
   display: flex;
   justify-content: center;
@@ -47,7 +87,6 @@
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 4px;
-  background: var(--secondary);
 }
 
 .questions #question-bank .question-bank-header,
@@ -62,7 +101,6 @@
 }
 
 .questions #question-bank .question-bank-header > h3 {
-  color: #fff;
   display: flex;
   align-self: center;
 }
