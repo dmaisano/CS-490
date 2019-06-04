@@ -36,6 +36,17 @@ body {
   background: #2c3037; /* default BG */
 }
 
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: 0;
+  margin: 0;
+}
+
 .hidden {
   display: none;
 }

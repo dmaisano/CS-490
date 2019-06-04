@@ -23,10 +23,10 @@ export function AppRouter() {
 }
 
 (function() {
-  // Listen on hash change
+  // listen on hash change
   window.addEventListener('hashchange', AppRouter);
 
-  // Listen on page load
+  // listen on page load
   // window.addEventListener('load', AppRouter);
 
   // redirect to login if hash is not specified

@@ -14,7 +14,11 @@ router.get('/', (req, res) => {
 const { login } = require('./login');
 router.post('/login', login(database));
 
-// login
+// topics
+const { getTopics } = require('./topics');
+router.post('/topics', getTopics(database));
+
+// questions
 const { addQuestion, getQuestions } = require('./questions');
 router.post('/questions', getQuestions(database));
 router.post('/questions/add', addQuestion(database));

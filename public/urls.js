@@ -6,8 +6,12 @@ const baseUrl = isDev
 
 export const DEV_URLS = {
   login: `${baseUrl}/login`,
+  questions: `${baseUrl}/questions`,
+  topics: `${baseUrl}/topics`,
 };
 
 export const AFS_URLS = {
   login: `${baseUrl}/login/login.php`,
+  questions: `${baseUrl}/questions/questions.php`,
+  topics: `${baseUrl}/topics/topics.php`,
 };
