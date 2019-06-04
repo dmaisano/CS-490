@@ -9,7 +9,7 @@ import { navigateUrl } from './utils.js';
 export function AppRouter() {
   const AppRoot = document.querySelector('body #root');
 
-  const url = location.hash.slice(1).toLowerCase() || '/';
+  const url = location.hash.slice(1).toLowerCase() || '/#/login';
 
   if (url.includes('/login')) {
     LoginHandler(AppRoot);

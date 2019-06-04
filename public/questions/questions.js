@@ -126,7 +126,7 @@ export class Question {
 
 /**
  * render the list of questions
- * @param {'add' | 'info'} option
+ * @param {'assign' | 'info'} option
  */
 export function renderQuestions(option = 'info') {
   postRequest('questions').then(res => {
@@ -159,8 +159,6 @@ export function renderQuestions(option = 'info') {
     for (let i = 0; i < questions.length; i++) {
       const question = questions[i];
 
-      console.log(question);
-
       const elem = document.createElement('div');
       elem.setAttribute('class', 'question');
       elem.setAttribute('data-index', i); // index of the question
@@ -170,13 +168,22 @@ export function renderQuestions(option = 'info') {
         <input type="text" value="${question.topic}" disabled />
         <input type="text" value="${question.difficulty}" disabled />
         <button type="button" class="btn ${
-          option === 'add' ? 'btn-success' : 'btn-info'
+          option === 'assign' ? 'btn-success' : 'btn-info'
         }">
-        ${option === 'add' ? '+' : '?'}
+        ${option === 'assign' ? '+' : '?'}
         </button>
       `;
 
       questionBox.appendChild(elem);
+    }
+
+    for (const elem of questionBox.querySelectorAll('.question')) {
+      const index = parseInt(elem.getAttribute('data-index'));
+      const question = questions[index];
+
+      elem.querySelector('.btn').addEventListener('click', () => {
+        console.log(question);
+      });
     }
   });
 }
