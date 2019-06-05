@@ -24,7 +24,7 @@ $test_cases = $jsonData['test_cases']; // Test cases stored here
 $question_results = array();
 
 // Grade a single question
-function grade_question($code, $max_points, $topic)
+function grade_question($code, $max_points, $topic, $function_name, $test_cases)
 {
     $points_gained = $max_points;
     $minimal_deduction = ($max_points * .25); // Minor errors (syntax / missing keywords) ---- string search
@@ -118,7 +118,7 @@ function exam_score($question_results)
 
 // Populate array of question results
 while ($number_of_questions != 0) {
-    array_push($question_results, grade_question($code, $max_points, $topic));
+    array_push($question_results, grade_question($code, $max_points, $topic, $function_name, $test_cases));
     $number_of_questions--;
 }
 
