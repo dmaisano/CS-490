@@ -68,7 +68,7 @@ function grade_question($code, $max_points, $topic)
                     }
                 }
                 if (preg_match('/while/', $code)) { // check while loop syntax
-                    if (!preg_match('/while *' . $variable_regex . '.*:/')) { // while x < 10:
+                    if (!preg_match('/while ' . $variable_regex . ' *(' . $copmarison_operator_regex . ')?.*:/', $code)) { // while x < 10:
                         $points_gained -= $minimal_deduction;
                     }
                 }
