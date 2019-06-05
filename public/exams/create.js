@@ -28,6 +28,10 @@ export function CreateExamHandler(root) {
         assignQuestion(questionElem, question);
       });
     }
+
+    page.querySelector('#create-exam-btn').addEventListener('click', () => {
+      createExam(questions);
+    });
   });
 
   renderTopics();
@@ -36,9 +40,8 @@ export function CreateExamHandler(root) {
 /**
  * @param {HTMLDivElement} questionElem
  * @param {Question} question
- * @param {number} len
  */
-function assignQuestion(questionElem, question, len) {
+function assignQuestion(questionElem, question) {
   const examBox = document.querySelector('#exam-box');
 
   const placeholder = examBox.querySelector('#placeholder') || null;
@@ -63,53 +66,75 @@ function assignQuestion(questionElem, question, len) {
   // hide the original question
   questionElem.classList.add('hidden');
 
-  // determine if there are any questions visible in the question bank
-  render_exam_bank_placeholer(questionElem);
+  // all questions are hidden in the bank
+  if (
+    questionElem.parentNode.querySelectorAll('.question.hidden').length ===
+    questionElem.parentNode.querySelectorAll('.question').length
+  ) {
+    questionElem.parentNode.appendChild(createPlaceholder());
+  }
 
   // remove the element from the exam box and show the original element
   elem.querySelector('.btn').addEventListener('click', () => {
     elem.parentNode.removeChild(elem);
     questionElem.classList.remove('hidden');
 
+    // remove placeholder if exists in question bank
+    const placeholderElem = questionElem.parentNode.querySelector(
+      '#placeholder'
+    );
+
+    if (placeholderElem) {
+      placeholderElem.parentNode.removeChild(placeholderElem);
+    }
+
     // add placeholder if no questions in exam box
     if (examBox.querySelectorAll('.question').length < 1) {
       examBox.appendChild(createPlaceholder());
-
-      // remove any existing placeholers
-      render_exam_bank_placeholer();
     }
   });
 }
 
 /**
- * either adds or removes the placeholder for the exam bank
- * @param {HTMLDivElement} questionElem
+ * @param {Question[]}
  */
-function render_exam_bank_placeholer(questionElem) {
-  const questionElems = questionElem.parentNode.querySelectorAll('.question');
+function createExam(questions) {
+  let question_ids = [];
+  let points = [];
 
-  const placeholderElem =
-    questionElem.parentNode.querySelector('#placeholder') || null;
+  const questionElems = document.querySelectorAll(
+    '.split .new-exam #exam-box .question'
+  );
 
-  if (placeholderElem) {
-    questionElem.parentNode.removeChild(placeholderElem);
+  if (questionElems.length < 1) {
+    alert('No Questions Added');
+    return;
   }
 
   for (const elem of questionElems) {
-    if (!elem.classList.contains('hidden')) {
-      // question is visible, remove placeholder if exists
-      if (placeholderElem) {
-        questionElem.parentNode.removeChild(placeholderElem);
-        break;
-      }
+    question_ids.push(parseInt(elem.getAttribute('data-question-id')));
+
+    let questionPoints = elem.querySelector('input:nth-child(2)').value || '';
+
+    if (!questionPoints) {
+      alert('Missing Points');
+    }
+
+    questionPoints = Number(questionPoints);
+
+    if (!Number.isInteger(questionPoints)) {
+      alert('Points must be int');
+    } else {
+      points.push(questionPoints);
     }
   }
 
-  // no questions visible, render placeholder
-  questionElem.parentNode.appendChild(createPlaceholder());
-}
+  const sumPoints = points.reduce((num, total) => (total += num));
 
-function createExam() {}
+  if (sumPoints != 100) {
+    alert('Exam must be out of 100 points');
+  }
+}
 
 /**
  * @returns {HTMLDivElement}

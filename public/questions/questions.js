@@ -23,12 +23,14 @@ export function QuestionsHandler(root) {
     questions = res;
     renderBank(questions, page, 'info');
 
-    for (const elem of page.querySelectorAll('#question-box .question')) {
-      const question = getQuestion(questions, elem);
+    if (res.length) {
+      for (const elem of page.querySelectorAll('#question-box .question')) {
+        const question = getQuestion(questions, elem);
 
-      elem.querySelector('.btn').addEventListener('click', () => {
-        console.log(question);
-      });
+        elem.querySelector('.btn').addEventListener('click', () => {
+          console.log(question);
+        });
+      }
     }
   });
 
@@ -126,11 +128,7 @@ export function renderBank(questions, page, option = 'info') {
       </div>
     `;
 
-  return renderQuestions(
-    questions,
-    document.querySelector('#question-box'),
-    option
-  );
+  renderQuestions(questions, document.querySelector('#question-box'), option);
 }
 
 /**
@@ -156,15 +154,15 @@ export function renderQuestions(questions, questionBox, option = 'info') {
     return;
   }
 
-  // remove existing questions if any exist
-  removeChildren(questionBox);
-
   for (let i = 0; i < questions.length; i++) {
     const question = questions[i];
 
     const elem = document.createElement('div');
     elem.setAttribute('class', 'question');
-    elem.setAttribute('data-question-id', question.id); // index of the question
+
+    if (question.id) {
+      elem.setAttribute('data-question-id', question.id); // index of the question
+    }
 
     elem.innerHTML = /*html*/ `
       <input type="text" value="${question.question_name}" disabled />
@@ -243,7 +241,7 @@ function createQuestion(page) {
     test_cases.push([arg, output]);
   }
 
-  const requestObj = {
+  const question = {
     question_name,
     function_name,
     question_description,
@@ -253,15 +251,16 @@ function createQuestion(page) {
   };
 
   console.log({
-    addQuestionObject: requestObj,
+    addQuestionObject: question,
   });
 
-  postRequest('questionsAdd', requestObj).then(res => {
+  postRequest('questionsAdd', question).then(res => {
     if (!res.success) {
       alert('Failed to add Question');
       return;
     }
 
-    renderQuestions('info');
+    // basically reloading the page
+    QuestionsHandler(document.querySelector('#root'));
   });
 }
