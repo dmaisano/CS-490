@@ -102,6 +102,14 @@ function createExam(questions) {
   let question_ids = [];
   let points = [];
 
+  const exam_name =
+    document.querySelector('.split .new-exam #exam-name').value || '';
+
+  if (!exam_name) {
+    alert('Missing exam name');
+    return;
+  }
+
   const questionElems = document.querySelectorAll(
     '.split .new-exam #exam-box .question'
   );
