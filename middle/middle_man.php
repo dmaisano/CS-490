@@ -9,14 +9,15 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
+// Specified by frontend
 $url = $jsonData['url'];
 
-// exit if no url specified
+// Exit if no url specified
 if (!isset($url)) {
     exit404('missing url');
 }
 
-// curl to backend
+// Curl to backend
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
