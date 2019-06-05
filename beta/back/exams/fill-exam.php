@@ -9,16 +9,19 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
-$q_name = $jsonData['question_name'];
 $l_name = $jsonData['exam_name'];
+$q_ids = $jsonData['question_ids'];
+$points = $jsonData['points'];
 
 // exit if any fields are empty
-if (!isset($q_name) || !isset($l_name)) {
+if (!isset($l_name) || !isset($q_ids) || !isset($points)) {
     exit404('missing field');
 }
 
 $db = new Database();
 $pdo = $db->connect();
+
+$length = count($q_ids);
 
 try {
 

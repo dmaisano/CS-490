@@ -1,0 +1,9 @@
+CREATE TABLE exams
+(
+  id INT NOT NULL
+  AUTO_INCREMENT,
+  exam_name VARCHAR
+  (50) NOT NULL,
+  PRIMARY KEY
+  (id)
+);
