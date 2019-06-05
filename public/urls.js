@@ -1,7 +1,7 @@
 export const isDev = true;
 
 const baseUrl = isDev
-  ? `https://old-wasp-3.localtunnel.me/api`
+  ? `http://localhost:3000/api`
   : `https://web.njit.edu/~ld277/beta/back`;
 
 export const DEV_URLS = {
