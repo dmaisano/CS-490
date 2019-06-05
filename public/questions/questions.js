@@ -1,5 +1,13 @@
-import { postRequest, removeChildren, renderTopics } from '../utils.js';
+import {
+  getQuestion,
+  postRequest,
+  removeChildren,
+  renderTopics,
+} from '../utils.js';
 import { QUESTIONS_PAGE } from './questions.page.js';
+
+/** @type {Question[]} */
+let questions;
 
 /**
  * Login Logic
@@ -9,10 +17,20 @@ export function QuestionsHandler(root) {
   root.innerHTML = QUESTIONS_PAGE();
 
   const page = root.querySelector('.split');
-  QuestionBank.renderBank(page);
 
-  // render the questions
-  renderQuestions();
+  // get the questions
+  postRequest('questions').then(res => {
+    questions = res;
+    renderBank(questions, page, 'info');
+
+    for (const elem of page.querySelectorAll('#question-box .question')) {
+      const question = getQuestion(questions, elem);
+
+      elem.querySelector('.btn').addEventListener('click', () => {
+        console.log(question);
+      });
+    }
+  });
 
   // render topics
   renderTopics();
@@ -30,17 +48,39 @@ export function QuestionsHandler(root) {
     });
 }
 
-export class QuestionBank {
-  /**
-   * @param {HTMLDivElement} questionBank
-   */
-  static renderBank(page) {
-    this.questionBank = page.querySelector('#question-bank');
+export class Question {
+  constructor(
+    id,
+    question_name,
+    functionName,
+    description,
+    difficulty,
+    topic,
+    testCases
+  ) {
+    this.id = id;
+    this.question_name = question_name;
+    this.functionName = functionName;
+    this.description = description;
+    this.difficulty = difficulty;
+    this.topic = topic;
+    this.testCases = testCases; // 2D string array
+  }
+}
 
-    // remove any existing children in the question bank
-    removeChildren(this.questionBank);
+/**
+ * @param {Question[]} questions
+ * @param {HTMLDivElement} page
+ * @param {'assign' | 'info'} option
+ * @param {Function} clickFunction
+ */
+export function renderBank(questions, page, option = 'info') {
+  const questionBank = page.querySelector('#question-bank');
 
-    this.questionBank.innerHTML = /*html*/ `
+  // remove any existing children in the question bank
+  removeChildren(questionBank);
+
+  questionBank.innerHTML = /*html*/ `
       <h1 class="title">Question Bank</h1>
 
       <div id="filter-box">
@@ -79,99 +119,68 @@ export class QuestionBank {
           <h3>Question Name</h3>
           <h3>Topic</h3>
           <h3>Difficulty</h3>
-          <button class="btn" style="visibility: hidden;">X</button>
+          <button class="btn invisible">X</button>
         </div>
 
         <div id="question-box"></div>
       </div>
     `;
-  }
-}
 
-export class Question {
-  constructor(
-    id,
-    question_name,
-    functionName,
-    description,
-    difficulty,
-    topic,
-    testCases
-  ) {
-    this.id = id;
-    this.question_name = question_name;
-    this.functionName = functionName;
-    this.description = description;
-    this.difficulty = difficulty;
-    this.topic = topic;
-    this.testCases = testCases; // 2D string array
-  }
+  return renderQuestions(
+    questions,
+    document.querySelector('#question-box'),
+    option
+  );
 }
 
 /**
  * render the list of questions
+ * @param {Question[]} questions
+ * @param {HTMLDivElement} questionBox
  * @param {'assign' | 'info'} option
  */
-export function renderQuestions(option = 'info') {
-  postRequest('questions').then(res => {
-    const questionBox = document.querySelector('#question-box');
+export function renderQuestions(questions, questionBox, option = 'info') {
+  // no questions
+  if (questions.length < 1) {
+    const elem = document.createElement('div');
+    elem.setAttribute('class', 'question');
+    elem.innerHTML = /*html*/ `
+      <input
+        style="grid-column: span 3;"
+        type="text"
+        value="No Questions"
+        disabled
+      />
+  `;
+    questionBox.appendChild(elem);
+    return;
+  }
 
-    /**
-     * @type {Question[]}
-     */
-    const questions = res;
+  // remove existing questions if any exist
+  removeChildren(questionBox);
 
-    // no questions
-    if (questions.length < 1) {
-      const elem = document.createElement('div');
-      elem.setAttribute('class', 'question');
-      elem.innerHTML = /*html*/ `
-        <input
-          style="grid-column: span 3;"
-          type="text"
-          value="No Questions"
-          disabled
-        />
+  for (let i = 0; i < questions.length; i++) {
+    const question = questions[i];
+
+    const elem = document.createElement('div');
+    elem.setAttribute('class', 'question');
+    elem.setAttribute('data-question-id', question.id); // index of the question
+
+    elem.innerHTML = /*html*/ `
+      <input type="text" value="${question.question_name}" disabled />
+      <input type="text" value="${question.topic}" disabled />
+      <input type="text" value="${question.difficulty}" disabled />
+      <button
+      type="button"
+      style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+      class="btn ${option === 'assign' ? 'btn-success' : 'btn-info'}"
+      >
+        ${option === 'assign' ? '+' : '?'}
+      </button>
     `;
-      questionBox.appendChild(elem);
-      return;
-    }
 
-    // remove existing questions if any exist
-    removeChildren(questionBox);
-
-    for (let i = 0; i < questions.length; i++) {
-      const question = questions[i];
-
-      const elem = document.createElement('div');
-      elem.setAttribute('class', 'question');
-      elem.setAttribute('data-index', i); // index of the question
-
-      elem.innerHTML = /*html*/ `
-        <input type="text" value="${question.question_name}" disabled />
-        <input type="text" value="${question.topic}" disabled />
-        <input type="text" value="${question.difficulty}" disabled />
-        <button
-        type="button"
-        style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-        class="btn ${option === 'assign' ? 'btn-success' : 'btn-info'}"
-        >
-          ${option === 'assign' ? '+' : '?'}
-        </button>
-      `;
-
-      questionBox.appendChild(elem);
-    }
-
-    for (const elem of questionBox.querySelectorAll('.question')) {
-      const index = parseInt(elem.getAttribute('data-index'));
-      const question = questions[index];
-
-      elem.querySelector('.btn').addEventListener('click', () => {
-        console.log(question);
-      });
-    }
-  });
+    questionBox.appendChild(elem);
+  }
 }
 
 export function filterQuestionBank() {
@@ -243,7 +252,9 @@ function createQuestion(page) {
     test_cases,
   };
 
-  console.log(requestObj);
+  console.log({
+    addQuestionObject: requestObj,
+  });
 
   postRequest('questionsAdd', requestObj).then(res => {
     if (!res.success) {

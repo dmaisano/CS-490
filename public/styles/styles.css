@@ -50,10 +50,6 @@ h6 {
   margin: 0;
 }
 
-.hidden {
-  display: none;
-}
-
 a {
   text-decoration: none !important;
 }
@@ -61,4 +57,12 @@ a {
 /* disabled links */
 a:disabled {
   background-color: #a0a6ab !important;
+}
+
+.hidden {
+  display: none;
+}
+
+.invisible {
+  visibility: hidden;
 }

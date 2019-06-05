@@ -1,4 +1,5 @@
 import { AFS_URLS, DEV_URLS, isDev } from './urls.js';
+import { Question } from './questions/questions.js';
 
 /**
  * sends a post request
@@ -114,4 +115,22 @@ export function renderTopics() {
       }
     }
   });
+}
+
+/**
+ *
+ * @param {Question[]} questions
+ * @param {HTMLDivElement} questionElem
+ * @returns {Question|null}
+ */
+export function getQuestion(questions, questionElem) {
+  const id = parseInt(questionElem.getAttribute('data-question-id'));
+
+  for (const question of questions) {
+    if (question.id === id) {
+      return question;
+    }
+  }
+
+  return null;
 }
