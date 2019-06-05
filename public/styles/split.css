@@ -131,3 +131,18 @@
   max-height: 68vh;
   overflow-y: auto;
 }
+
+.split .new-exam #exam-box .question {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-column-gap: 0.25rem;
+}
+
+.split .new-exam #exam-box .question:not(:last-child) {
+  margin-bottom: 0.25rem;
+}
+
+.split .new-exam #create-exam-btn {
+  width: 100%;
+  margin-bottom: 1rem;
+}

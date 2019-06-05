@@ -16,9 +16,15 @@ export function CREATE_EXAM_PAGE() {
 
       <h2 class="title">Exam Questions</h2>
 
-      <div id="exam-box">
+      <button id="create-exam-btn" class="btn btn-success">Create Exam</button>
 
+      <div id="exam-box">
+        <div id="placeholder">
+          <input type="text" value="No Questions" disabled/>
+        </div>
       </div>
+
+
     </div>
   </div>
 `;
