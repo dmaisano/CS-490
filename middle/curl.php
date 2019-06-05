@@ -9,6 +9,7 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
+// Username and Password
 $user = isset($jsonData['user']) ? $jsonData['user'] : '';
 $pass = isset($jsonData['pass']) ? $jsonData['pass'] : '';
 
