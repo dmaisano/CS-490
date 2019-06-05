@@ -9,12 +9,17 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
+/*
+Grader currently does not take into account
+student's comments in code response
+ */
+
 $code = $jsonData['code']; // Answer string stored here
-$max_points = $jsonData['max points']; // Max points earnable stored here
+$max_points = $jsonData['max_points']; // Max points earnable stored here
 $topic = $jsonData['topic']; // Question topic stored here
-$function_name = $jsonData['function name']; // Function name stored here
-$number_of_questions = $jsonData['number of questions']; // Number of questions on exam stored here
-$test_cases = $jsonData['test cases']; // Test cases stored here
+$function_name = $jsonData['function_name']; // Function name stored here
+$number_of_questions = $jsonData['number_of_questions']; // Number of questions on exam stored here
+$test_cases = $jsonData['test_cases']; // Test cases stored here
 
 $question_results = array();
 
@@ -22,32 +27,61 @@ $question_results = array();
 function grade_question($code, $max_points, $topic)
 {
     $points_gained = $max_points;
+    $minimal_deduction = ($max_points * .25); // Minor errors (syntax / missing keywords) ---- string search
+    $extreme_deduction = ($max_points * .5); // If student's output != expected output ---- php exec
+    $variable_regex = '[a-zA-Z][a-zA-Z0-9_]*';
+    $first_line_regex = '/\Adef +' . $function_name . '\((' . $variable_regex . ')?((, ' . $variable_regex . ')?){0,}\):/'; // Regex for def $function_name(optional parameters):
+    $copmarison_operator_regex = '(==)|(!=)|(<>)|>|<|(>=)|(<=)';
     // String search
     if ($code == "") {
         $points_gained = 0;
         return $points_gained;
-    } elseif (!preg_match('/(?-i)def +' . $function_name . ':/', $code)) { // Regex for def $function_name: case sensitive
-        $points_gained -= 5;
     } else {
+        if (!preg_match($first_line_regex, $code)) {
+            $points_gained -= $minimal_deduction;
+        }
         switch ($topic) {
-            case "print":
-                if (!preg_match('/print/', $code)) {
-                    $points_gained -= 5;
+            case "Dict":
+                if (!preg_match('/' . $variable_regex . ' *= *{(".*": ".*".*)?}/', $code)) { // dict1 = {"key": "yes"}
+                    $points_gained -= $minimal_deduction;
                 }
                 break;
-            case "loop":
-                if (!preg_match('/for|while/', $code)) {
-                    $points_gained -= 5;
+            case "Files":
+                if (!preg_match('/' . $variable_regex . ' *= *open\(".+\.((txt)|(php)|(py))"(, "[rawx]")?\)/', $code)) { // file = open("cat.txt", "w") (only .txt .php .py allowed)
+                    $points_gained -= $minimal_deduction;
                 }
                 break;
-            case "math":
-                if (!preg_match('/\+|\-|\*|\/|\%|\=/', $code)) {
-                    $points_gained -= 5;
+            case "If":
+                if (!preg_match('/if ' . $variable_regex . ' *(' . $copmarison_operator_regex . ')?.*:/', $code)) { // if variable: || if variable1 > variable2:
+                    $points_gained -= $minimal_deduction;
                 }
                 break;
-            case "if":
-                if (!preg_match('/if/', $code)) {
-                    $points_gained -= 5;
+            case "Lists":
+                if (!preg_match('/' . $variable_regex . ' *= *\[(".+"){0,}\]/', $code)) { // list1 = [1, "apple"] etc.
+                    $points_gained -= $minimal_deduction;
+                }
+                break;
+            case "Loops":
+                if (preg_match('/for/', $code)) { // check for loop syntax
+                    if (!preg_match('/for *' . $variable_regex . ' *in *' . $variable_regex . ' *:/')) { // for x in fruits:
+                        $points_gained -= $minimal_deduction;
+                    }
+                }
+                if (preg_match('/while/', $code)) { // check while loop syntax
+                    if (!preg_match('/while *' . $variable_regex . '.*:/')) { // while x < 10:
+                        $points_gained -= $minimal_deduction;
+                    }
+                }
+                break;
+            case "Math":
+                $arithmetic_operator_regex = '\+|-|\*|\/|%';
+                if (!preg_match('/' . $arithmetic_operator_regex . '/', $code)) {
+                    $points_gained -= $minimal_deduction;
+                }
+                break;
+            case "Strings":
+                if (!preg_match('/".*"/', $code)) {
+                    $points_gained -= $minimal_deduction;
                 }
                 break;
         }
@@ -61,7 +95,7 @@ function grade_question($code, $max_points, $topic)
         fwrite($file, '\nprint(' . $function_name . '(' . $input . '))'); // print(doubleIt(2))
         $output = shell_exec('/~/Programs/490/' . $file);
         if ($expected_output !== $output) {
-            $points_gained -= 5;
+            $points_gained -= $extreme_deduction;
         }
     }
     fclose($file);
