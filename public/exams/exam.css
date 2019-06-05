@@ -1,0 +1,24 @@
+.exam {
+  width: 100%;
+  padding: 1rem;
+}
+
+.exam #submit-exam {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.exam #exam-questions .question {
+  width: 100%;
+  padding: 0 0.75rem;
+  margin: 0;
+}
+
+.exam #exam-questions .question .card-title {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.exam #exam-questions .question:not(:last-child) {
+  margin-bottom: 1rem;
+}

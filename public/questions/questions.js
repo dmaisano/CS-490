@@ -251,7 +251,7 @@ function createQuestion(page) {
   };
 
   console.log({
-    addQuestionObject: question,
+    addQuestionObject: JSON.stringify(question),
   });
 
   postRequest('questionsAdd', question).then(res => {

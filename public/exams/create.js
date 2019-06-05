@@ -98,7 +98,7 @@ function assignQuestion(questionElem, question) {
 /**
  * @param {Question[]}
  */
-function createExam(questions) {
+function createExam() {
   let question_ids = [];
   let points = [];
 
@@ -142,6 +142,14 @@ function createExam(questions) {
   if (sumPoints != 100) {
     alert('Exam must be out of 100 points');
   }
+
+  const createExamObject = {
+    exam_name,
+    question_ids,
+    points,
+  };
+
+  console.log(JSON.stringify(createExamObject));
 }
 
 /**
