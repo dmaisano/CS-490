@@ -1,7 +1,7 @@
 <?php
 
-include '../config/database.php';
-include '../utils.php';
+include './config/database.php';
+include './utils.php';
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
@@ -12,7 +12,7 @@ $pdo = $db->connect();
 try {
     $result = array();
 
-    $stmt = $pdo->query("SELECT * FROM questions");
+    $stmt = $pdo->query("SELECT * FROM topics");
 
     while ($row = $stmt->fetch()) {
         array_push($result, $row);

@@ -12,7 +12,7 @@ $pdo = $db->connect();
 try {
     $result = array();
 
-    $stmt = $pdo->query("SELECT * FROM questions");
+    $stmt = $pdo->query("SELECT * FROM exams");
 
     while ($row = $stmt->fetch()) {
         array_push($result, $row);

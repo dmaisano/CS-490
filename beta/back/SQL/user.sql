@@ -1,15 +1,11 @@
 -- users.sql
 DROP TABLE IF EXISTS users;
 
-CREATE TABLE
-IF NOT EXISTS users
+CREATE TABLE IF NOT EXISTS users
 (
-  id VARCHAR
-(255),
-  pass VARCHAR
-(255),
+  id VARCHAR (255),
+  pass VARCHAR (255),
   user_type BOOLEAN, --true for student
 
-  PRIMARY KEY
-(id)
+  PRIMARY KEY (id)
 );
