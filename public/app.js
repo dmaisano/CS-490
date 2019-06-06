@@ -1,6 +1,8 @@
 import { CreateExamHandler } from './exams/create.js';
 import { SelectExamHandler } from './exams/select.js';
 import { TakeExamHandler } from './exams/take.js';
+import { SelectGradeHandler } from './grades/select.js';
+import { ViewGradeHandler } from './grades/view.js';
 import { HomeHandler } from './home/home.js';
 import { LoginHandler } from './login/login.js';
 import { QuestionsHandler } from './questions/questions.js';
@@ -23,6 +25,14 @@ export function AppRouter() {
     SelectExamHandler(AppRoot);
   } else if (url.includes('/student/exam')) {
     TakeExamHandler(AppRoot);
+  } else if (url.includes('/student/grades/select')) {
+    SelectGradeHandler(AppRoot);
+  } else if (url.includes('/instructor/grades/select')) {
+    SelectGradeHandler(AppRoot);
+  } else if (url.includes('/student/grade')) {
+    ViewGradeHandler(AppRoot);
+  } else if (url.includes('/instructor/grade')) {
+    ViewGradeHandler(AppRoot);
   } else {
     LoginHandler(AppRoot);
   }

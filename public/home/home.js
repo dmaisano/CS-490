@@ -40,7 +40,7 @@ function STUDENT_HOME_PAGE(user) {
     </div>
 
     <div class="links">
-      <a href="./#/student/grades" class="btn btn-primary">View Grades</a>
+      <a href="./#/student/grades/select" class="btn btn-primary">View Grades</a>
       <a href="./#/student/exam/select" class="btn btn-primary">Take Exam</a>
     </div>
   </div>
@@ -60,7 +60,7 @@ function INSTRUCTOR_HOME_PAGE(user) {
     </div>
 
     <div class="links">
-      <a href="./#/instructor/grades" class="btn btn-primary">View Student Grades</a>
+      <a href="./#/instructor/grades/select" class="btn btn-primary">View Student Grades</a>
       <a href="./#/exams/view" class="btn btn-primary">View Exams</a>
       <a href="./#/exams/create" class="btn btn-primary">Create Exam</a>
       <a href="./#/questions/create" class="btn btn-primary">Create Questions</a>

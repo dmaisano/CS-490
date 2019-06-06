@@ -8,6 +8,7 @@ exports.getGrades = function(db) {
         item.responses = JSON.parse(item.responses);
         item.instructor_comments = JSON.parse(item.instructor_comments);
         item.points = JSON.parse(item.points);
+        item.points_earned = JSON.parse(item.points_earned);
         item.finalized = JSON.parse(item.finalized);
       }
 

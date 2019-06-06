@@ -15,6 +15,7 @@ export const DEV_URLS = {
   addExam: `${baseUrl}/exams/add`,
   grades: `${baseUrl}/grades`,
   finalizeGrade: `${baseUrl}/grades/finalize`,
+  getStudents: `${baseUrl}/students`,
 };
 
 export const AFS_URLS = {
@@ -27,4 +28,5 @@ export const AFS_URLS = {
   grades: `${baseUrl}/grades/get.php`,
   addGrade: `${baseUrl}/grades/add.php`,
   finalizeGrade: `${baseUrl}/grades/finalize.php`,
+  getStudents: `${baseUrl}/students.php`,
 };

@@ -14,6 +14,10 @@ router.get('/', (req, res) => {
 const { login } = require('./login');
 router.post('/login', login(database));
 
+// login
+const { getStudents } = require('./students');
+router.post('/students', getStudents(database));
+
 // topics
 const { getTopics } = require('./topics');
 router.post('/topics', getTopics(database));
