@@ -158,6 +158,8 @@ function createExam(questions) {
       alert('Failed to add exam');
       return;
     }
+
+    alert('Successfully created exam');
   });
 }
 
