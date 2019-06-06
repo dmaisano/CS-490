@@ -12,7 +12,7 @@ $pdo = $db->connect();
 try {
     $result = array();
 
-    $stmt = $pdo->query("SELECT * FROM grades");
+    $stmt = $pdo->query("SELECT * FROM exams");
 
     while ($row = $stmt->fetch()) {
         array_push($result, json_encode($row));
@@ -20,11 +20,8 @@ try {
 
     for ($i = 0; $i < count($result); $i++) {
         $result[$i] = json_decode($result[$i], true);
-        $result[$i]['exam'] = json_decode($result[$i]['exam']);
-        $result[$i]['responses'] = json_decode($result[$i]['responses']);
-        $result[$i]['instructor_comments'] = json_decode($result[$i]['instructor_comments']);
+        $result[$i]['questions'] = json_decode($result[$i]['questions']);
         $result[$i]['points'] = json_decode($result[$i]['points']);
-        $result[$i]['points_earned'] = json_decode($result[$i]['points_earned']);
     }
 
     $response = $result;

@@ -9,12 +9,9 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
-$exam = $jsonData['exam'];
-$student_id = $jsonData['student_id'];
-$responses = $jsonData['responses'];
-$instructor_comments = $jsonData['instructor_comments'];
+$exam_name = $jsonData['exam_name'];
+$questions = $jsonData['questions'];
 $points = $jsonData['points'];
-$points_earned = $jsonData['points_earned'];
 
 $finalized = 0;
 
@@ -22,17 +19,13 @@ $db = new Database();
 $pdo = $db->connect();
 
 try {
-    $sql = "INSERT INTO grades (exam, student_id, responses, instructor_comments, points, points_earned, finalized) VALUES (?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO exams (exam_name, questions, points) VALUES (?,?,?)";
     $stmt = $pdo->prepare($sql);
 
     $args = array(
-        json_encode($exam),
-        $student_id,
-        json_encode($responses),
-        json_encode($instructor_comments),
+        $exam_name,
+        json_encode($questions),
         json_encode($points),
-        json_encode($points_earned),
-        $finalized,
     );
 
     $status = $stmt->execute($args);

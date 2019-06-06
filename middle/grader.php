@@ -9,9 +9,11 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
+$url = $jsonData['url'];
+$user = $jsonData['user'];
 $responses = $jsonData['responses'];
 $points = $jsonData['points'];
-$questions = $jsonData['exam']['questions'];
+$questions = $jsonData['questions'];
 
 $jsonData['points_earned'] = array();
 $jsonData['instructor_comments'] = array();
@@ -90,4 +92,17 @@ function grade_question($code, $question, $maxPoints)
     );
 }
 
-echo json_encode($jsonData);
+// Curl to backend
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => $jsonString,
+));
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;

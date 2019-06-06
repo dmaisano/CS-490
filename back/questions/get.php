@@ -15,7 +15,12 @@ try {
     $stmt = $pdo->query("SELECT * FROM questions");
 
     while ($row = $stmt->fetch()) {
-        array_push($result, $row);
+        array_push($result, json_encode($row));
+    }
+
+    for ($i = 0; $i < count($result); $i++) {
+        $result[$i] = json_decode($result[$i], true);
+        $result[$i]['test_cases'] = json_decode($result[$i]['test_cases'], true);
     }
 
     $response = $result;

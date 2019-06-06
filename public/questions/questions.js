@@ -181,9 +181,7 @@ export function renderQuestions(questions, questionBox, option = 'info') {
   }
 }
 
-export function filterQuestionBank() {
-  console.log('owo');
-}
+export function filterQuestionBank() {}
 
 function addTestCase() {
   const testCases = document.querySelector('#test-cases');

@@ -1,4 +1,5 @@
 import { getUser, postRequest, navigateUrl } from '../utils.js';
+import { autoGraderUrl, AFS_URLS } from '../urls.js';
 
 /**
  * Login Logic
@@ -18,7 +19,7 @@ export function TakeExamHandler(root) {
   renderExamQuestions(page, exam);
 
   page.querySelector('.btn#submit-exam').addEventListener('click', () => {
-    submitExam(page);
+    submitExam(exam);
   });
 }
 
@@ -75,7 +76,7 @@ function renderExamQuestions(page, exam) {
  *
  * @param {HTMLDivElement} page
  */
-function submitExam(page) {
+function submitExam(exam) {
   let responses = [];
 
   for (const elem of document.querySelectorAll('#code')) {
@@ -89,7 +90,18 @@ function submitExam(page) {
     responses.push(response);
   }
 
-  const autoGraderRequest = {};
+  const autoGraderRequest = {
+    url: AFS_URLS,
+    user: getUser().id,
+    exam,
+    responses,
+    questions: exam.questions,
+    points: exam.points,
+  };
+
+  console.log({
+    autoGraderRequest: JSON.stringify(autoGraderRequest),
+  });
 }
 
 function getExam() {
