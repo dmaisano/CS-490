@@ -8,7 +8,14 @@ import { Question } from './questions/questions.js';
  * @returns {Promise}
  */
 export function postRequest(urlKey, data = {}) {
-  let postUrl = DEV_URLS[urlKey];
+  let postUrl;
+
+  if (urlKey === 'https://web.njit.edu/~bm424/490/middle/grader.php') {
+    console.log('foo');
+    postUrl = urlKey;
+  } else {
+    postUrl = DEV_URLS[urlKey];
+  }
 
   return fetch(postUrl, {
     method: 'POST',
