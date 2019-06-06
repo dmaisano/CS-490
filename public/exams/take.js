@@ -1,5 +1,5 @@
-import { getUser, postRequest, navigateUrl } from '../utils.js';
-import { autoGraderUrl, AFS_URLS } from '../urls.js';
+import { DEV_URLS } from '../urls.js';
+import { getUser, navigateUrl, postRequest } from '../utils.js';
 
 /**
  * Login Logic
@@ -91,7 +91,7 @@ function submitExam(exam) {
   }
 
   const autoGraderRequest = {
-    url: AFS_URLS,
+    url: DEV_URLS.addGrade,
     user: getUser().id,
     exam,
     responses,
@@ -101,6 +101,13 @@ function submitExam(exam) {
 
   console.log({
     autoGraderRequest: JSON.stringify(autoGraderRequest),
+  });
+
+  postRequest(
+    'https://web.njit.edu/~bm424/490/middle/grader.php',
+    autoGraderRequest
+  ).then(res => {
+    console.log(res);
   });
 }
 

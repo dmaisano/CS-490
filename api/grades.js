@@ -1,3 +1,47 @@
+exports.addGrade = function(db) {
+  return async (req, res) => {
+    const {
+      exam,
+      student_id,
+      responses,
+      instructor_comments,
+      points,
+      points_earned,
+    } = req.body;
+
+    let finalized = 0;
+
+    try {
+      await db.query(
+        `INSERT INTO grades (exam, student_id, responses, instructor_comments, points, points_earned, finalized) VALUES (?,?,?,?,?,?,?)`,
+        [
+          JSON.stringify(exam),
+          student_id,
+          JSON.stringify(responses),
+          JSON.stringify(instructor_comments),
+          JSON.stringify(points),
+          JSON.stringify(points_earned),
+          finalized,
+        ]
+      );
+
+      return res.json({
+        success: true,
+        msg: `successfully added exam '${exam_name}'`,
+      });
+    } catch (error) {
+      console.log({
+        error,
+      });
+
+      return res.json({
+        success: false,
+        error,
+      });
+    }
+  };
+};
+
 exports.getGrades = function(db) {
   return async (req, res) => {
     try {

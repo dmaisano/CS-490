@@ -10,11 +10,6 @@ import { Question } from './questions/questions.js';
 export function postRequest(urlKey, data = {}) {
   let postUrl = DEV_URLS[urlKey];
 
-  if (!isDev) {
-    postUrl = 'https://web.njit.edu/~dm583/490/public/curl.php';
-    data.url = AFS_URLS[urlKey]; // points to Lawrence's php page based on the urlKey
-  }
-
   return fetch(postUrl, {
     method: 'POST',
     mode: 'cors',

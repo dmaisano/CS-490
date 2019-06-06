@@ -1,10 +1,8 @@
-export const isDev = false;
+export const isDev = true;
 
 const baseUrl = isDev
-  ? `http://localhost:3000/api`
+  ? `https://rare-shrimp-33.localtunnel.me/api`
   : `https://web.njit.edu/~dm583/490/back`;
-
-export const autoGraderUrl = 'https://web.njit.edu/~bm424/grader.php';
 
 export const DEV_URLS = {
   login: `${baseUrl}/login`,
@@ -14,6 +12,7 @@ export const DEV_URLS = {
   exams: `${baseUrl}/exams`,
   addExam: `${baseUrl}/exams/add`,
   grades: `${baseUrl}/grades`,
+  addGrade: `${baseUrl}/grades/add`,
   finalizeGrade: `${baseUrl}/grades/finalize`,
   getStudents: `${baseUrl}/students`,
 };
