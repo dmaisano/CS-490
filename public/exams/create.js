@@ -157,9 +157,9 @@ function createExam(questions) {
     if (!res.success) {
       alert('Failed to add exam');
       return;
+    } else {
+      alert('Successfully created exam');
     }
-
-    alert('Successfully created exam');
   });
 }
 
