@@ -25,7 +25,7 @@ exports.addGrade = function(db) {
         ]
       );
 
-      console.log(req.body);
+      console.log(JSON.parse(req.body));
 
       return res.json({
         success: true,
