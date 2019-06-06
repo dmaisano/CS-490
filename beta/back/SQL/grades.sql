@@ -11,13 +11,12 @@ IF NOT EXISTS grades
   responses JSON,
   instructor_comments JSON,
   points_earned JSON, -- [25, 50]
-  points_max JSON, -- [50, 50]
-
+  finalized BOOLEAN,
   PRIMARY KEY
 (id),
   FOREIGN KEY
 (student_id) REFERENCES users
-(id),
+( id),
   FOREIGN KEY
 (exam_id) REFERENCES exams
 (id)

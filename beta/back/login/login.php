@@ -21,7 +21,7 @@ $db = new Database();
 $pdo = $db->connect();
 
 try {
-    $sql = "SELECT * FROM users WHERE user_id=:user_id";
+    $sql = "SELECT * FROM users WHERE id=:user_id";
     $stmt = $pdo->prepare($sql);
 
     $stmt->bindParam(':user_id', $user);
