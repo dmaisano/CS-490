@@ -31,7 +31,7 @@ curl_setopt_array($curl, array(
     CURLOPT_URL => $url,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => $exam_results,
+    CURLOPT_POSTFIELDS => $gradeData,
 ));
 
 $response = curl_exec($curl);
