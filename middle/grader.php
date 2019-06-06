@@ -26,7 +26,6 @@ for ($i = 0; $i < count($responses); $i++) {
 }
 
 // Curl results to backend
-$url = 'https://web.njit.edu/~ld277/490/back/grade/auto-grade.php'; // Lawrence's grader table
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
