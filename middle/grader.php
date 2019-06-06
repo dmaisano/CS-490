@@ -33,7 +33,7 @@ curl_setopt_array($curl, array(
     CURLOPT_URL => $url,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => $gradeData,
+    CURLOPT_POSTFIELDS => json_encode($jsonData),
 ));
 
 $response = curl_exec($curl);
@@ -91,18 +91,5 @@ function grade_question($code, $question, $maxPoints)
         'comments' => $comments,
     );
 }
-
-// Curl to backend
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-    CURLOPT_URL => $url,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => $jsonString,
-));
-
-$response = curl_exec($curl);
-curl_close($curl);
 
 echo $response;
