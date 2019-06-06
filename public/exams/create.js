@@ -149,8 +149,15 @@ function createExam(questions) {
     points,
   };
 
+  console.log({
+    createExamObject: JSON.stringify(createExamObject),
+  });
+
   postRequest('addExam', createExamObject).then(res => {
-    console.log(res);
+    if (!res.success) {
+      alert('Failed to add exam');
+      return;
+    }
   });
 }
 

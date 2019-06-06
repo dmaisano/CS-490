@@ -28,4 +28,9 @@ const { addExam, getExams } = require('./exams');
 router.post('/exams', getExams(database));
 router.post('/exams/add', addExam(database));
 
+// grades
+const { addGrade, getGrades } = require('./grades');
+router.post('/grades', getGrades(database));
+router.post('/grades/add', addGrade(database));
+
 module.exports = router;

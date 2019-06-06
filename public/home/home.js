@@ -41,7 +41,7 @@ function STUDENT_HOME_PAGE(user) {
 
     <div class="links">
       <a href="./#/student/grades" class="btn btn-primary">View Grades</a>
-      <a href="./#/student/exam" class="btn btn-primary">Take Exam</a>
+      <a href="./#/student/exam/select" class="btn btn-primary">Take Exam</a>
     </div>
   </div>
 `;

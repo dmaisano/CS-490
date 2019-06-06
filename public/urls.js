@@ -11,6 +11,8 @@ export const DEV_URLS = {
   topics: `${baseUrl}/topics`,
   exams: `${baseUrl}/exams`,
   addExam: `${baseUrl}/exams/add`,
+  grades: `${baseUrl}/grades`,
+  finalizeGrade: `${baseUrl}/grades/finalize`,
 };
 
 export const AFS_URLS = {
