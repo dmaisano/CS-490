@@ -1,8 +1,8 @@
-export const isDev = true;
+export const isDev = false;
 
 const baseUrl = isDev
   ? `http://localhost:3000/api`
-  : `https://web.njit.edu/~ld277/back`;
+  : `https://web.njit.edu/~dm583/490/back`;
 
 export const autoGraderUrl = 'https://web.njit.edu/~bm424/grader.php';
 
