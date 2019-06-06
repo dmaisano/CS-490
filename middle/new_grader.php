@@ -23,6 +23,20 @@ for ($i = 0; $i < count($responses); $i++) {
     array_push($jsonData['instructor_comments'], $gradeData['comments']);
 }
 
+// Curl results to backend
+$url = 'https://web.njit.edu/~ld277/490/back/grade/auto-grade.php'; // Lawrence's grader table
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => $exam_results,
+));
+
+$response = curl_exec($curl);
+curl_close($curl);
+
 function grade_question($code, $question, $maxPoints)
 {
     $points = $maxPoints;
