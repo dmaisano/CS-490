@@ -25,9 +25,11 @@ exports.addGrade = function(db) {
         ]
       );
 
+      console.log(req.body);
+
       return res.json({
         success: true,
-        msg: `successfully added exam '${exam_name}'`,
+        msg: `successfully added grade`,
       });
     } catch (error) {
       console.log({

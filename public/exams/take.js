@@ -99,9 +99,7 @@ function submitExam(exam) {
     points: exam.points,
   };
 
-  console.log({
-    autoGraderRequest: JSON.stringify(autoGraderRequest),
-  });
+  console.log(autoGraderRequest);
 
   postRequest(
     'https://web.njit.edu/~bm424/490/middle/grader.php',

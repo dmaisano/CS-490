@@ -1,6 +1,6 @@
 exports.addExam = function(db) {
   return async (req, res) => {
-    const { exam_name, questions, points } = req.body;
+    let { exam_name, questions, points } = req.body;
 
     try {
       await db.query(
