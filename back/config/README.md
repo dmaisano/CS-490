@@ -11,7 +11,7 @@ class Database
     private $password = "pass";
     private $conn;
 
-    public function connect(): PDO
+    public function connect()
     {
         $this->conn = null;
 
