@@ -11,6 +11,7 @@ $jsonData = json_decode($jsonString, true);
 
 $user = $jsonData['user'];
 $pass = $jsonData['pass'];
+$type = $jsonData['type'];
 
 // exit if no user / pass
 if (!isset($user) || !isset($pass)) {
@@ -23,10 +24,10 @@ $db = new Database();
 $pdo = $db->connect();
 
 try {
-    $sql = "INSERT INTO users VALUES (?, ?)";
+    $sql = "INSERT INTO users VALUES (?, ?, ?)";
     $stmt = $pdo->prepare($sql);
 
-    $args = array($user, $hashedPass);
+    $args = array($user, $hashedPass, $type);
     $status = $stmt->execute($args);
 
     $response = array('success' => true, 'msg' => 'successfully added user "' . $user . '"');
