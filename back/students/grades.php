@@ -1,7 +1,7 @@
 <?php
 
-include './config/database.php';
-include './utils.php';
+include '../config/database.php';
+include '../utils.php';
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
@@ -12,10 +12,15 @@ $pdo = $db->connect();
 try {
     $result = array();
 
-    $stmt = $pdo->query("SELECT * FROM topics");
+    $stmt = $pdo->query("SELECT * FROM grades");
 
     while ($row = $stmt->fetch()) {
         array_push($result, $row);
+    }
+
+    for ($i = 0; $i < count($result); $i++) {
+        // $result[$i] = json_decode($result[$i], true);
+        $result[$i]['test_cases'] = json_decode($result[$i]['test_cases'], true);
     }
 
     $response = $result;

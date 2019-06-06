@@ -15,11 +15,11 @@ try {
     $stmt = $pdo->query("SELECT * FROM grades");
 
     while ($row = $stmt->fetch()) {
-        array_push($result, json_encode($row));
+        array_push($result, $row);
     }
 
     for ($i = 0; $i < count($result); $i++) {
-        $result[$i] = json_decode($result[$i], true);
+        // $result[$i] = json_decode($result[$i], true);
         $result[$i]['exam'] = json_decode($result[$i]['exam']);
         $result[$i]['responses'] = json_decode($result[$i]['responses']);
         $result[$i]['instructor_comments'] = json_decode($result[$i]['instructor_comments']);

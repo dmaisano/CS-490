@@ -10,6 +10,5 @@ CREATE TABLE IF NOT EXISTS questions (
   topic VARCHAR(255) NOT NULL,
   test_cases JSON NOT NULL,
 
-  PRIMARY KEY(id),
-  FOREIGN KEY (topic) REFERENCES topics(topic)
+  PRIMARY KEY(id)
 );

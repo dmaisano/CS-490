@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS grades;
 
 CREATE TABLE IF NOT EXISTS grades (
   id INT AUTO_INCREMENT,
-  exam JSON,
+  exam JSON, -- exam object
   student_id VARCHAR(255),
   responses JSON,
   instructor_comments JSON,
