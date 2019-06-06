@@ -9,6 +9,8 @@ export const DEV_URLS = {
   questions: `${baseUrl}/questions`,
   questionsAdd: `${baseUrl}/questions/add`,
   topics: `${baseUrl}/topics`,
+  exams: `${baseUrl}/exams`,
+  addExam: `${baseUrl}/exams/add`,
 };
 
 export const AFS_URLS = {

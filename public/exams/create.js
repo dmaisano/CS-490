@@ -96,9 +96,9 @@ function assignQuestion(questionElem, question) {
 }
 
 /**
- * @param {Question[]}
+ * @param {Question[]} questions
  */
-function createExam() {
+function createExam(questions) {
   let question_ids = [];
   let points = [];
 
@@ -145,11 +145,13 @@ function createExam() {
 
   const createExamObject = {
     exam_name,
-    question_ids,
+    questions,
     points,
   };
 
-  console.log(JSON.stringify(createExamObject));
+  postRequest('addExam', createExamObject).then(res => {
+    console.log(res);
+  });
 }
 
 /**
