@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS questions (
   question_description TEXT NOT NULL,
   difficulty VARCHAR(255) NOT NULL,
   topic VARCHAR(255) NOT NULL,
-  test_cases JSON NOT NULL,
+  test_cases TEXT NOT NULL,
 
   PRIMARY KEY(id)
 );

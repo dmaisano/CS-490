@@ -6,8 +6,6 @@ include '../utils.php';
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-#this is a test
-
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
