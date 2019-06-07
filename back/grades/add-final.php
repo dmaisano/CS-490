@@ -23,7 +23,6 @@ try {
 
     $args = array(
         json_encode($instructor_comments),
-        json_encode($points_earned),
         $student_id
     );
 
