@@ -18,7 +18,7 @@ $db = new Database();
 $pdo = $db->connect();
 
 try {
-    $sql = "UPDATE grades SET instructor_comments = ? AND points_earned = ? AND finalized = 1 WHERE student_id = ?";
+    $sql = "UPDATE grades SET instructor_comments = ? WHERE student_id = ?";
     $stmt = $pdo->prepare($sql);
 
     $args = array(
