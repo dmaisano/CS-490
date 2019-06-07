@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS grades (
   student_id VARCHAR(255),
   responses LONGTEXT,
   instructor_comments LONGTEXT,
-  points LONGTEXT, -- [50, 50]
   points_earned LONGTEXT, -- [25, 50]
   finalized BOOLEAN,
 

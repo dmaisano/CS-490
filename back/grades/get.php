@@ -23,7 +23,6 @@ try {
         $result[$i]['exam'] = json_decode($result[$i]['exam']);
         $result[$i]['responses'] = json_decode($result[$i]['responses']);
         $result[$i]['instructor_comments'] = json_decode($result[$i]['instructor_comments']);
-        $result[$i]['points'] = json_decode($result[$i]['points']);
         $result[$i]['points_earned'] = json_decode($result[$i]['points_earned']);
     }
 
