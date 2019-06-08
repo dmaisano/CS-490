@@ -5,8 +5,9 @@ node_modules
 dist
 .cache
 
-# python student code
-*.py
+# python code
+code.py
+__pycache__
 
 # sensitive config files
 .env
