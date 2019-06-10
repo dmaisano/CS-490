@@ -1,5 +1,9 @@
-import { renderBank } from '../questions/questions.js';
-import { getQuestion, postRequest, renderTopics } from '../utils.js';
+import {
+  getQuestion,
+  postRequest,
+  renderBank,
+  renderTopics,
+} from '../utils.js';
 import { CREATE_EXAM_PAGE } from './create.page.js';
 
 /** @type {Question[]} */

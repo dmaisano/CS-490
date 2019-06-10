@@ -3,8 +3,9 @@ import { TakeExamHandler } from './exams/take.js';
 import { ViewGradeHandler } from './grades/view.js';
 import { HomeHandler } from './home/home.js';
 import { LoginHandler } from './login/login.js';
-import { QuestionsHandler } from './questions/questions.js';
+
 import { navigateUrl } from './utils.js';
+import { CreateQuestionHandler } from './questions/create.js';
 
 export function AppRouter() {
   const AppRoot = document.querySelector('body #root');
@@ -24,7 +25,7 @@ export function AppRouter() {
       break;
 
     case 'question/create':
-      routerFunc = QuestionsHandler;
+      routerFunc = CreateQuestionHandler;
       break;
 
     case 'exam/create':

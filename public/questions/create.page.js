@@ -1,7 +1,7 @@
 /**
  * @returns {string}
  */
-export function QUESTIONS_PAGE() {
+export function CREATE_QUESTION_PAGE() {
   return /*html*/ `
   <div class="split">
     <div class="new-question">
@@ -24,6 +24,13 @@ export function QUESTIONS_PAGE() {
           <div class="custom-select">
             <select id="topics">
               <option value="">Topic</option>
+              <option value="Dict">Dict</option>
+              <option value="Functions">Functions</option>
+              <option value="If">If</option>
+              <option value="Lists">Lists</option>
+              <option value="Loops">Loops</option>
+              <option value="Math">Math</option>
+              <option value="Strings">Strings</option>
             </select>
 
             <div>▼</div>
