@@ -14,16 +14,17 @@ $function_name = $jsonData['function_name'];
 $question_description = $jsonData['question_description'];
 $difficulty = $jsonData['difficulty'];
 $topic = $jsonData['topic'];
+$constraints = $jsonData['constraints'];
 $test_cases = $jsonData['test_cases'];
 
 $db = new Database();
 $pdo = $db->connect();
 
 try {
-    $sql = "INSERT INTO questions (question_name, function_name, question_description, difficulty, topic, test_cases) VALUES (?,?,?,?,?,?)";
+    $sql = "INSERT INTO questions (question_name, function_name, question_description, difficulty, topic, constraints, test_cases) VALUES (?,?,?,?,?,?,?)";
     $stmt = $pdo->prepare($sql);
 
-    $args = array($question_name, $function_name, $question_description, $difficulty, $topic, json_encode($test_cases));
+    $args = array($question_name, $function_name, $question_description, $difficulty, $topic, json_encode($constraints), json_encode($test_cases));
 
     $status = $stmt->execute($args);
 

@@ -8,12 +8,9 @@ export function HomeHandler(root) {
   // get the user
   const user = getUser();
 
-  console.log({
-    user,
-  });
-
   if (!user) {
     navigateUrl('#/login');
+    return;
   }
 
   switch (user.type) {

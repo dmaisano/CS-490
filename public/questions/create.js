@@ -36,17 +36,30 @@ export async function CreateQuestionHandler(root) {
     navigateUrl('#/home');
   }
 
+  // toggle the constraints
+  for (const constraint of page.querySelectorAll('.constraints .constraint')) {
+    constraint.addEventListener('click', () => {
+      switch (constraint.getAttribute('data-checked')) {
+        case 'false':
+          constraint.setAttribute('data-checked', 'true');
+          break;
+
+        default:
+          constraint.setAttribute('data-checked', 'false');
+          break;
+      }
+    });
+  }
+
   // add event listener for adding test cases
   page.querySelector('.btn#add-test-case').addEventListener('click', () => {
     addTestCase();
   });
 
-  // // add event listener for creating / submitting the quesiton
-  // document
-  //   .querySelector('.btn#create-question')
-  //   .addEventListener('click', () => {
-  //     createQuestion(page);
-  //   });
+  // create question
+  page.querySelector('.btn#create-question').addEventListener('click', () => {
+    createQuestion(page);
+  });
 }
 
 export function filterQuestionBank() {}
@@ -98,8 +111,18 @@ async function createQuestion(page) {
     ? questionForm.querySelector('#difficulty').selectedOptions[0].value
     : '';
 
-  let test_cases = [];
+  const test_cases = [];
+  const constraints = [];
 
+  for (const elem of questionForm.querySelectorAll(
+    '.constraints .constraint'
+  )) {
+    if (elem.getAttribute('data-checked') === 'true') {
+      constraints.push(elem.getAttribute('data-value'));
+    }
+  }
+
+  // get the test cases
   for (const elem of questionForm.querySelectorAll('#test-cases .test-case')) {
     const arg = elem.querySelector('input:nth-child(1)').value || '';
     const output = elem.querySelector('input:nth-child(2)').value || '';
@@ -113,6 +136,7 @@ async function createQuestion(page) {
     question_description,
     topic,
     difficulty,
+    constraints,
     test_cases,
   };
 
@@ -120,13 +144,19 @@ async function createQuestion(page) {
     addQuestionObject: JSON.stringify(question),
   });
 
-  // postRequest('questionsAdd', question).then(res => {
-  //   if (!res.success) {
-  //     alert('Failed to add Question');
-  //     return;
-  //   }
+  try {
+    const res = await postRequest('questionsAdd', question);
 
-  //   // basically reloading the page
-  //   QuestionsHandler(document.querySelector('#root'));
-  // });
+    if (!res.success) {
+      alert('Failed to add Question');
+      return;
+    } else {
+      // reload the page
+      CreateQuestionHandler(document.querySelector('#root'));
+    }
+  } catch (error) {
+    console.error({
+      question: error,
+    });
+  }
 }

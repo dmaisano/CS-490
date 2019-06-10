@@ -55,6 +55,23 @@ export function CREATE_QUESTION_PAGE() {
             <textarea id="description" rows="5" placeholder="Enter question description"></textarea>
           </div>
 
+        <h2 class="title">Constraints</h2>
+
+        <div class="constraints">
+          <div class="constraint" data-value="if" data-checked="false">
+            If Statement
+          </div>
+          <div class="constraint" data-value="print" data-checked="false">
+            Print Statement
+          </div>
+          <div class="constraint" data-value="for" data-checked="false">
+            For Loop
+          </div>
+          <div class="constraint" data-value="while" data-checked="false">
+            While Loop
+          </div>
+        </div>
+
         <h2 class="title">Test Cases</h2>
 
         <div id="test-cases">

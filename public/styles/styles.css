@@ -66,3 +66,31 @@ a:disabled {
 .invisible {
   visibility: hidden !important;
 }
+
+.constraints {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1.25rem;
+  padding-left: 22.5%;
+}
+
+.constraint {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.constraint:hover {
+  cursor: pointer;
+}
+
+.constraint[data-checked='false']:before {
+  content: '❌';
+  padding-right: 0.25rem;
+}
+
+.constraint[data-checked='true']:before {
+  content: '✔️';
+  padding-right: 0.25rem;
+}

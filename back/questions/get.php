@@ -19,7 +19,7 @@ try {
     }
 
     for ($i = 0; $i < count($result); $i++) {
-        // $result[$i] = json_decode($result[$i], true);
+        $result[$i]['constraints'] = json_decode($result[$i]['constraints'], true);
         $result[$i]['test_cases'] = json_decode($result[$i]['test_cases'], true);
     }
 
