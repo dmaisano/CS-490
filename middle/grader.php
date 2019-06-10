@@ -9,8 +9,7 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
-$url = $jsonData['url'];
-$user = $jsonData['user'];
+// $url = $jsonData['url'];
 $responses = $jsonData['responses'];
 $points = $jsonData['points'];
 $questions = $jsonData['questions'];
@@ -26,22 +25,25 @@ for ($i = 0; $i < count($responses); $i++) {
 }
 
 // Curl results to backend
-$curl = curl_init();
+// $curl = curl_init();
 
-curl_setopt_array($curl, array(
-    CURLOPT_URL => $url,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => json_encode($jsonData),
-));
+// curl_setopt_array($curl, array(
+//     CURLOPT_URL => $url,
+//     CURLOPT_RETURNTRANSFER => true,
+//     CURLOPT_POST => true,
+//     CURLOPT_POSTFIELDS => json_encode($jsonData),
+// ));
 
-$response = curl_exec($curl);
-curl_close($curl);
+// $response = curl_exec($curl);
+// curl_close($curl);
+
+echo json_encode($jsonData);
 
 function grade_question($code, $question, $maxPoints)
 {
     $points = $maxPoints;
     $test_cases = $question['test_cases'];
+    $constraints = $question['constraints'];
     $function_name = $question['function_name'];
 
     $current_points = $points / count($test_cases);
@@ -50,21 +52,29 @@ function grade_question($code, $question, $maxPoints)
 
     $comments = "";
 
-    for ($i = 0; $i < $num_test_cases; $i++) {
-        $input = $test_cases[$i][0];
-        $expected_output = $test_cases[$i][1];
+    // check if function names match
+    preg_match('/\s*def\s+(\w+)\s*\(/', $code, $matches);
 
-        // check if function names match
-        preg_match('/\s*def\s+(\w+)\s*\(/', $code, $matches);
+    $match = str_replace(array('\'', '"'), '', $matches[1]);
 
-        $match = str_replace(array('\'', '"'), '', $matches[1]);
+    if ($match != $function_name) {
+        // replace the function name and take off 25% points
+        $code = str_replace($match, $function_name, $code);
+        $points -= $maxPoints * .25;
+        $comments = $comments . "messed up function name\n";
+    }
 
-        if ($match != $function_name) {
-            // replace the function name and take off 25% points
-            $code = str_replace($match, $function_name, $code);
+    // check for FOR loop constraint
+    if (in_array("for", $constraints)) {
+        if (strpos($code, "for") === false) {
             $points -= $maxPoints * .25;
-            $comments = $comments . "messed up function name\n";
+            $comments = $comments . "missing for loop\n";
         }
+    }
+
+    for ($i = 0; $i < $num_test_cases; $i++) {
+        $input = $test_cases[0][$i];
+        $expected_output = $test_cases[1][$i];
 
         // create the python file
         file_put_contents("./code.py", $code . "\n\nprint(" . $function_name . "(" . $input . "))");
@@ -72,6 +82,7 @@ function grade_question($code, $question, $maxPoints)
         // shell_exec saves the output as a string
         $output = shell_exec('python3 ./code.py');
 
+        // output doesnt match expected output
         if (strpos($output, $expected_output) === false) {
             $points -= $maxPoints / $num_test_cases;
         }
