@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel public/index.html",
-    "php": "php -S localhost:5000",
+    "php": "php -S localhost:5000 -t back/",
     "flask": "export FLASK_APP=proxy.py && nodemon --watch ./proxy.py --exec \"flask run  --port=3000\""
   },
   "repository": {

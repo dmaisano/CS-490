@@ -1,5 +1,5 @@
-import { AFS_URLS, DEV_URLS, isDev } from './urls.js';
 import { Question } from './questions/questions.js';
+import { isDev, URLS } from './urls.js';
 
 /**
  * sends a post request
@@ -8,14 +8,14 @@ import { Question } from './questions/questions.js';
  * @returns {Promise}
  */
 export function postRequest(urlKey, data = {}) {
-  let postUrl;
+  // php server running on localhost
+  let postUrl = 'http://localhost:3000';
 
-  if (urlKey === 'https://web.njit.edu/~bm424/490/middle/grader.php') {
-    console.log('foo');
-    postUrl = urlKey;
-  } else {
-    postUrl = DEV_URLS[urlKey];
+  if (!isDev) {
+    postUrl = 'https://web.njit.edu/~bm424/490/middle/grader.php';
   }
+
+  data.url = URLS[urlKey];
 
   return fetch(postUrl, {
     method: 'POST',
@@ -33,34 +33,6 @@ export function postRequest(urlKey, data = {}) {
       console.error(err);
     });
 }
-/**
- * @returns {HTMLElement} elem
- */
-export function createElem(options) {
-  const { type, id, className, attributes, innerHTML } = options;
-
-  const elem = document.createElement(type === null ? 'div' : type);
-
-  if (id) {
-    elem.setAttribute('id', options.id);
-  }
-
-  if (className) {
-    elem.setAttribute('class', options.className);
-  }
-
-  if (attributes && options.attributes.length) {
-    for (const obj of options.attributes) {
-      elem.setAttribute(obj.attribute, obj.data);
-    }
-  }
-
-  if (innerHTML) {
-    elem.innerHTML = options.innerHTML;
-  }
-
-  return elem;
-}
 
 /**
  * @param {HTMLElement} elem
@@ -75,7 +47,6 @@ export function removeChildren(elem) {
 /**
  * navigate to the given hashUrl
  * @param {string} hashUrl
- * @returns {void}
  */
 export function navigateUrl(hashUrl = '') {
   if (hashUrl === '') {
@@ -101,26 +72,6 @@ export function getUser() {
 }
 
 /**
- * render the list of topics
- */
-export function renderTopics() {
-  postRequest('topics').then(topics => {
-    /** @type {HTMLSelectElement} */
-    for (const elem of document.querySelectorAll('#topics')) {
-      for (const topic of topics) {
-        /**
-         * @type {HTMLOptionElement}
-         */
-        const option = document.createElement('option');
-        option.text = topic.topic;
-        elem.add(option);
-      }
-    }
-  });
-}
-
-/**
- *
  * @param {Question[]} questions
  * @param {HTMLDivElement} questionElem
  * @returns {Question|null}

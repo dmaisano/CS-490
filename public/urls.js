@@ -1,24 +1,11 @@
 export const isDev = true;
 
 const baseUrl = isDev
-  ? `https://tall-falcon-43.localtunnel.me/api`
-  : `https://web.njit.edu/~dm583/490/back`;
+  ? `http://localhost:5000` // localhost php
+  : `https://web.njit.edu/~ld277/490/back`; // lawrence
 
-export const DEV_URLS = {
-  login: `${baseUrl}/login`,
-  questions: `${baseUrl}/questions`,
-  questionsAdd: `${baseUrl}/questions/add`,
-  topics: `${baseUrl}/topics`,
-  exams: `${baseUrl}/exams`,
-  addExam: `${baseUrl}/exams/add`,
-  grades: `${baseUrl}/grades`,
-  addGrade: `${baseUrl}/grades/add`,
-  finalizeGrade: `${baseUrl}/grades/finalize`,
-  getStudents: `${baseUrl}/students`,
-};
-
-export const AFS_URLS = {
-  login: `${baseUrl}/login.php`,
+export const URLS = {
+  login: `${baseUrl}/login/login.php`,
   questions: `${baseUrl}/questions/get.php`,
   questionsAdd: `${baseUrl}/questions/add.php`,
   topics: `${baseUrl}/topics.php`,

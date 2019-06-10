@@ -1,4 +1,4 @@
-import { createElem, removeChildren } from '../utils.js';
+import { removeChildren } from '../utils.js';
 
 const modalBox = document.querySelector(`body #modal-box`);
 
@@ -10,9 +10,8 @@ export function createModal(options = {}) {
   // remove any existing children
   removeChildren(modalBox);
 
-  const modal = createElem({
-    className: 'card',
-  });
+  const modal = document.createElement('div');
+  modal.setAttribute('class', 'card');
 
   modal.innerHTML = /*html*/ `
     <div class="card-title">

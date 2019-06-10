@@ -44,6 +44,9 @@ function login() {
       navigateUrl('#/home');
     } else {
       // error modal
+      console.error({
+        error: res,
+      });
     }
   });
 }
