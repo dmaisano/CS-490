@@ -39,31 +39,19 @@ async function login() {
     if (res.type !== 'student' && res.type !== 'instructor') {
       console.error(`${user} is not auth`);
     } else {
+      localStorage.setItem(
+        'user',
+        JSON.stringify(new User(res.user, res.type))
+      );
+
       // navigate to the user's home page
       navigateUrl('#/home');
     }
   } catch (error) {
     console.error({
-      login: eror,
+      login: error,
     });
   }
-
-  // .then(res => {
-  //   if (res.success !== false && res.type) {
-  //     // save the user to local storage
-  //     localStorage.setItem(
-  //       'user',
-  //       JSON.stringify(new User(user, pass, res.type))
-  //     );
-
-  //     navigateUrl('#/home');
-  //   } else {
-  //     // error modal
-  //     console.error({
-  //       error: res,
-  //     });
-  //   }
-  // });
 }
 
 /**

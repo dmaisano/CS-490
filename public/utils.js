@@ -57,9 +57,8 @@ export function navigateUrl(hashUrl = '') {
 }
 
 export class User {
-  constructor(id, pass, type) {
+  constructor(id, type) {
     this.id = id;
-    this.pass = pass;
     this.type = type;
   }
 }

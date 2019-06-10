@@ -1,43 +1,29 @@
 .home {
-  height: 100vh;
-  max-height: 100vh;
   width: 100%;
-
-  overflow: hidden;
-}
-
-.home .title {
-  height: 30vh;
-
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.home .title > h1,
-.home .title > h2 {
-  color: #fff;
-  margin: 0;
+.home .card {
+  padding: 1rem 1.5rem;
+  font-size: 1.75rem;
 }
 
-.home .title h2 {
-  margin-top: 1rem;
-}
-
-.home .links {
-  height: 70vh;
-
+.home .card-title {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  margin-bottom: 1.25rem;
 }
 
-.home .links .btn {
-  margin: 2rem auto;
+.home .card .btn {
+  font-size: 1.25rem;
+}
 
-  height: auto;
-  font-size: 1.5rem;
-  width: 35vw;
+.home .card .btn:not(:last-child) {
+  margin-bottom: 1rem;
 }

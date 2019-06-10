@@ -40,7 +40,7 @@ export function AppRouter() {
       routerFunc = TakeExamHandler;
       break;
 
-    case 'exam/grades':
+    case 'grades':
       routerFunc = ViewGradeHandler;
       break;
 
@@ -63,8 +63,8 @@ export function AppRouter() {
   // redirect to login if hash is not specified
   if (!window.location.hash) {
     navigateUrl('#/login');
+  } else {
+    // initialize the router
+    AppRouter();
   }
-
-  // initialize the router
-  AppRouter();
 })();
