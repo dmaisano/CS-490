@@ -34,7 +34,7 @@ try {
 
         // check if passwords match
         if (password_verify($pass, $hashedPass)) {
-            $response = array('user' => $user);
+            $response = array('user' => $user, 'type' => $result['type']);
         } else {
             header('HTTP/1.0 403 Forbidden');
             $response = array('auth' => false);

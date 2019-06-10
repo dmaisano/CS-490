@@ -24,31 +24,46 @@ export function LoginHandler(root) {
   });
 }
 
-function login() {
+async function login() {
   const user = document.querySelector(`.login .card-body input:nth-child(1)`)
     .value;
   const pass = document.querySelector(`.login .card-body input:nth-child(2)`)
     .value;
 
-  postRequest('login', {
-    user,
-    pass,
-  }).then(res => {
-    if (res.success !== false && res.type) {
-      // save the user to local storage
-      localStorage.setItem(
-        'user',
-        JSON.stringify(new User(user, pass, res.type))
-      );
+  try {
+    const res = await postRequest('login', {
+      user,
+      pass,
+    });
 
-      navigateUrl('#/home');
+    if (res.type !== 'student' && res.type !== 'instructor') {
+      console.error(`${user} is not auth`);
     } else {
-      // error modal
-      console.error({
-        error: res,
-      });
+      // navigate to the user's home page
+      navigateUrl('#/home');
     }
-  });
+  } catch (error) {
+    console.error({
+      login: eror,
+    });
+  }
+
+  // .then(res => {
+  //   if (res.success !== false && res.type) {
+  //     // save the user to local storage
+  //     localStorage.setItem(
+  //       'user',
+  //       JSON.stringify(new User(user, pass, res.type))
+  //     );
+
+  //     navigateUrl('#/home');
+  //   } else {
+  //     // error modal
+  //     console.error({
+  //       error: res,
+  //     });
+  //   }
+  // });
 }
 
 /**

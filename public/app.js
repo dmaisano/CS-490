@@ -1,7 +1,5 @@
 import { CreateExamHandler } from './exams/create.js';
-import { SelectExamHandler } from './exams/select.js';
 import { TakeExamHandler } from './exams/take.js';
-import { SelectGradeHandler } from './grades/select.js';
 import { ViewGradeHandler } from './grades/view.js';
 import { HomeHandler } from './home/home.js';
 import { LoginHandler } from './login/login.js';
@@ -11,31 +9,48 @@ import { navigateUrl } from './utils.js';
 export function AppRouter() {
   const AppRoot = document.querySelector('body #root');
 
-  const url = location.hash.slice(1).toLowerCase() || '/#/login';
+  const url = location.hash.slice(2).toLowerCase() || 'login';
 
-  if (url.includes('/login')) {
-    LoginHandler(AppRoot);
-  } else if (url.includes('/home')) {
-    HomeHandler(AppRoot);
-  } else if (url.includes('/questions/create')) {
-    QuestionsHandler(AppRoot);
-  } else if (url.includes('/exams/create')) {
-    CreateExamHandler(AppRoot);
-  } else if (url.includes('/student/exam/select')) {
-    SelectExamHandler(AppRoot);
-  } else if (url.includes('/student/exam')) {
-    TakeExamHandler(AppRoot);
-  } else if (url.includes('/student/grades/select')) {
-    SelectGradeHandler(AppRoot);
-  } else if (url.includes('/instructor/grades/select')) {
-    SelectGradeHandler(AppRoot);
-  } else if (url.includes('/student/grade')) {
-    ViewGradeHandler(AppRoot);
-  } else if (url.includes('/instructor/grade')) {
-    ViewGradeHandler(AppRoot);
-  } else {
-    LoginHandler(AppRoot);
+  /** @type {Function} */
+  let routerFunc;
+
+  switch (url) {
+    case 'login':
+      routerFunc = LoginHandler;
+      break;
+
+    case 'home':
+      routerFunc = HomeHandler;
+      break;
+
+    case 'question/create':
+      routerFunc = QuestionsHandler;
+      break;
+
+    case 'exam/create':
+      routerFunc = CreateExamHandler;
+      break;
+
+    case 'exam/view':
+      console.log('EXAM VIEW GOES HERE');
+      routerFunc = LoginHandler;
+      break;
+
+    case 'exam/take':
+      routerFunc = TakeExamHandler;
+      break;
+
+    case 'exam/grades':
+      routerFunc = ViewGradeHandler;
+      break;
+
+    default:
+      routerFunc = LoginHandler;
+      break;
   }
+
+  // call the appropriate page handler
+  routerFunc(AppRoot);
 }
 
 (function() {
