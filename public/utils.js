@@ -131,6 +131,13 @@ export function renderBank(questions, page, option = 'info') {
         <div class="custom-select">
           <select id="topics">
             <option value="">Topic</option>
+            <option value="Dict">Dict</option>
+            <option value="Functions">Functions</option>
+            <option value="If">If</option>
+            <option value="Lists">Lists</option>
+            <option value="Loops">Loops</option>
+            <option value="Math">Math</option>
+            <option value="Strings">Strings</option>
           </select>
 
           <div>▼</div>
@@ -164,7 +171,35 @@ export function renderBank(questions, page, option = 'info') {
       </div>
     `;
 
-  renderQuestions(questions, document.querySelector('#question-box'), option);
+  renderQuestions(questions, page.querySelector('#question-box'), option);
+
+  const filterBox = page.querySelector('#filter-box');
+
+  // reset button
+  filterBox.querySelector('.btn-warning').addEventListener('click', () => {
+    resetBank(page);
+  });
+
+  let filterOptions = {
+    question_name: '',
+    topic: '',
+    difficulty: '',
+  };
+
+  filterBox.querySelector('#question_name').addEventListener('keyup', event => {
+    filterOptions.question_name = event.target.value.toLowerCase();
+    filterQuestionBank(filterOptions, page);
+  });
+
+  filterBox.querySelector('#topics').addEventListener('change', event => {
+    filterOptions.topic = event.target.value;
+    filterQuestionBank(filterOptions, page);
+  });
+
+  filterBox.querySelector('#difficulty').addEventListener('change', event => {
+    filterOptions.difficulty = event.target.value;
+    filterQuestionBank(filterOptions, page);
+  });
 }
 
 /**
@@ -214,5 +249,49 @@ export function renderQuestions(questions, questionBox, option = 'info') {
     `;
 
     questionBox.appendChild(elem);
+  }
+}
+
+/**
+ * @param {Object} filterOptions
+ * @param {HTMLDivElement} page
+ */
+function filterQuestionBank(filterOptions, page) {
+  console.log({
+    filterOptions,
+  });
+
+  resetBank(page);
+
+  for (const elem of page.querySelectorAll('#question-box .question')) {
+    const question_name = elem
+      .querySelector('input:nth-child(1)')
+      .value.toLowerCase();
+    const topic = elem.querySelector('input:nth-child(2)').value;
+    const difficulty = elem.querySelector('input:nth-child(3)').value;
+
+    if (
+      filterOptions.question_name &&
+      !question_name.includes(filterOptions.question_name)
+    ) {
+      elem.classList.add('hidden');
+    }
+
+    if (filterOptions.topic && topic !== filterOptions.topic) {
+      elem.classList.add('hidden');
+    }
+
+    if (filterOptions.difficulty && difficulty !== filterOptions.difficulty) {
+      elem.classList.add('hidden');
+    }
+  }
+}
+
+/**
+ * @param {HTMLDivElement} page
+ */
+function resetBank(page) {
+  for (const elem of page.querySelectorAll('#question-box .question')) {
+    elem.classList.remove('hidden');
   }
 }

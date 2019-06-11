@@ -25,8 +25,6 @@ export async function CreateQuestionHandler(root) {
         });
       }
     }
-
-    console.log(questions);
   } catch (error) {
     console.error({
       CREATE_QUESTION_PAGE: error,
@@ -61,8 +59,6 @@ export async function CreateQuestionHandler(root) {
     createQuestion(page);
   });
 }
-
-export function filterQuestionBank() {}
 
 function addTestCase() {
   const testCases = document.querySelector('#test-cases');

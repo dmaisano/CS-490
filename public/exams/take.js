@@ -101,12 +101,12 @@ function submitExam(exam) {
 
   console.log(autoGraderRequest);
 
-  postRequest(
-    'https://web.njit.edu/~bm424/490/middle/grader.php',
-    autoGraderRequest
-  ).then(res => {
-    console.log(res);
-  });
+  // postRequest(
+  //   'https://web.njit.edu/~bm424/490/middle/grader.php',
+  //   autoGraderRequest
+  // ).then(res => {
+  //   console.log(res);
+  // });
 }
 
 function getExam() {
