@@ -89,6 +89,12 @@ export function questionInfo(question) {
         <textarea id="question_description" rows="6" disabled></textarea>
       </div>
 
+      <h2 class="title ${constraints.length < 1 ? 'hidden' : ''}">
+        Constraints
+      </h2>
+
+      <div class="constraints ${constraints.length < 1 ? 'hidden' : ''}"></div>
+
       <div class="test_cases_title">
         <h2>Args</h2>
         <h2>Output</h2>
@@ -110,44 +116,50 @@ export function questionInfo(question) {
 
   /**
    * @param {string} text
-   * @returns {HTMLButtonElement}
+   * @returns {HTMLHeadingElement}
    */
-  function createBtn(text) {
-    const btn = document.createElement('button');
-    btn.setAttribute('class', 'btn btn-primary');
-    btn.setAttribute('disabled', '');
+  function createConstraint(text) {
+    const elem = document.createElement('h3');
 
-    btn.innerHTML = text;
-    return btn;
+    elem.innerHTML = text;
+    return elem;
   }
 
   if (constraints.length) {
-    constraintsElem = document.createElement('div');
-    constraintsElem.setAttribute('class', 'constraints');
+  }
 
-    const title = document.createElement('h2');
-    title.setAttribute('title');
-    title.innerHTML = 'Constraints';
-
-    modal.appendChild(title);
-    modal.appendChild(constraintsElem);
+  if (constraints.length) {
+    constraintsElem = modal.querySelector('.constraints');
 
     if (constraints.includes('if')) {
-      constraintsElem.appendChild(createBtn('If Statement'));
+      constraintsElem.appendChild(createConstraint('If Statement'));
     }
     if (constraints.includes('print')) {
-      constraintsElem.appendChild(createBtn('Print Statement'));
+      constraintsElem.appendChild(createConstraint('Print Statement'));
     }
     if (constraints.includes('for')) {
-      constraintsElem.appendChild(createBtn('For Loop'));
+      constraintsElem.appendChild(createConstraint('For Loop'));
     }
     if (constraints.includes('while')) {
-      constraintsElem.appendChild(createBtn('While Loop'));
+      constraintsElem.appendChild(createConstraint('While Loop'));
     }
   }
 
   for (const test_case of test_cases) {
     console.log(test_case);
+
+    const elem = document.createElement('div');
+    elem.setAttribute('id', 'test_case');
+
+    elem.innerHTML = /*html*/ `
+      <input type="text" disabled/>
+      <input type="text" disabled/>
+    `;
+
+    modal.querySelector('.test_cases').appendChild(elem);
+
+    elem.querySelector('input:nth-child(1)').value = test_case[0];
+    elem.querySelector('input:nth-child(2)').value = test_case[1];
   }
 
   modal.querySelector('#dismiss-modal').addEventListener('click', () => {

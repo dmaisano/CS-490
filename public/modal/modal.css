@@ -72,11 +72,24 @@
 }
 
 .modal-box .question-info .constraints {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: 0.5rem;
-  padding: 0;
-  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+
+  padding: 1rem 25%;
+}
+
+.modal-box .question-info .constraints h3 {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-box .question-info .constraints h3:before {
+  content: '✔️';
+  padding-right: 0.5rem;
+}
+
+.modal-box .question-info .constraints h3:not(:last-child) {
+  margin-bottom: 0.5rem;
 }
 
 .modal-box .question-info .constraints .btn[disabled] {
@@ -84,14 +97,22 @@
 }
 
 .modal-box .question-info .test_cases_title,
-.modal-box .question-info .test_cases {
+.modal-box .question-info .test_cases #test_case {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 0.5rem;
 }
 
 .modal-box .question-info .test_cases_title h2,
-.modal-box .question-info .test_cases_title input {
+.modal-box .question-info .test_cases_title #test_case input {
   display: flex;
   justify-content: center;
+}
+
+.modal-box .question-info .test_cases_title {
+  margin-bottom: 0.5rem;
+}
+
+.modal-box .question-info #test_case {
+  margin-bottom: 0.5rem;
 }
