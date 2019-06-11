@@ -6,7 +6,7 @@ const modalBox = document.querySelector(`body #modal-box`);
  * @param {string} title
  * @param {string} message
  */
-export function alertModal(title = '', body = '') {
+export function alertModal(title = '', message = '') {
   modalBox.classList.remove('hidden');
 
   // remove any existing modals
@@ -22,8 +22,8 @@ export function alertModal(title = '', body = '') {
       <button type="button" id="dismiss-modal" class="btn btn-danger">X</button>
     </div>
 
-    <div class="card-body ${body === '' ? 'hidden' : ''}">
-      ${body}
+    <div class="card-body ${message === '' ? 'hidden' : ''}">
+      <h2>${message}</h2>
     </div>
   `;
 

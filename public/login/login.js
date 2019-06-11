@@ -86,9 +86,5 @@ function LOGIN_PAGE() {
 }
 
 function errorModal() {
-  const message = /*html*/ `
-    <h2>Failed to Log In</h2>
-  `;
-
-  return alertModal('Login Error', message);
+  return alertModal('Login Error', 'Failed to Log In');
 }

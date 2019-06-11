@@ -1,4 +1,5 @@
 import { postRequest, renderBank, getQuestion, navigateUrl } from '../utils.js';
+import { alertModal } from '../modal/modal.js';
 
 /**
  * Login Logic
@@ -179,70 +180,80 @@ function addTestCase() {
  * @param {HTMLDivElement} page
  */
 async function createQuestion(page) {
-  const questionForm = page.querySelector('.new-question .form');
-
-  const question_name =
-    questionForm.querySelector('#question-name').value || '';
-  const function_name =
-    questionForm.querySelector('#function-name').value || '';
-  const question_description =
-    questionForm.querySelector('#description').value || '';
-
-  const topic = questionForm.querySelector('#topics').selectedOptions.length
-    ? questionForm.querySelector('#topics').selectedOptions[0].value
-    : '';
-
-  const difficulty = questionForm.querySelector('#difficulty').selectedOptions
-    .length
-    ? questionForm.querySelector('#difficulty').selectedOptions[0].value
-    : '';
-
-  const test_cases = [];
-  const constraints = [];
-
-  for (const elem of questionForm.querySelectorAll(
-    '.constraints .constraint'
-  )) {
-    if (elem.getAttribute('data-checked') === 'true') {
-      constraints.push(elem.getAttribute('data-value'));
-    }
-  }
-
-  // get the test cases
-  for (const elem of questionForm.querySelectorAll('#test-cases .test-case')) {
-    const arg = elem.querySelector('input:nth-child(1)').value || '';
-    const output = elem.querySelector('input:nth-child(2)').value || '';
-
-    test_cases.push([arg, output]);
-  }
-
-  const question = {
-    question_name,
-    function_name,
-    question_description,
-    topic,
-    difficulty,
-    constraints,
-    test_cases,
-  };
-
-  console.log({
-    addQuestionObject: JSON.stringify(question),
-  });
-
   try {
-    const res = await postRequest('questionsAdd', question);
+    const questionForm = page.querySelector('.new-question .form');
 
-    if (!res.success) {
-      alert('Failed to add Question');
-      return;
-    } else {
-      // reload the page
-      CreateQuestionHandler(document.querySelector('#root'));
+    const question_name =
+      questionForm.querySelector('#question-name').value || '';
+    const function_name =
+      questionForm.querySelector('#function-name').value || '';
+    const question_description =
+      questionForm.querySelector('#description').value || '';
+
+    const topic = questionForm.querySelector('#topics').selectedOptions.length
+      ? questionForm.querySelector('#topics').selectedOptions[0].value
+      : '';
+
+    const difficulty = questionForm.querySelector('#difficulty').selectedOptions
+      .length
+      ? questionForm.querySelector('#difficulty').selectedOptions[0].value
+      : '';
+
+    const test_cases = [];
+    const constraints = [];
+
+    for (const elem of questionForm.querySelectorAll(
+      '.constraints .constraint'
+    )) {
+      if (elem.getAttribute('data-checked') === 'true') {
+        constraints.push(elem.getAttribute('data-value'));
+      }
+    }
+
+    // get the test cases
+    for (const elem of questionForm.querySelectorAll(
+      '#test-cases .test-case'
+    )) {
+      const arg = elem.querySelector('input:nth-child(1)').value || '';
+      const output = elem.querySelector('input:nth-child(2)').value || '';
+
+      test_cases.push([arg, output]);
+    }
+
+    const question = {
+      question_name,
+      function_name,
+      question_description,
+      topic,
+      difficulty,
+      constraints,
+      test_cases,
+    };
+
+    if (!question_name) throw 'Missing Question Name';
+    else if (!function_name) throw 'Missing Function Name';
+    else if (!topic) throw 'Missing Question Topic';
+    else if (!difficulty) throw 'Missing Question Difficulty';
+    else if (!question_description) throw 'Missing Question Description';
+
+    console.log({
+      addQuestionObject: JSON.stringify(question),
+    });
+
+    try {
+      const res = await postRequest('questionsAdd', question);
+
+      if (!res.success) {
+        alert('Failed to add Question');
+        return;
+      } else {
+        // reload the page
+        CreateQuestionHandler(document.querySelector('#root'));
+      }
+    } catch (error) {
+      alertModal('Question Error', error);
     }
   } catch (error) {
-    console.error({
-      question: error,
-    });
+    alertModal('Question Error', error);
   }
 }
