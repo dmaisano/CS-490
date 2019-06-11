@@ -2,41 +2,37 @@ import { removeChildren } from '../utils.js';
 
 const modalBox = document.querySelector(`body #modal-box`);
 
-export function createModal(options = {}) {
-  const { title, body } = options;
-
+/**
+ * @param {string} title
+ * @param {string} message
+ */
+export function alertModal(title = '', body = '') {
   modalBox.classList.remove('hidden');
 
   // remove any existing modals
   removeChildren(modalBox);
 
   const modal = document.createElement('div');
-  modal.setAttribute('class', 'card');
+  modal.setAttribute('class', 'card alert');
 
   modal.innerHTML = /*html*/ `
-    <div class="card-title">
+    <div class="card-title ${title === '' ? 'hidden' : ''}">
+      <button class="btn invisible">X</button>
       <h1>${title}</h1>
+      <button type="button" id="dismiss-modal" class="btn btn-danger">X</button>
     </div>
 
-    <div class="card-body">
+    <div class="card-body ${body === '' ? 'hidden' : ''}">
       ${body}
-    </div>
-
-    <div class="card-footer">
-      <button type="submit" id="dismiss-modal" class="btn btn-danger">
-        Dismiss
-      </button>
     </div>
   `;
 
-  modal
-    .querySelector('.card-footer #dismiss-modal')
-    .addEventListener('click', () => {
-      modalBox.classList.add('hidden');
-      removeChildren(modalBox);
-    });
-
   modalBox.appendChild(modal);
+
+  modal.querySelector('#dismiss-modal').addEventListener('click', () => {
+    modalBox.classList.add('hidden');
+    removeChildren(modalBox);
+  });
 }
 
 /**

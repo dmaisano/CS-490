@@ -16,6 +16,16 @@
   justify-content: center;
 }
 
+.modal-box .alert {
+  width: auto !important;
+}
+
+.modal-box .alert .card-title {
+  grid-column-gap: 2.5rem;
+
+  margin-bottom: 2rem;
+}
+
 .modal-box .card {
   width: 65%;
   z-index: 2;

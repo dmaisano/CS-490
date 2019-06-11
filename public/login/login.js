@@ -1,4 +1,5 @@
 import { navigateUrl, postRequest, User } from '../utils.js';
+import { alertModal } from '../modal/modal.js';
 
 /**
  * Login Logic
@@ -37,7 +38,7 @@ async function login() {
     });
 
     if (res.type !== 'student' && res.type !== 'instructor') {
-      console.error(`${user} is not auth`);
+      errorModal();
     } else {
       localStorage.setItem(
         'user',
@@ -48,6 +49,8 @@ async function login() {
       navigateUrl('#/home');
     }
   } catch (error) {
+    errorModal();
+
     console.error({
       login: error,
     });
@@ -80,4 +83,12 @@ function LOGIN_PAGE() {
     </div>
   </div>
 `;
+}
+
+function errorModal() {
+  const message = /*html*/ `
+    <h2>Failed to Log In</h2>
+  `;
+
+  return alertModal('Login Error', message);
 }
