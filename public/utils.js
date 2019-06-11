@@ -1,4 +1,6 @@
 import { isDev, URLS } from './urls.js';
+import { throws } from 'assert';
+import { questionInfo } from './modal/modal.js';
 
 /**
  * sends a post request
@@ -73,19 +75,21 @@ export class Question {
   constructor(
     id,
     question_name,
-    functionName,
-    description,
+    function_name,
+    question_description,
     difficulty,
     topic,
-    testCases
+    constraints,
+    test_cases
   ) {
     this.id = id;
     this.question_name = question_name;
-    this.functionName = functionName;
-    this.description = description;
+    this.function_name = function_name;
+    this.question_description = question_description;
     this.difficulty = difficulty;
     this.topic = topic;
-    this.testCases = testCases; // 2D string array
+    this.constraints = constraints;
+    this.test_cases = test_cases; // 2D string array
   }
 }
 
@@ -249,6 +253,12 @@ export function renderQuestions(questions, questionBox, option = 'info') {
     `;
 
     questionBox.appendChild(elem);
+
+    if (option === 'info') {
+      elem.querySelector('.btn-info').addEventListener('click', () => {
+        questionInfo(question);
+      });
+    }
   }
 }
 

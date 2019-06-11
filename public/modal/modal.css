@@ -11,6 +11,11 @@
   align-items: center;
 }
 
+.modal-box .title {
+  display: flex;
+  justify-content: center;
+}
+
 .modal-box .card {
   width: 65%;
   z-index: 2;
@@ -22,6 +27,11 @@
   padding-bottom: 0;
   margin-bottom: 1rem;
 
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+}
+
+.modal-box .card-title > * {
   display: flex;
   justify-content: center;
 }
@@ -46,4 +56,42 @@
   width: 100%;
   margin: auto;
   font-size: 0.9rem;
+}
+
+/* question modal */
+
+.modal-box .question-info .card-body {
+  width: 100%;
+  padding: 0 1rem;
+
+  display: block;
+}
+
+.modal-box .question-info .card-body .form-group {
+  margin-bottom: 0.5rem;
+}
+
+.modal-box .question-info .constraints {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 0.5rem;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.modal-box .question-info .constraints .btn[disabled] {
+  background: var(--primary);
+}
+
+.modal-box .question-info .test_cases_title,
+.modal-box .question-info .test_cases {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 0.5rem;
+}
+
+.modal-box .question-info .test_cases_title h2,
+.modal-box .question-info .test_cases_title input {
+  display: flex;
+  justify-content: center;
 }
