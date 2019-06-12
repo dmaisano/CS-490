@@ -1,6 +1,6 @@
 .exam {
   width: 100%;
-  padding: 2rem;
+  padding: 1rem 2rem;
 }
 
 .exam .exam-title {
@@ -85,4 +85,9 @@
 
 .select-exam .card .btn:not(:last-child) {
   margin-bottom: 1rem;
+}
+
+#submit-exam-btn {
+  width: 50%;
+  margin: 1rem auto 0 auto;
 }

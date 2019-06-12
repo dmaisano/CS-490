@@ -9,27 +9,13 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
-if (!isset($jsonData['user'])) {
-    exit404('missing user');
-}
-
-$user = $jsonData['user'];
-
 $db = new Database();
 $pdo = $db->connect();
 
 try {
     $result = array();
 
-    $queryString = '';
-
-    if ($user['type'] == 'instructor') {
-        $queryString = "SELECT * FROM exams WHERE reference_exam = 1";
-    } else {
-        $queryString = "SELECT * FROM exams WHERE reference_exam = 0";
-    }
-
-    $stmt = $pdo->query($queryString);
+    $stmt = $pdo->query("SELECT * FROM exams WHERE reference_exam = 1");
 
     while ($row = $stmt->fetch()) {
         array_push($result, $row);

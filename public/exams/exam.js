@@ -87,22 +87,31 @@ function SELECT_EXAM_PAGE(root, exams) {
  * @param {Exam} exam
  */
 function EXAM_PAGE(root, exam) {
+  const action = location.hash === '#/exam/take' ? 'take' : 'view';
+
   root.innerHTML = /*html*/ `
     <div class="exam">
       <h2 class="exam-title">Exam: ${exam.exam_name}</h2>
 
       <div id="exam-questions"></div>
+
+      <button type="button" id="submit-exam-btn" class="btn btn-success ${
+        action === 'take' ? '' : 'hidden'
+      }">Submit Exam</button>
     </div>
   `;
 
-  renderExam(root.querySelector('#exam-questions'), exam);
+  renderExam(root, exam, action);
 }
 
 /**
- * @param {HTMLDivElement} questionBox
+ * @param {HTMLDivElement} root
  * @param {Exam} exam
+ * @param {'view' | 'take'} view
  */
-function renderExam(questionBox, exam) {
+function renderExam(root, exam, action = 'view') {
+  const questionBox = root.querySelector('#exam-questions');
+
   removeChildren(questionBox);
 
   for (let i = 0; i < exam.questions.length; i++) {
@@ -122,7 +131,7 @@ function renderExam(questionBox, exam) {
         <div class="card-body">
           <textarea id="description" rows="6" disabled></textarea>
           <textarea id="code" class="${
-            location.hash === '#/exam/take' ? '' : 'hidden'
+            action === 'take' ? '' : 'hidden'
           }" rows="8" placeholder="Code goes here"></textarea>
         </div>
       `;
@@ -131,6 +140,45 @@ function renderExam(questionBox, exam) {
 
     elem.querySelector('#description').value = question.question_description;
   }
+
+  if (action === 'take') {
+    root.querySelector('#submit-exam-btn').addEventListener('click', () => {
+      submitExam(questionBox, exam);
+    });
+  }
 }
 
-function submitExam() {}
+/**
+ * @param {HTMLDivElement} questionBox
+ * @param {Exam} exam
+ */
+function submitExam(questionBox, exam) {
+  try {
+    let submitExamObject = new Exam(
+      '',
+      exam.exam_name,
+      getUser().id,
+      exam.questions,
+      [],
+      [],
+      exam.points,
+      [],
+      0,
+      0
+    );
+
+    for (const elem of questionBox.querySelectorAll('.question')) {
+      const code = elem.querySelector('#code').value || '';
+
+      if (!code) {
+        throw 'Missing Code';
+      }
+
+      submitExamObject.responses.push(code);
+    }
+
+    console.log(submitExamObject);
+  } catch (error) {
+    alertModal('Submit Exam Error', error);
+  }
+}
