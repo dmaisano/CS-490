@@ -1,6 +1,6 @@
 import { CreateExamHandler } from './exams/create.js';
 import { ExamHandler } from './exams/exam.js';
-import { ViewGradeHandler } from './grades/view.js';
+import { GradeHandler } from './grades/view.js';
 import { HomeHandler } from './home/home.js';
 import { LoginHandler } from './login/login.js';
 import { CreateQuestionHandler } from './questions/create.js';
@@ -39,8 +39,8 @@ export function AppRouter() {
       routerFunc = ExamHandler;
       break;
 
-    case 'grades':
-      routerFunc = ViewGradeHandler;
+    case 'grade/view':
+      routerFunc = GradeHandler;
       break;
 
     default:

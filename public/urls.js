@@ -14,5 +14,5 @@ export const URLS = {
   grades: `${baseUrl}/grades/get.php`,
   addGrade: `${baseUrl}/grades/add.php`,
   finalizeGrade: `${baseUrl}/grades/finalize.php`,
-  getStudents: `${baseUrl}/students.php`,
+  students: `${baseUrl}/students.php`,
 };

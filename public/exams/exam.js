@@ -15,9 +15,6 @@ export async function ExamHandler(root) {
   /** @type {Exam[]} */
   let exams;
 
-  /** @type {HTMLDivElement} */
-  let page;
-
   const user = getUser();
 
   console.log(location.hash);
@@ -125,7 +122,7 @@ function renderExam(root, exam, action = 'view') {
         <div class="card-title">
           <h2>${question.question_name}</h2>
 
-          <h3 class="view-points">points: ${points}</h3>
+          <h3>points: ${points}</h3>
         </div>
 
         <div class="card-body">
@@ -184,7 +181,10 @@ async function submitExam(questionBox, exam) {
     try {
       const res = await postRequest('addGrade', submitExamObject);
 
-      console.log(res);
+      if (res.success) {
+        alertModal('Successfully Submitted Exam');
+        window.scrollTo(0, 0);
+      }
     } catch (error) {
       alertModal('Submit Exam Error', error);
     }

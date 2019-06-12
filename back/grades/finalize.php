@@ -9,20 +9,26 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
+if (!isset($jsonData['user'])) {
+    exit404('missing user');
+}
+
+$user = $jsonData['user'];
 $exam = $jsonData['exam'];
-$student_id = $jsonData['student_id'];
-$instructor_comments = $jsonData['instructor_comments'];
-$points_earned = $jsonData['points_earned'];
+
+if ($user['type'] != 'instructor') {
+    exit404('not auth');
+}
 
 $db = new Database();
 $pdo = $db->connect();
 
 try {
-    $sql = "UPDATE grades SET instructor_comments = ? WHERE student_id = ?";
+    $sql = "UPDATE exams SET finalized = 1  WHERE id = ? AND student_id = ?";
     $stmt = $pdo->prepare($sql);
 
     $args = array(
-        json_encode($instructor_comments),
+        $exam['id'],
         $student_id
     );
 

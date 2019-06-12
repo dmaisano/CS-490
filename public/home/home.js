@@ -38,7 +38,7 @@ function STUDENT_HOME_PAGE(user) {
       </div>
 
       <div class="card-body links">
-        <a href="./#/grades" class="btn btn-primary">View Grades</a>
+        <a href="./#/grade/view" class="btn btn-primary">View Grades</a>
         <a href="./#/exam/take" class="btn btn-primary">Take Exam</a>
       </div>
     </div>
@@ -56,10 +56,10 @@ function INSTRUCTOR_HOME_PAGE(user) {
       </div>
 
       <div class="card-body links">
-        <a href="./#/grades" class="btn btn-primary">View Student Grades</a>
+        <a href="./#/grade/view" class="btn btn-primary">View Student Grades</a>
         <a href="./#/exam/view" class="btn btn-primary">View Exams</a>
         <a href="./#/exam/create" class="btn btn-primary">Create Exam</a>
-        <a href="./#/Question/create" class="btn btn-primary">Create Questions</a>
+        <a href="./#/question/create" class="btn btn-primary">Create Questions</a>
       </div>
     </div>
   </div>

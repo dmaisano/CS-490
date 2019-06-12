@@ -12,7 +12,7 @@ $pdo = $db->connect();
 try {
     $result = array();
 
-    $stmt = $pdo->query("SELECT * FROM users WHERE type = 'student'");
+    $stmt = $pdo->query("SELECT id, type FROM users WHERE type = 'student'");
 
     while ($row = $stmt->fetch()) {
         array_push($result, json_encode($row));

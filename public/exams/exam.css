@@ -91,3 +91,19 @@
   width: 50%;
   margin: 1rem auto 0 auto;
 }
+
+.view-points {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+}
+
+.view-points *:nth-child(1),
+.view-points *:nth-child(2) {
+  margin-right: 0.5rem;
+}
+
+.view-points > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
