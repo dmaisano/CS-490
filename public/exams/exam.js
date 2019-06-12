@@ -12,6 +12,7 @@ import { alertModal } from '../modal/modal.js';
  * @param {HTMLDivElement} root
  */
 export async function ExamHandler(root) {
+  /** @type {Exam[]} */
   let exams;
 
   /** @type {HTMLDivElement} */
@@ -26,7 +27,9 @@ export async function ExamHandler(root) {
   }
 
   try {
-    exams = await postRequest('exams');
+    exams = await postRequest('exams', {
+      user,
+    });
   } catch (error) {
     alertModal('Get Exams Error', error);
   }

@@ -1,5 +1,5 @@
 import { alertModal, questionInfo } from '../modal/modal.js';
-import { filterQuestionBank, postRequest, resetBank } from '../utils.js';
+import { filterQuestionBank, postRequest, resetBank, Exam } from '../utils.js';
 
 /**
  * @param {HTMLDivElement} root
@@ -275,14 +275,31 @@ async function createExam(questions) {
       throw 'Exam must be out of 100 points';
     }
 
-    const createExamObject = {
+    // const createExamObject = {
+    //   exam_name,
+    //   questions: assigned_questions,
+    //   points,
+    // };
+
+    const createExamObject = new Exam(
+      '',
       exam_name,
-      questions: assigned_questions,
+      '',
+      assigned_questions,
+      [],
+      [],
       points,
-    };
+      [],
+      0,
+      1
+    );
+
+    console.log(createExamObject);
 
     try {
       const res = await postRequest('addExam', createExamObject);
+
+      console.log(res);
 
       if (res.success) {
         alertModal('Successfully Created Exam');
