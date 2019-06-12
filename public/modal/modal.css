@@ -27,9 +27,7 @@
 }
 
 .modal-box .alert .card-body h2 {
-  display: flex;
-  justify-content: center;
-  align-content: center;
+  text-align: center;
 }
 
 .modal-box .card {

@@ -2,7 +2,6 @@ import { navigateUrl, postRequest, User } from '../utils.js';
 import { alertModal } from '../modal/modal.js';
 
 /**
- * Login Logic
  * @param {HTMLDivElement} root
  */
 export function LoginHandler(root) {

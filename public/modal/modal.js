@@ -16,7 +16,7 @@ export function alertModal(title = '', message = '') {
   modal.setAttribute('class', 'card alert');
 
   modal.innerHTML = /*html*/ `
-    <div class="card-title ${title === '' ? 'hidden' : ''}">
+    <div class="card-title">
       <button class="btn invisible">X</button>
       <h1>${title}</h1>
       <button type="button" id="dismiss-modal" class="btn btn-danger">X</button>

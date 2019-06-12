@@ -37,9 +37,9 @@
 
 .split .new-question #test-cases {
   padding: 0.25rem 0.5rem;
-  max-height: calc(var(--test-case-height) * 4);
+  max-height: calc(var(--test-case-height) * 2.5);
   overflow-y: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .split .new-question .test-case {
@@ -96,12 +96,16 @@
 .split #question-bank .question-bank-header,
 .split #question-bank .grid #question-box .question {
   display: grid;
-  grid-template-columns: 1fr 0.5fr 0.5fr auto;
+  grid-template-columns: 1fr 0.5fr 0.5fr auto auto;
   grid-column-gap: 0.25rem;
 }
 
 .split #question-bank .grid #question-box {
   padding: 0.25rem;
+}
+
+.split #question-bank .grid #question-box[data-assigned='true'] {
+  display: none;
 }
 
 .split #question-bank .grid #question-box .question:not(:last-child) {

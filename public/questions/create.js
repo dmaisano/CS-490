@@ -1,4 +1,4 @@
-import { postRequest, renderBank, getQuestion, navigateUrl } from '../utils.js';
+import { postRequest, navigateUrl, filterQuestionBank } from '../utils.js';
 import { alertModal } from '../modal/modal.js';
 
 /**
@@ -13,14 +13,12 @@ export async function CreateQuestionHandler(root) {
   try {
     const questions = await postRequest('questions');
 
-    renderBank(questions, page, 'info');
+    renderQuestions(questions, page.querySelector('#question-box'));
   } catch (error) {
     console.error({
       CREATE_QUESTION_PAGE: error,
     });
-
-    // show modal alert and navigate the user back to the home page
-    navigateUrl('#/home');
+    return;
   }
 
   // toggle the constraints
@@ -46,6 +44,32 @@ export async function CreateQuestionHandler(root) {
   // create question
   page.querySelector('.btn#create-question').addEventListener('click', () => {
     createQuestion(page);
+  });
+
+  // filtering
+  let filterOptions = {
+    question_name: '',
+    topic: '',
+    difficulty: '',
+  };
+
+  const filterBox = page.querySelector('#filter-box');
+
+  console.log(filterBox);
+
+  filterBox.querySelector('#question_name').addEventListener('keyup', event => {
+    filterOptions.question_name = event.target.value;
+    filterQuestionBank(filterOptions, page);
+  });
+
+  filterBox.querySelector('#topics').addEventListener('change', event => {
+    filterOptions.topic = event.target.value;
+    filterQuestionBank(filterOptions, page);
+  });
+
+  filterBox.querySelector('#difficulty').addEventListener('change', event => {
+    filterOptions.difficulty = event.target.value;
+    filterQuestionBank(filterOptions, page);
   });
 }
 
@@ -99,11 +123,9 @@ function CREATE_QUESTION_PAGE() {
         </div>
 
         <div class="form-group">
-            <label>Description</label>
-            <textarea id="description" rows="5" placeholder="Enter question description"></textarea>
-          </div>
-
-        <h2 class="title">Constraints</h2>
+          <label>Description</label>
+          <textarea id="description" rows="5" placeholder="Enter question description"></textarea>
+        </div>
 
         <div class="constraints">
           <div class="constraint" data-value="if" data-checked="false">
@@ -146,7 +168,59 @@ function CREATE_QUESTION_PAGE() {
       </div>
     </div>
 
-    <div id="question-bank"></div>
+    <div id="question-bank">
+      <h1 class="title">Question Bank</h1>
+
+      <div id="filter-box">
+        <input
+          type="text"
+          id="question_name"
+          placeholder="Question Name"
+        />
+
+        <div class="custom-select">
+          <select id="topics">
+            <option value="">Topic</option>
+            <option value="Dict">Dict</option>
+            <option value="Functions">Functions</option>
+            <option value="If">If</option>
+            <option value="Lists">Lists</option>
+            <option value="Loops">Loops</option>
+            <option value="Math">Math</option>
+            <option value="Strings">Strings</option>
+          </select>
+
+          <div>▼</div>
+        </div>
+
+        <div class="custom-select">
+          <select id="difficulty">
+            <option value="">Difficulty</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+
+          <div>▼</div>
+        </div>
+
+        <button type="button" class="btn btn-warning">
+          Reset
+        </button>
+      </div>
+
+      <div class="grid">
+        <div class="question-bank-header">
+          <h3>Question Name</h3>
+          <h3>Topic</h3>
+          <h3>Difficulty</h3>
+          <button class="btn invisible">X</button>
+        </div>
+
+        <div id="question-box"></div>
+      </div>
+
+    </div>
   </div>
 `;
 }
@@ -176,7 +250,6 @@ function addTestCase() {
 }
 
 /**
- *
  * @param {HTMLDivElement} page
  */
 async function createQuestion(page) {
@@ -244,16 +317,52 @@ async function createQuestion(page) {
       const res = await postRequest('questionsAdd', question);
 
       if (!res.success) {
-        alert('Failed to add Question');
-        return;
+        alertModal('', 'Failed to Create Question');
       } else {
         // reload the page
         CreateQuestionHandler(document.querySelector('#root'));
       }
     } catch (error) {
-      alertModal('Question Error', error);
+      alertModal('Create Question Error', error);
     }
   } catch (error) {
-    alertModal('Question Error', error);
+    alertModal('', error);
+  }
+}
+
+/**
+ * render the list of questions
+ * @param {Question[]} questions
+ * @param {HTMLDivElement} questionBox
+ */
+export function renderQuestions(questions, questionBox) {
+  for (let i = 0; i < questions.length; i++) {
+    const question = questions[i];
+
+    const elem = document.createElement('div');
+    elem.setAttribute('class', 'question');
+
+    if (question.id) {
+      elem.setAttribute('data-question-id', question.id); // index of the question
+    }
+
+    elem.innerHTML = /*html*/ `
+      <input type="text" value="${question.question_name}" disabled />
+      <input type="text" value="${question.topic}" disabled />
+      <input type="text" value="${question.difficulty}" disabled />
+      <button
+      type="button"
+      style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+      class="btn btn-info"
+      >
+        ?
+      </button>
+    `;
+
+    questionBox.appendChild(elem);
+
+    elem.querySelector('.btn-info').addEventListener('click', () => {
+      questionInfo(question);
+    });
   }
 }

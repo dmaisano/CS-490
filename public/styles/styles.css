@@ -71,7 +71,7 @@ a:disabled {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 1.25rem;
-  padding-left: 22.5%;
+  padding: 1rem;
 }
 
 .constraint {
