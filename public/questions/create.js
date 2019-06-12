@@ -1,5 +1,5 @@
-import { postRequest, navigateUrl, filterQuestionBank } from '../utils.js';
-import { alertModal } from '../modal/modal.js';
+import { alertModal, questionInfo } from '../modal/modal.js';
+import { filterQuestionBank, postRequest, resetBank } from '../utils.js';
 
 /**
  * Login Logic
@@ -55,8 +55,6 @@ export async function CreateQuestionHandler(root) {
 
   const filterBox = page.querySelector('#filter-box');
 
-  console.log(filterBox);
-
   filterBox.querySelector('#question_name').addEventListener('keyup', event => {
     filterOptions.question_name = event.target.value;
     filterQuestionBank(filterOptions, page);
@@ -70,6 +68,10 @@ export async function CreateQuestionHandler(root) {
   filterBox.querySelector('#difficulty').addEventListener('change', event => {
     filterOptions.difficulty = event.target.value;
     filterQuestionBank(filterOptions, page);
+  });
+
+  filterBox.querySelector('.btn-warning').addEventListener('click', () => {
+    resetBank(page);
   });
 }
 
@@ -219,7 +221,6 @@ function CREATE_QUESTION_PAGE() {
 
         <div id="question-box"></div>
       </div>
-
     </div>
   </div>
 `;
@@ -317,7 +318,7 @@ async function createQuestion(page) {
       const res = await postRequest('questionsAdd', question);
 
       if (!res.success) {
-        alertModal('', 'Failed to Create Question');
+        alertModal('Failed to Create Question');
       } else {
         // reload the page
         CreateQuestionHandler(document.querySelector('#root'));
@@ -326,7 +327,7 @@ async function createQuestion(page) {
       alertModal('Create Question Error', error);
     }
   } catch (error) {
-    alertModal('', error);
+    alertModal('Create Question Error', error);
   }
 }
 
@@ -352,7 +353,6 @@ export function renderQuestions(questions, questionBox) {
       <input type="text" value="${question.difficulty}" disabled />
       <button
       type="button"
-      style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
       class="btn btn-info"
       >
         ?

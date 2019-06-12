@@ -22,8 +22,10 @@
 
 .modal-box .alert .card-title {
   grid-column-gap: 2.5rem;
+}
 
-  margin-bottom: 2rem;
+.modal-box .alert .card-body {
+  margin-top: 1rem;
 }
 
 .modal-box .alert .card-body h2 {
@@ -38,9 +40,6 @@
 }
 
 .modal-box .card-title {
-  padding-bottom: 0;
-  margin-bottom: 1rem;
-
   display: grid;
   grid-template-columns: auto 1fr auto;
 }

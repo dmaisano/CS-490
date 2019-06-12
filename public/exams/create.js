@@ -1,47 +1,59 @@
-import { getQuestion, postRequest, renderBank } from '../utils.js';
 import { alertModal, questionInfo } from '../modal/modal.js';
-
-/** @type {Question[]} */
-let questions;
+import { filterQuestionBank, postRequest, resetBank } from '../utils.js';
 
 /**
  * @param {HTMLDivElement} root
  */
 export async function CreateExamHandler(root) {
+  let questions;
+
   root.innerHTML = CREATE_EXAM_PAGE();
 
   const page = root.querySelector('.split');
 
   try {
-    const questions = await postRequest('questions');
+    questions = await postRequest('questions');
 
     renderQuestions(questions, page.querySelector('#question-box'));
   } catch (error) {
     console.error({
-      CREATE_QUESTION_PAGE: error,
+      CREATE_EXAM_PAGE: error,
     });
     return;
   }
 
-  // get the questions
-  // postRequest('questions').then(res => {
-  //   questions = res;
-  //   renderBank(questions, page, 'assign');
+  // filtering
+  let filterOptions = {
+    question_name: '',
+    topic: '',
+    difficulty: '',
+  };
 
-  //   const questionElems = page.querySelectorAll('#question-box .question');
+  const filterBox = page.querySelector('#filter-box');
 
-  //   for (const questionElem of questionElems) {
-  //     const question = getQuestion(questions, questionElem);
+  filterBox.querySelector('#question_name').addEventListener('keyup', event => {
+    filterOptions.question_name = event.target.value;
+    filterQuestionBank(filterOptions, page);
+  });
 
-  //     questionElem.querySelector('.btn').addEventListener('click', () => {
-  //       assignQuestion(questionElem, question);
-  //     });
-  //   }
+  filterBox.querySelector('#topics').addEventListener('change', event => {
+    filterOptions.topic = event.target.value;
+    filterQuestionBank(filterOptions, page);
+  });
 
-  //   page.querySelector('#create-exam-btn').addEventListener('click', () => {
-  //     createExam(questions);
-  //   });
-  // });
+  filterBox.querySelector('#difficulty').addEventListener('change', event => {
+    filterOptions.difficulty = event.target.value;
+    filterQuestionBank(filterOptions, page);
+  });
+
+  filterBox.querySelector('.btn-warning').addEventListener('click', () => {
+    resetBank(page);
+  });
+
+  // create exam
+  page.querySelector('#create-exam-btn').addEventListener('click', () => {
+    createExam(questions);
+  });
 }
 
 /**
@@ -104,24 +116,20 @@ export function CREATE_EXAM_PAGE() {
       <h1 class="title">Create Exam</h1>
 
       <div class="form-group exam-name">
-        <label>Exam Name</label>
         <input
           type="text"
           id="exam-name"
-          placeholder="Enter exam name"
+          placeholder="Exam Name"
           required
         />
+
+        <button id="create-exam-btn" class="btn btn-success">Create Exam</button>
       </div>
 
       <h2 class="title">Exam Questions</h2>
 
-      <button id="create-exam-btn" class="btn btn-success">Create Exam</button>
 
-      <div id="exam-box">
-        <div id="placeholder">
-          <input type="text" value="No Questions" disabled />
-        </div>
-      </div>
+      <div id="exam-box"></div>
     </div>
   </div>
 `;
@@ -149,17 +157,15 @@ export function renderQuestions(questions, questionBox) {
       <input type="text" value="${question.difficulty}" disabled />
       <button
       type="button"
-      style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
       class="btn btn-info"
       >
         ?
       </button>
       <button
       type="button"
-      style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-      class="btn btn-danger"
+      class="btn btn-success"
       >
-        X
+        +
       </button>
     `;
 
@@ -167,6 +173,10 @@ export function renderQuestions(questions, questionBox) {
 
     elem.querySelector('.btn-info').addEventListener('click', () => {
       questionInfo(question);
+    });
+
+    elem.querySelector('.btn-success').addEventListener('click', () => {
+      assignQuestion(elem, question);
     });
   }
 }
@@ -191,13 +201,12 @@ function assignQuestion(questionElem, question) {
   examBox.appendChild(elem);
 
   // hide the original question
-  // questionElem.classList.add('');
   questionElem.setAttribute('data-assigned', 'true');
 
   // remove the element from the exam box and show the original element
   elem.querySelector('.btn').addEventListener('click', () => {
     elem.parentNode.removeChild(elem);
-    questionElem.classList.remove('hidden');
+    questionElem.removeAttribute('data-assigned');
 
     // remove placeholder if exists in question bank
     const placeholderElem = questionElem.parentNode.querySelector(
@@ -207,81 +216,81 @@ function assignQuestion(questionElem, question) {
     if (placeholderElem) {
       placeholderElem.parentNode.removeChild(placeholderElem);
     }
-
-    // add placeholder if no questions in exam box
-    if (examBox.querySelectorAll('.question').length < 1) {
-      examBox.appendChild(createPlaceholder());
-    }
   });
 }
 
 /**
  * @param {Question[]} questions
  */
-// function createExam(questions) {
-//   try {
-//     let question_ids = [];
-//     let points = [];
+async function createExam(questions) {
+  try {
+    let assigned_questions = [];
+    let points = [];
 
-//     const exam_name =
-//       document.querySelector('.split .new-exam #exam-name').value || '';
+    const exam_name =
+      document.querySelector('.split .new-exam #exam-name').value || '';
 
-//     if (!exam_name) {
-//       throw 'Missing exam name';
-//     }
+    if (!exam_name) {
+      throw 'Missing exam name';
+    }
 
-//     const questionElems = document.querySelectorAll(
-//       '.split .new-exam #exam-box .question'
-//     );
+    const questionElems = document.querySelectorAll(
+      '.split .new-exam #exam-box .question'
+    );
 
-//     if (questionElems.length < 1) {
-//       throw 'No Questions Added';
-//     }
+    if (questionElems.length < 1) {
+      throw 'No Questions Added';
+    }
 
-//     for (const elem of questionElems) {
-//       question_ids.push(parseInt(elem.getAttribute('data-question-id')));
+    for (const elem of questionElems) {
+      const id = parseInt(elem.getAttribute('data-question-id'));
 
-//       let questionPoints = elem.querySelector('input:nth-child(2)').value || '';
+      for (const question of questions) {
+        if (question.id === id) {
+          assigned_questions.push(question);
+          break;
+        }
+      }
 
-//       if (!questionPoints) {
-//         throw 'Missing Points';
-//       }
+      assigned_questions.push();
 
-//       questionPoints = Number(questionPoints);
+      let questionPoints = elem.querySelector('input:nth-child(2)').value || '';
 
-//       if (!Number.isInteger(questionPoints)) {
-//         throw 'Points must be int';
-//       } else {
-//         points.push(questionPoints);
-//       }
-//     }
+      if (!questionPoints) {
+        throw 'Missing Points';
+      }
 
-//     const sumPoints = points.reduce((num, total) => (total += num));
+      questionPoints = Number(questionPoints);
 
-//     if (sumPoints != 100) {
-//       throw 'Exam must be out of 100 points';
-//     }
+      if (!Number.isInteger(questionPoints)) {
+        throw 'Points must be int';
+      } else {
+        points.push(questionPoints);
+      }
+    }
 
-//     const createExamObject = {
-//       exam_name,
-//       questions,
-//       points,
-//     };
+    const sumPoints = points.reduce((num, total) => (total += num));
 
-//     console.log({
-//       createExamObject: JSON.stringify(createExamObject),
-//     });
+    if (sumPoints != 100) {
+      throw 'Exam must be out of 100 points';
+    }
 
-//     try {
-//       const res = postRequest('addExam', createExamObject);
+    const createExamObject = {
+      exam_name,
+      questions: assigned_questions,
+      points,
+    };
 
-//       if (res.success) {
-//         alertModal('', 'Successfully Created Exam');
-//       }
-//     } catch (error) {
-//       alertModal('Create Exam Error', error);
-//     }
-//   } catch (error) {
-//     alertModal('', error);
-//   }
-// }
+    try {
+      const res = await postRequest('addExam', createExamObject);
+
+      if (res.success) {
+        alertModal('Successfully Created Exam');
+      }
+    } catch (error) {
+      alertModal('Create Exam Error', error);
+    }
+  } catch (error) {
+    alertModal('Create Exam Error', error);
+  }
+}

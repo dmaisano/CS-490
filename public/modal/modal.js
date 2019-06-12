@@ -142,8 +142,6 @@ export function questionInfo(question) {
   }
 
   for (const test_case of test_cases) {
-    console.log(test_case);
-
     const elem = document.createElement('div');
     elem.setAttribute('id', 'test_case');
 

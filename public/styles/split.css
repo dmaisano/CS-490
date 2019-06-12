@@ -104,7 +104,7 @@
   padding: 0.25rem;
 }
 
-.split #question-bank .grid #question-box[data-assigned='true'] {
+.split #question-bank .grid #question-box .question[data-assigned='true'] {
   display: none;
 }
 
@@ -134,8 +134,14 @@
   margin: 0.5rem 0;
 }
 
-.split .new-exam #create-exam-btn {
-  margin: 0.25rem;
+.split .new-exam .exam-name {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-column-gap: 0.5rem;
+}
+
+.split .new-exam .exam-name .btn {
+  margin-bottom: 0 !important;
 }
 
 .split .new-exam #exam-box {

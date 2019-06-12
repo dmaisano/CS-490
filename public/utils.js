@@ -94,31 +94,10 @@ export class Question {
 }
 
 /**
- * @param {Question[]} questions
- * @param {HTMLDivElement} questionElem
- * @returns {Question|null}
- */
-export function getQuestion(questions, questionElem) {
-  const id = parseInt(questionElem.getAttribute('data-question-id'));
-
-  for (const question of questions) {
-    if (question.id === id) {
-      return question;
-    }
-  }
-
-  return null;
-}
-
-/**
  * @param {Object} filterOptions
  * @param {HTMLDivElement} page
  */
 export function filterQuestionBank(filterOptions, page) {
-  console.log({
-    filterOptions,
-  });
-
   resetBank(page);
 
   for (const elem of page.querySelectorAll('#question-box .question')) {
@@ -148,7 +127,7 @@ export function filterQuestionBank(filterOptions, page) {
 /**
  * @param {HTMLDivElement} page
  */
-function resetBank(page) {
+export function resetBank(page) {
   for (const elem of page.querySelectorAll('#question-box .question')) {
     if (!elem.getAttribute('data-assigned')) {
       elem.classList.remove('hidden');
