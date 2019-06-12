@@ -22,7 +22,7 @@ export async function ExamHandler(root) {
   console.log(location.hash);
 
   if (location.hash === '#/exam/view' && user.type !== 'instructor') {
-    navigateUrl('#/login');
+    navigateUrl('#/home');
   }
 
   try {
@@ -36,8 +36,12 @@ export async function ExamHandler(root) {
       SELECT_EXAM_PAGE(root, exams);
       break;
 
+    case '#/exam/take':
+      SELECT_EXAM_PAGE(root, exams);
+      break;
+
     default:
-      navigateUrl('#/login');
+      navigateUrl('#/home');
       break;
   }
 }
@@ -68,11 +72,7 @@ function SELECT_EXAM_PAGE(root, exams) {
     elem.innerHTML = exam.exam_name;
 
     elem.addEventListener('click', () => {
-      if (location.hash === '#/exam/view' && getUser().type === 'instructor') {
-        VIEW_EXAM_PAGE(root, exam);
-      } else {
-        // take exam goes here
-      }
+      EXAM_PAGE(root, exam);
     });
 
     links.appendChild(elem);
@@ -83,7 +83,7 @@ function SELECT_EXAM_PAGE(root, exams) {
  * @param {HTMLDivElement} root
  * @param {Exam} exam
  */
-function VIEW_EXAM_PAGE(root, exam) {
+function EXAM_PAGE(root, exam) {
   root.innerHTML = /*html*/ `
     <div class="exam">
       <h2 class="exam-title">Exam: ${exam.exam_name}</h2>
@@ -120,7 +120,7 @@ function renderExam(questionBox, exam) {
           <textarea id="description" rows="6" disabled></textarea>
           <textarea id="code" class="${
             location.hash === '#/exam/take' ? '' : 'hidden'
-          }" rows="8"></textarea>
+          }" rows="8" placeholder="Code goes here"></textarea>
         </div>
       `;
 
@@ -129,3 +129,5 @@ function renderExam(questionBox, exam) {
     elem.querySelector('#description').value = question.question_description;
   }
 }
+
+function submitExam() {}

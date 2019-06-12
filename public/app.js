@@ -1,12 +1,10 @@
 import { CreateExamHandler } from './exams/create.js';
-import { TakeExamHandler } from './exams/take.js';
+import { ExamHandler } from './exams/exam.js';
 import { ViewGradeHandler } from './grades/view.js';
 import { HomeHandler } from './home/home.js';
 import { LoginHandler } from './login/login.js';
-
-import { navigateUrl } from './utils.js';
 import { CreateQuestionHandler } from './questions/create.js';
-import { ExamHandler } from './exams/exam.js';
+import { navigateUrl } from './utils.js';
 
 export function AppRouter() {
   const AppRoot = document.querySelector('body #root');
@@ -38,7 +36,7 @@ export function AppRouter() {
       break;
 
     case 'exam/take':
-      routerFunc = TakeExamHandler;
+      routerFunc = ExamHandler;
       break;
 
     case 'grades':
