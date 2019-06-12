@@ -134,3 +134,18 @@ export function resetBank(page) {
     }
   }
 }
+
+export class Exam {
+  /**
+   * @param {number} id
+   * @param {string} exam_name
+   * @param {Question[]} questions
+   * @param {number[]} points
+   */
+  constructor(id, exam_name, questions, points) {
+    this.id = id;
+    this.exam_name = exam_name;
+    this.questions = questions;
+    this.points = points;
+  }
+}

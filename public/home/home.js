@@ -33,8 +33,8 @@ function STUDENT_HOME_PAGE(user) {
   <div class="home">
     <div class="card">
       <div class="card-title">
-        <h1>Student Home</h1>
-        <h2>User: ${user.id.toUpperCase()}</h2>
+        <h2>Student Home</h2>
+        <h3>User: ${user.id.toUpperCase()}</h3>
       </div>
 
       <div class="card-body links">
@@ -51,8 +51,8 @@ function INSTRUCTOR_HOME_PAGE(user) {
   <div class="home">
     <div class="card">
       <div class="card-title">
-        <h1>Instructor Home</h1>
-        <h2>User: ${user.id.toUpperCase()}</h2>
+        <h2>Instructor Home</h2>
+        <h3>User: ${user.id.toUpperCase()}</hh32>
       </div>
 
       <div class="card-body links">
