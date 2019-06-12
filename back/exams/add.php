@@ -35,7 +35,7 @@ try {
         json_encode($points),
         json_encode($points_earned),
         $finalized,
-        $reference_exam,
+        $reference_exam
     );
 
     $status = $stmt->execute($args);

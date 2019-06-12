@@ -21,11 +21,9 @@ $pdo = $db->connect();
 try {
     $result = array();
 
-    $stmt = $pdo->query("SELECT * FROM exams WHERE student_id = ?");
+    $stmt = $pdo->query("SELECT * FROM exams WHERE student_id = '" . $user['id'] . "' AND finalized = 1");
 
     $args = array($user['id']);
-
-    $status = $stmt->execute($args);
 
     while ($row = $stmt->fetch()) {
         array_push($result, $row);

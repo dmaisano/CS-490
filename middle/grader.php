@@ -25,17 +25,17 @@ for ($i = 0; $i < count($responses); $i++) {
 }
 
 // Curl results to backend
-// $curl = curl_init();
+$curl = curl_init();
 
-// curl_setopt_array($curl, array(
-//     CURLOPT_URL => $url,
-//     CURLOPT_RETURNTRANSFER => true,
-//     CURLOPT_POST => true,
-//     CURLOPT_POSTFIELDS => json_encode($jsonData),
-// ));
+curl_setopt_array($curl, array(
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => json_encode($jsonData)
+));
 
-// $response = curl_exec($curl);
-// curl_close($curl);
+$response = curl_exec($curl);
+curl_close($curl);
 
 echo json_encode($jsonData);
 
@@ -98,7 +98,7 @@ function grade_question($code, $question, $maxPoints)
 
     return array(
         'points' => $points,
-        'comments' => $comments,
+        'comments' => $comments
     );
 }
 

@@ -152,7 +152,7 @@ function renderExam(root, exam, action = 'view') {
  * @param {HTMLDivElement} questionBox
  * @param {Exam} exam
  */
-function submitExam(questionBox, exam) {
+async function submitExam(questionBox, exam) {
   try {
     let submitExamObject = new Exam(
       '',
@@ -177,7 +177,17 @@ function submitExam(questionBox, exam) {
       submitExamObject.responses.push(code);
     }
 
-    console.log(submitExamObject);
+    console.log({
+      submitExamObject: JSON.stringify(submitExamObject),
+    });
+
+    try {
+      const res = await postRequest('addGrade', submitExamObject);
+
+      console.log(res);
+    } catch (error) {
+      alertModal('Submit Exam Error', error);
+    }
   } catch (error) {
     alertModal('Submit Exam Error', error);
   }
