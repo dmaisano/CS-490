@@ -9,7 +9,6 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
-$url = $jsonData['url'];
 $exam = $jsonData['exam'];
 $responses = $jsonData['responses'];
 $questions = $exam['questions'];
@@ -103,10 +102,10 @@ function grade_question($code, $question, $maxPoints)
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-    CURLOPT_URL => $url,
+    CURLOPT_URL => "https://web.njit.edu/~ld277/CS-490/back/grades/add.php",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => json_encode($jsonString)
+    CURLOPT_POSTFIELDS => json_encode($jsonData)
 ));
 
 $response = curl_exec($curl);

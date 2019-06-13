@@ -221,18 +221,18 @@ async function submitExam(questionBox, exam) {
       submitExamObject: JSON.stringify(submitExamObject),
     });
 
-    try {
-      const res = await postRequest('addGrade', submitExamObject);
+    // try {
+    //   const res = await postRequest('addGrade', submitExamObject);
 
-      console.log(res);
+    //   console.log(res);
 
-      if (res.success) {
-        alertModal('Successfully Submitted Exam');
-        window.scrollTo(0, 0);
-      }
-    } catch (error) {
-      alertModal('Submit Exam Error', error);
-    }
+    //   if (res.success) {
+    //     alertModal('Successfully Submitted Exam');
+    //     window.scrollTo(0, 0);
+    //   }
+    // } catch (error) {
+    //   alertModal('Submit Exam Error', error);
+    // }
   } catch (error) {
     alertModal('Submit Exam Error', error);
   }
