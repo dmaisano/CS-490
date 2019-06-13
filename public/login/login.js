@@ -36,6 +36,8 @@ async function login() {
       pass,
     });
 
+    console.log(res);
+
     if (res.type !== 'student' && res.type !== 'instructor') {
       errorModal();
     } else {
