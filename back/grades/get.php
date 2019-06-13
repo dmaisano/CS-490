@@ -21,20 +21,18 @@ $pdo = $db->connect();
 try {
     $result = array();
 
-    $stmt = $pdo->query("SELECT * FROM exams WHERE student_id = '" . $user['id'] . "' AND finalized = 1");
-
-    $args = array($user['id']);
+    $stmt = $pdo->query("SELECT * FROM grades WHERE student_id = '" . $user['id'] . "'");
 
     while ($row = $stmt->fetch()) {
         array_push($result, $row);
     }
 
     for ($i = 0; $i < count($result); $i++) {
-        $result[$i]['questions'] = json_decode($result[$i]['questions']);
+        $result[$i]['exam'] = json_decode($result[$i]['exam']);
         $result[$i]['responses'] = json_decode($result[$i]['responses']);
         $result[$i]['instructor_comments'] = json_decode($result[$i]['instructor_comments']);
-        $result[$i]['points'] = json_decode($result[$i]['points']);
-        $result[$i]['points_earned'] = json_decode($result[$i]['points_earned']);
+        $result[$i]['credit'] = json_decode($result[$i]['credit']);
+
     }
 
     $response = $result;

@@ -12,32 +12,19 @@ import { alertModal } from '../modal/modal.js';
  * @param {HTMLDivElement} root
  */
 export async function ExamHandler(root) {
-  /** @type {Exam[]} */
-  let exams;
-
   const user = getUser();
-
-  console.log(location.hash);
 
   if (location.hash === '#/exam/view' && user.type !== 'instructor') {
     navigateUrl('#/home');
   }
 
-  try {
-    exams = await postRequest('exams', {
-      user,
-    });
-  } catch (error) {
-    alertModal('Get Exams Error', error);
-  }
-
   switch (location.hash) {
     case '#/exam/view':
-      SELECT_EXAM_PAGE(root, exams);
+      SELECT_EXAM_PAGE(root);
       break;
 
     case '#/exam/take':
-      SELECT_EXAM_PAGE(root, exams);
+      SELECT_EXAM_PAGE(root);
       break;
 
     default:
@@ -50,7 +37,47 @@ export async function ExamHandler(root) {
  * @param {HTMLDivElement} root
  * @param {Exam[]} exams
  */
-function SELECT_EXAM_PAGE(root, exams) {
+async function SELECT_EXAM_PAGE(root) {
+  let exams;
+  let grades;
+  let validExams = [];
+
+  const user = getUser();
+
+  try {
+    exams = await postRequest('exams', {
+      user,
+    });
+
+    grades = await postRequest('grades', {
+      user,
+    });
+
+    console.log(grades);
+  } catch (error) {
+    alertModal('Get Exams Error', error);
+  }
+
+  if (grades.length >= 1) {
+    for (const exam of exams) {
+      for (let i = 0; i < grades.length; i++) {
+        const grade = grades[i];
+
+        if (exam.id === grade.exam.id) {
+          break;
+        }
+
+        if (i === grades.length - 1) {
+          validExams.push(exam);
+        }
+      }
+    }
+  } else {
+    validExams = exams;
+  }
+
+  console.log(validExams);
+
   root.innerHTML = /*html*/ `
     <div class="select-exam">
       <div class="card">
@@ -65,7 +92,12 @@ function SELECT_EXAM_PAGE(root, exams) {
 
   const links = root.querySelector('.card-body.links');
 
-  for (const exam of exams) {
+  if (validExams.length < 1) {
+    console.log('NO EXAMS TO TAKE');
+    return;
+  }
+
+  for (const exam of validExams) {
     const elem = document.createElement('button');
     elem.setAttribute('class', 'btn btn-primary');
 
@@ -126,7 +158,7 @@ function renderExam(root, exam, action = 'view') {
         </div>
 
         <div class="card-body">
-          <textarea id="description" rows="6" disabled></textarea>
+          <textarea id="description" disabled></textarea>
           <textarea id="code" class="${
             action === 'take' ? '' : 'hidden'
           }" rows="8" placeholder="Code goes here"></textarea>
@@ -135,7 +167,12 @@ function renderExam(root, exam, action = 'view') {
 
     questionBox.appendChild(elem);
 
-    elem.querySelector('#description').value = question.question_description;
+    const descriptionBox = elem.querySelector('#description');
+    descriptionBox.value = question.question_description;
+    descriptionBox.setAttribute(
+      'style',
+      `height: ${descriptionBox.scrollHeight}px`
+    );
   }
 
   if (action === 'take') {
@@ -151,18 +188,24 @@ function renderExam(root, exam, action = 'view') {
  */
 async function submitExam(questionBox, exam) {
   try {
-    let submitExamObject = new Exam(
-      '',
-      exam.exam_name,
-      getUser().id,
-      exam.questions,
-      [],
-      [],
-      exam.points,
-      [],
-      0,
-      0
-    );
+    // let submitExamObject = new Exam(
+    //   null,
+    //   exam.exam_name,
+    //   getUser().id,
+    //   exam.questions,
+    //   [],
+    //   [],
+    //   [],
+    //   exam.points,
+    //   0,
+    //   0
+    // );
+
+    let submitExamObject = {
+      exam,
+      student_id: getUser().id,
+      responses: [],
+    };
 
     for (const elem of questionBox.querySelectorAll('.question')) {
       const code = elem.querySelector('#code').value || '';
@@ -180,6 +223,8 @@ async function submitExam(questionBox, exam) {
 
     try {
       const res = await postRequest('addGrade', submitExamObject);
+
+      console.log(res);
 
       if (res.success) {
         alertModal('Successfully Submitted Exam');

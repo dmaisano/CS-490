@@ -188,8 +188,14 @@ function renderExam(root, exam) {
 
     questionBox.appendChild(elem);
 
-    elem.querySelector('#new-points').value = points_earned.toString();
-    elem.querySelector('#description').value = question.question_description;
+    // elem.querySelector('#new-points').value = points_earned.toString();
+
+    const descriptionBox = elem.querySelector('#description');
+    descriptionBox.value = question.question_description;
+    descriptionBox.setAttribute(
+      'style',
+      `height: ${descriptionBox.scrollHeight}px`
+    );
 
     const commentsBox = elem.querySelector('#comments');
     commentsBox.value = comments || '';

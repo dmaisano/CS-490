@@ -275,23 +275,11 @@ async function createExam(questions) {
       throw 'Exam must be out of 100 points';
     }
 
-    // const createExamObject = {
-    //   exam_name,
-    //   questions: assigned_questions,
-    //   points,
-    // };
-
     const createExamObject = new Exam(
-      '',
+      null,
       exam_name,
-      '',
       assigned_questions,
-      [],
-      [],
-      points,
-      [],
-      0,
-      1
+      points
     );
 
     console.log(createExamObject);

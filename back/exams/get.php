@@ -15,7 +15,7 @@ $pdo = $db->connect();
 try {
     $result = array();
 
-    $stmt = $pdo->query("SELECT * FROM exams WHERE reference_exam = 1");
+    $stmt = $pdo->query("SELECT * FROM exams");
 
     while ($row = $stmt->fetch()) {
         array_push($result, $row);
@@ -23,10 +23,7 @@ try {
 
     for ($i = 0; $i < count($result); $i++) {
         $result[$i]['questions'] = json_decode($result[$i]['questions']);
-        $result[$i]['responses'] = json_decode($result[$i]['responses']);
-        $result[$i]['instructor_comments'] = json_decode($result[$i]['instructor_comments']);
         $result[$i]['points'] = json_decode($result[$i]['points']);
-        $result[$i]['points_earned'] = json_decode($result[$i]['points_earned']);
     }
 
     $response = $result;

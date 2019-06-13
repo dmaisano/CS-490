@@ -24,7 +24,7 @@ $db = new Database();
 $pdo = $db->connect();
 
 try {
-    $sql = "UPDATE exams SET finalized = 1  WHERE id = ? AND student_id = ?";
+    $sql = "UPDATE grades SET finalized = 1  WHERE id = ? AND student_id = ?";
     $stmt = $pdo->prepare($sql);
 
     $args = array(
@@ -34,7 +34,7 @@ try {
 
     $status = $stmt->execute($args);
 
-    $response = array('success' => true, 'msg' => 'successfully added grade');
+    $response = array('success' => true, 'msg' => 'successfully published grade');
 } catch (PDOException $error) {
     $response = array('success' => false, 'error' => $error);
     header('HTTP/1.1 500 Internal Server Error');

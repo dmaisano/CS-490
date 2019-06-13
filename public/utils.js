@@ -139,36 +139,41 @@ export class Exam {
   /**
    * @param {number} id
    * @param {string} exam_name
-   * @param {string} student_id
    * @param {Question[]} questions
-   * @param {string[]} responses
-   * @param {string[]} instructor_comments
    * @param {number[]} points
-   * @param {number[]} points_earned
-   * @param {0 | 1} finalized
-   * @param {0 | 1} reference_exam
    */
-  constructor(
-    id = '',
-    exam_name,
-    student_id = '',
-    questions,
-    responses = [],
-    instructor_comments = [],
-    points,
-    points_earned = [],
-    finalized = 0,
-    reference_exam = 1
-  ) {
+  constructor(id = null, exam_name, questions, points = []) {
     this.id = id;
     this.exam_name = exam_name;
-    this.student_id = student_id;
     this.questions = questions;
+    this.points = points;
+  }
+}
+export class Grade {
+  /**
+   * @param {number} id
+   * @param {string} student_id
+   * @param {Exam} exam
+   * @param {string[]} responses
+   * @param {string[]} instructor_comments
+   * @param {Object} credit
+   * @param {0 | 1} finalized
+   */
+  constructor(
+    id = null,
+    student_id,
+    exam,
+    responses,
+    instructor_comments,
+    credit,
+    finalized
+  ) {
+    this.id = id;
+    this.student_id = student_id;
+    this.exam = exam;
     this.responses = responses;
     this.instructor_comments = instructor_comments;
-    this.points = points;
-    this.points_earned = points_earned;
+    this.credit = credit;
     this.finalized = finalized;
-    this.reference_exam = reference_exam;
   }
 }
