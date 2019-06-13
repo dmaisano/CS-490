@@ -279,7 +279,7 @@ async function createQuestion(page) {
     for (const elem of questionForm.querySelectorAll(
       '.constraints .constraint'
     )) {
-      if (elem.getAttribute('data-checked') === 'true') {
+      if (elem.getAttribute('data-checked') == 'true') {
         constraints.push(elem.getAttribute('data-value'));
       }
     }

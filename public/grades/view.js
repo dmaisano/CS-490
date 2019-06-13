@@ -98,7 +98,7 @@ async function SELECT_EXAM_PAGE(root, student) {
     for (const grade of grades) {
       console.log(grade);
 
-      if (getUser().type !== 'instructor' && !grade.finalized) continue;
+      if (getUser().type !== 'instructor' && grade.finalized != '1') continue;
 
       const elem = document.createElement('button');
       elem.setAttribute('class', 'btn btn-primary');
@@ -140,14 +140,14 @@ function EXAM_PAGE(root, grade) {
       <div id="exam-questions"></div>
 
       <button type="button" id="submit-exam-btn" class="btn btn-success ${
-        getUser().type === 'instructor' ? '' : 'hidden'
+        getUser().type == 'instructor' ? '' : 'hidden'
       }">Publish</button>
     </div>
   `;
 
   renderGrade(root, grade);
 
-  if (getUser().type === 'instructor') {
+  if (getUser().type == 'instructor') {
     root.querySelector('#submit-exam-btn').addEventListener('click', () => {
       updateGrade(root, grade);
     });
@@ -238,7 +238,7 @@ function renderGrade(root, grade) {
       test_case: new CreditItem('test_case'),
     };
 
-    if (credit_obj['for'].value === undefined) {
+    if (credit_obj['for'].value == undefined) {
       credit_obj.for.elem.parentNode.classList.add('hidden');
     }
 
@@ -264,7 +264,7 @@ function renderGrade(root, grade) {
     commentsBox.value = comments || '';
     commentsBox.setAttribute('style', `height: ${commentsBox.scrollHeight}px`);
 
-    if (getUser().type === 'student') {
+    if (getUser().type == 'student') {
       commentsBox.setAttribute('disabled', '');
     }
 
@@ -300,7 +300,7 @@ async function updateGrade(root, grade) {
         const id = inputElem.getAttribute('id');
 
         // skip for
-        if (id === 'for' && question.constraints.length < 1) continue;
+        if (id == 'for' && question.constraints.length < 1) continue;
 
         const value = Number(inputElem.value);
 

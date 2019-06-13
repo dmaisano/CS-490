@@ -11,7 +11,7 @@ export function LoginHandler(root) {
 
   for (const input of card.querySelectorAll('input')) {
     input.addEventListener('keypress', event => {
-      if (event.key === 'Enter') {
+      if (event.key == 'Enter') {
         login();
       }
     });

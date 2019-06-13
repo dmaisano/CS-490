@@ -22,7 +22,7 @@ export function alertModal(title = '', message = '') {
       <button type="button" id="dismiss-modal" class="btn btn-danger">X</button>
     </div>
 
-    <div class="card-body ${message === '' ? 'hidden' : ''}">
+    <div class="card-body ${message == '' ? 'hidden' : ''}">
       <h2>${message}</h2>
     </div>
   `;

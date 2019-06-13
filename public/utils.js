@@ -48,7 +48,7 @@ export function removeChildren(elem) {
  * @param {string} hashUrl
  */
 export function navigateUrl(hashUrl = '') {
-  if (hashUrl === '') {
+  if (hashUrl == '') {
     hashUrl = '#/login';
   }
 

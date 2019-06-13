@@ -14,7 +14,7 @@ import {
 export async function ExamHandler(root) {
   const user = getUser();
 
-  if (location.hash === '#/exam/view' && user.type !== 'instructor') {
+  if (location.hash == '#/exam/view' && user.type !== 'instructor') {
     navigateUrl('#/home');
   }
 
@@ -61,11 +61,11 @@ async function SELECT_EXAM_PAGE(root) {
       for (let i = 0; i < grades.length; i++) {
         const grade = grades[i];
 
-        if (exam.id === grade.exam.id) {
+        if (exam.id == grade.exam.id) {
           break;
         }
 
-        if (i === grades.length - 1) {
+        if (i == grades.length - 1) {
           validExams.push(exam);
         }
       }
@@ -118,7 +118,7 @@ async function SELECT_EXAM_PAGE(root) {
  * @param {Exam} exam
  */
 function EXAM_PAGE(root, exam) {
-  const action = location.hash === '#/exam/take' ? 'take' : 'view';
+  const action = location.hash == '#/exam/take' ? 'take' : 'view';
 
   root.innerHTML = /*html*/ `
     <div class="exam">
@@ -127,7 +127,7 @@ function EXAM_PAGE(root, exam) {
       <div id="exam-questions"></div>
 
       <button type="button" id="submit-exam-btn" class="btn btn-success ${
-        action === 'take' ? '' : 'hidden'
+        action == 'take' ? '' : 'hidden'
       }">Submit Exam</button>
     </div>
   `;
@@ -162,7 +162,7 @@ function renderExam(root, exam, action = 'view') {
         <div class="card-body">
           <textarea id="description" disabled></textarea>
           <textarea id="code" class="${
-            action === 'take' ? '' : 'hidden'
+            action == 'take' ? '' : 'hidden'
           }" rows="8" placeholder="Code goes here"></textarea>
         </div>
       `;
@@ -177,7 +177,7 @@ function renderExam(root, exam, action = 'view') {
     );
   }
 
-  if (action === 'take') {
+  if (action == 'take') {
     root.querySelector('#submit-exam-btn').addEventListener('click', () => {
       submitExam(questionBox, exam);
     });
