@@ -96,6 +96,8 @@ async function SELECT_EXAM_PAGE(root, student) {
     const links = root.querySelector('.card-body.links');
 
     for (const grade of grades) {
+      console.log(grade);
+
       if (getUser().type !== 'instructor' && !grade.finalized) continue;
 
       const elem = document.createElement('button');

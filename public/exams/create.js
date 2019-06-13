@@ -295,6 +295,10 @@ async function createExam(questions) {
     try {
       const res = await postRequest('addExam', createExamObject);
 
+      console.log({
+        gradeResponse: res,
+      });
+
       if (res.success) {
         alertModal('Successfully Created Exam');
       }
