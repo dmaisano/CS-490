@@ -119,5 +119,6 @@ curl_close($curl);
 
 $response = json_decode($response, true);
 $response['function_outputs'] = $jsonData['function_outputs'];
+$response['credit'] = $jsonData['credit'];
 
 echo json_encode($response);
