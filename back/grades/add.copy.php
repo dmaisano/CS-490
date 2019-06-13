@@ -1,16 +1,15 @@
 <?php
 
-// Baudin Marku CS490
-
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
+include '../config/database.php';
+include '../utils.php';
 
 // Receive JSON object
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
-$url = $jsonData['url'];
+// $url = $jsonData['url'];
 $exam = $jsonData['exam'];
+$student_id = $jsonData['student_id'];
 $responses = $jsonData['responses'];
 $questions = $exam['questions'];
 $points = $exam['points'];
@@ -51,7 +50,7 @@ function grade_question($code, $question, $maxPoints)
     $comments = "";
 
     // check if function names match
-    preg_match('/\s*def\s+(.+)\s*\(/', $code, $matches);
+    preg_match('/\s*def\s+(\w+)\s*\(/', $code, $matches);
 
     $match = str_replace(array('\'', '"'), '', $matches[1]);
 
@@ -99,17 +98,28 @@ function grade_question($code, $question, $maxPoints)
     );
 }
 
-// Curl to backend
-$curl = curl_init();
+$db = new Database();
+$pdo = $db->connect();
 
-curl_setopt_array($curl, array(
-    CURLOPT_URL => $url,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => json_encode($jsonString)
-));
+try {
+    $sql = "INSERT INTO grades (student_id, exam, responses, instructor_comments, credit, finalized) VALUES (?,?,?,?,?,?)";
+    $stmt = $pdo->prepare($sql);
 
-$response = curl_exec($curl);
-curl_close($curl);
+    $args = array(
+        $student_id,
+        json_encode($exam),
+        json_encode($responses),
+        json_encode($jsonData['instructor_comments']),
+        json_encode($jsonData['credit']),
+        0
+    );
 
-echo $response;
+    $status = $stmt->execute($args);
+
+    $response = array('success' => true, 'msg' => 'successfully created exam');
+} catch (PDOException $error) {
+    $response = array('success' => false, 'error' => $error);
+    header('HTTP/1.1 500 Internal Server Error');
+}
+
+echo json_encode($response);

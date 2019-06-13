@@ -79,9 +79,11 @@ async function SELECT_STUDENT_PAGE(root) {
  */
 async function SELECT_EXAM_PAGE(root, student) {
   try {
-    const exams = await postRequest('grades', {
+    const grades = await postRequest('grades', {
       user: student,
     });
+
+    console.log(grades);
 
     root.innerHTML = /*html*/ `
       <div class="select-exam">
@@ -97,14 +99,14 @@ async function SELECT_EXAM_PAGE(root, student) {
 
     const links = root.querySelector('.card-body.links');
 
-    for (const exam of exams) {
+    for (const grade of grades) {
       const elem = document.createElement('button');
       elem.setAttribute('class', 'btn btn-primary');
 
-      elem.innerHTML = exam.exam_name;
+      elem.innerHTML = grade.exam.exam_name;
 
       elem.addEventListener('click', () => {
-        EXAM_PAGE(root, exam);
+        EXAM_PAGE(root, grade);
       });
 
       links.appendChild(elem);
@@ -116,9 +118,9 @@ async function SELECT_EXAM_PAGE(root, student) {
 
 /**
  * @param {HTMLDivElement} root
- * @param {Exam} exam
+ * @param {Grade} grade
  */
-function EXAM_PAGE(root, exam) {
+function EXAM_PAGE(root, grade) {
   root.innerHTML = /*html*/ `
     <div class="exam">
       <h2 class="exam-title">Exam: ${exam.exam_name}</h2>
@@ -136,9 +138,9 @@ function EXAM_PAGE(root, exam) {
 
 /**
  * @param {HTMLDivElement} root
- * @param {Exam} exam
+ * @param {Grade} grade
  */
-function renderExam(root, exam) {
+function renderExam(root, grade) {
   const questionBox = root.querySelector('#exam-questions');
 
   removeChildren(questionBox);
@@ -212,20 +214,20 @@ function renderExam(root, exam) {
  * @param {HTMLDivElement} questionBox
  * @param {Exam} exam
  */
-async function submitExam(questionBox, exam) {
+async function finalizeGrade(questionBox, exam) {
   try {
-    let submitExamObject = new Exam(
-      '',
-      exam.exam_name,
-      getUser().id,
-      exam.questions,
-      [],
-      [],
-      exam.points,
-      [],
-      0,
-      0
-    );
+    // let submitExamObject = new Exam(
+    //   '',
+    //   exam.exam_name,
+    //   getUser().id,
+    //   exam.questions,
+    //   [],
+    //   [],
+    //   exam.points,
+    //   [],
+    //   0,
+    //   0
+    // );
 
     for (const elem of questionBox.querySelectorAll('.question')) {
       const code = elem.querySelector('#code').value || '';
