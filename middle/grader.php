@@ -84,7 +84,7 @@ function grade_question($code, $question, $maxPoints)
         file_put_contents("./code.py", $code . "\n\nprint(" . $function_name . "(" . $input . "))");
 
         // shell_exec saves the output as a string
-        $output = shell_exec('python ./code.py');
+        $output = shell_exec('python3 ./code.py');
 
         // output doesnt match expected output
         if (!preg_match("/" . $expected_output . "/", $output)) {
@@ -98,17 +98,17 @@ function grade_question($code, $question, $maxPoints)
     );
 }
 
-// // Curl to backend
-// $curl = curl_init();
+// Curl to backend
+$curl = curl_init();
 
-// curl_setopt_array($curl, array(
-//     CURLOPT_URL => "https://web.njit.edu/~ld277/CS-490/back/grades/add.php",
-//     CURLOPT_RETURNTRANSFER => true,
-//     CURLOPT_POST => true,
-//     CURLOPT_POSTFIELDS => json_encode($jsonData)
-// ));
+curl_setopt_array($curl, array(
+    CURLOPT_URL => "https://web.njit.edu/~ld277/CS-490/back/grades/add.php",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => json_encode($jsonData)
+));
 
-// $response = curl_exec($curl);
-// curl_close($curl);
+$response = curl_exec($curl);
+curl_close($curl);
 
-echo json_encode($jsonData);
+echo $response;
