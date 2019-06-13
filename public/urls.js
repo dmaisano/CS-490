@@ -12,7 +12,7 @@ export const URLS = {
   exams: `${baseUrl}/exams/get.php`,
   addExam: `${baseUrl}/exams/add.php`,
   grades: `${baseUrl}/grades/get.php`,
-  addGrade: `${baseUrl}/grades/add.php`,
+  addGrade: `${baseUrl}/grades/add.grade.php`,
   finalizeGrade: `${baseUrl}/grades/finalize.php`,
   students: `${baseUrl}/students.php`,
 };

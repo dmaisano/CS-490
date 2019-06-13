@@ -50,7 +50,7 @@ function grade_question($code, $question, $maxPoints)
     $comments = "";
 
     // check if function names match
-    preg_match('/\s*def\s+(.+)\s*\(/', $code, $matches);
+    preg_match('/\s*def\s+(\w+)\s*\(/', $code, $matches);
 
     $match = str_replace(array('\'', '"'), '', $matches[1]);
 
