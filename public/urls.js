@@ -12,7 +12,8 @@ export const URLS = {
   exams: `${baseUrl}/exams/get.php`,
   addExam: `${baseUrl}/exams/add.php`,
   grades: `${baseUrl}/grades/get.php`,
+  // autoGrade: `${baseUrl}/grades/add.php`,
   addGrade: `${baseUrl}/grades/add.grade.php`,
-  finalizeGrade: `${baseUrl}/grades/finalize.php`,
+  updateGrade: `${baseUrl}/grades/update.php`,
   students: `${baseUrl}/students.php`,
 };

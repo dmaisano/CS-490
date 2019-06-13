@@ -245,6 +245,10 @@ function renderGrade(root, grade) {
       const item = credit_obj[key];
       const elem = item.elem;
 
+      if (getUser().type !== 'instructor') {
+        elem.setAttribute('disabled', '');
+      }
+
       elem.value = item.value;
     }
 
@@ -279,11 +283,64 @@ async function updateGrade(root, grade) {
     let credit = [];
     let instructor_comments = [];
 
-    // TODO: get list of credits and comments
-    // for (const card of root.querySelectorAll('.card')) {
-    //   for (const elem)
-    // }
+    for (let i = 0; i < root.querySelectorAll('.card').length; i++) {
+      const question = grade.exam.questions[i];
+      const card = root.querySelectorAll('.card')[i];
+
+      let points = grade.exam.points[i];
+
+      let sumPoints = {};
+
+      instructor_comments.push(card.querySelector('#comments').value || '');
+
+      for (const inputElem of card.querySelectorAll(
+        '.question-credit .item input'
+      )) {
+        const id = inputElem.getAttribute('id');
+
+        // skip for
+        if (id === 'for' && question.constraints.length < 1) continue;
+
+        const value = Number(inputElem.value);
+
+        if (isNaN(value)) {
+          throw 'Points must be int';
+        } else {
+          sumPoints[id] = value;
+        }
+      }
+
+      const totalPoints = Object.values(sumPoints).reduce(
+        (total, num) => (total += num)
+      );
+
+      credit.push(sumPoints);
+
+      if (totalPoints > points) {
+        throw `${
+          question.question_name
+        } cannot be worth more than ${points} points!`;
+      }
+    }
+
+    const updateGradeObject = {
+      user: getUser(),
+      student_id: grade.student_id,
+      exam: grade.exam,
+      instructor_comments,
+      credit,
+    };
+
+    try {
+      const res = await postRequest('updateGrade', updateGradeObject);
+
+      console.log(res);
+    } catch (error) {
+      window.scrollTo(0, 0);
+      alertModal('Update Grade Error', error);
+    }
   } catch (error) {
-    alertModal('Submit Exam Error', error);
+    window.scrollTo(0, 0);
+    alertModal(error);
   }
 }
