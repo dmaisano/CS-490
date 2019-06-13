@@ -84,7 +84,7 @@ function grade_question($code, $question, $maxPoints)
         file_put_contents("./code.py", $code . "\n\nprint(" . $function_name . "(" . $input . "))");
 
         // shell_exec saves the output as a string
-        $output = shell_exec('python3 ./code.py');
+        $output = shell_exec('python ./code.py');
 
         // output doesnt match expected output
         if (strpos($output, $expected_output) === false) {
