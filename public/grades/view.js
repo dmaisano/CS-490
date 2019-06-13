@@ -276,9 +276,13 @@ function renderGrade(root, grade) {
  */
 async function updateGrade(root, grade) {
   try {
-    console.log({
-      root,
-    });
+    let credit = [];
+    let instructor_comments = [];
+
+    // TODO: get list of credits and comments
+    // for (const card of root.querySelectorAll('.card')) {
+    //   for (const elem)
+    // }
   } catch (error) {
     alertModal('Submit Exam Error', error);
   }
