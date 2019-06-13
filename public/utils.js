@@ -11,7 +11,7 @@ export function postRequest(urlKey, data = {}) {
   let postUrl = 'http://localhost:3000';
 
   if (!isDev) {
-    postUrl = 'https://web.njit.edu/~bm424/490/middle/grader.php';
+    postUrl = URLS[urlKey];
   }
 
   data.url = URLS[urlKey];
