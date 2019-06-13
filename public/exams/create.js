@@ -223,6 +223,8 @@ function assignQuestion(questionElem, question) {
  * @param {Question[]} questions
  */
 async function createExam(questions) {
+  console.log(questions);
+
   try {
     let assigned_questions = [];
     let points = [];
@@ -273,6 +275,10 @@ async function createExam(questions) {
 
     if (sumPoints != 100) {
       throw 'Exam must be out of 100 points';
+    }
+
+    if (assigned_questions.length < 1) {
+      throw 'NO QUESTIONS ADDED';
     }
 
     const createExamObject = new Exam(
