@@ -248,12 +248,7 @@ async function createExam(questions) {
       const id = parseInt(elem.getAttribute('data-question-id'));
 
       for (const question of questions) {
-        console.log({
-          question_id: question.id,
-          id,
-        });
-
-        if (question.id === id) {
+        if (question.id == id) {
           assigned_questions.push(question);
           break;
         }
