@@ -24,7 +24,7 @@ $db = new Database();
 $pdo = $db->connect();
 
 try {
-    $sql = "INSERT INTO users VALUES (?, ?, ?)";
+    $sql = "INSERT INTO demo_users VALUES (?, ?, ?)";
     $stmt = $pdo->prepare($sql);
 
     $args = array($user, $hashedPass, $type);

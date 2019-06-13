@@ -15,8 +15,6 @@ import { alertModal } from '../modal/modal.js';
 export async function GradeHandler(root) {
   const user = getUser();
 
-  console.log(location.hash);
-
   if (location.hash !== '#/grade/view') {
     navigateUrl('#/home');
   }

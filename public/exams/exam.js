@@ -52,8 +52,6 @@ async function SELECT_EXAM_PAGE(root) {
     grades = await postRequest('grades', {
       user,
     });
-
-    console.log(grades);
   } catch (error) {
     alertModal('Get Exams Error', error);
   }
@@ -76,8 +74,6 @@ async function SELECT_EXAM_PAGE(root) {
     validExams = exams;
   }
 
-  console.log(validExams);
-
   root.innerHTML = /*html*/ `
     <div class="select-exam">
       <div class="card">
@@ -96,6 +92,8 @@ async function SELECT_EXAM_PAGE(root) {
     console.log('NO EXAMS TO TAKE');
     return;
   }
+
+  console.log(validExams);
 
   for (const exam of validExams) {
     const elem = document.createElement('button');
@@ -221,18 +219,18 @@ async function submitExam(questionBox, exam) {
       submitExamObject: JSON.stringify(submitExamObject),
     });
 
-    // try {
-    //   const res = await postRequest('addGrade', submitExamObject);
+    try {
+      const res = await postRequest('addGrade', submitExamObject);
 
-    //   console.log(res);
+      console.log(res);
 
-    //   if (res.success) {
-    //     alertModal('Successfully Submitted Exam');
-    //     window.scrollTo(0, 0);
-    //   }
-    // } catch (error) {
-    //   alertModal('Submit Exam Error', error);
-    // }
+      if (res.success) {
+        alertModal('Successfully Submitted Exam');
+        window.scrollTo(0, 0);
+      }
+    } catch (error) {
+      alertModal('Submit Exam Error', error);
+    }
   } catch (error) {
     alertModal('Submit Exam Error', error);
   }

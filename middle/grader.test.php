@@ -93,7 +93,7 @@ function grade_question($code, $question, $maxPoints)
 
         // output doesnt match expected output
         if (!preg_match("/" . $expected_output . "/", $output)) {
-            $credit['test_case'] -= $credit['test_case'] / count($num_test_cases);
+            $credit['test_case'] -= $maxPoints * 0.7 / $num_test_cases;
         }
     }
 
