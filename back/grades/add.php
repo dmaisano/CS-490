@@ -3,6 +3,9 @@
 include '../config/database.php';
 include '../utils.php';
 
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+
 // Receive JSON object
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
@@ -36,5 +39,7 @@ try {
     $response = array('success' => false, 'error' => $error);
     header('HTTP/1.1 500 Internal Server Error');
 }
+
+$response['credit'] = $jsonData['credit'];
 
 echo json_encode($response);

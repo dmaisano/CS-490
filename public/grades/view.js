@@ -27,6 +27,7 @@ export async function GradeHandler(root) {
       break;
 
     case 'student':
+      SELECT_EXAM_PAGE(root, getUser());
       break;
 
     default:
@@ -123,7 +124,7 @@ async function SELECT_EXAM_PAGE(root, student) {
 function EXAM_PAGE(root, grade) {
   root.innerHTML = /*html*/ `
     <div class="exam">
-      <h2 class="exam-title">Exam: ${exam.exam_name}</h2>
+      <h2 class="exam-title">Exam: ${grade.exam.exam_name}</h2>
 
       <div id="exam-questions"></div>
 
@@ -133,24 +134,26 @@ function EXAM_PAGE(root, grade) {
     </div>
   `;
 
-  renderExam(root, exam);
+  console.log(grade);
+
+  renderGrade(root, grade);
 }
 
 /**
  * @param {HTMLDivElement} root
  * @param {Grade} grade
  */
-function renderExam(root, grade) {
+function renderGrade(root, grade) {
   const questionBox = root.querySelector('#exam-questions');
 
   removeChildren(questionBox);
 
-  for (let i = 0; i < exam.questions.length; i++) {
-    const question = exam.questions[i];
-    const code = exam.responses[i];
-    const comments = exam.instructor_comments[i] || '';
-    const points = exam.points[i];
-    const points_earned = exam.points_earned[i];
+  for (let i = 0; i < grade.exam.questions.length; i++) {
+    const question = grade.exam.questions[i];
+    const code = grade.responses[i];
+    const comments = grade.instructor_comments[i] || '';
+    const points = grade.exam.points[i];
+    const credit = grade.credit[i];
 
     const elem = document.createElement('div');
     elem.setAttribute('class', 'card question');
@@ -159,17 +162,7 @@ function renderExam(root, grade) {
         <div class="card-title">
           <h2>${question.question_name}</h2>
 
-          ${
-            getUser().type === 'instructor'
-              ? /*html*/ `
-                <div class="view-points">
-                  <h3>Points: </h3>
-                  <input type="text" id="new-points" value="" style="width: 3.25rem;">
-                  <h3>/ ${points}</h3>
-                </div>
-              `
-              : /*html*/ `<h3>points: ${points_earned} / ${points}</h3>`
-          }
+          <h3>points: ${points}</h3>
         </div>
 
         <div class="card-body">
@@ -184,6 +177,10 @@ function renderExam(root, grade) {
           <div class="form-group">
             <label>Comments</label>
             <textarea id="comments"  placeholder="Instructor Comments" ></textarea>
+          </div>
+
+          <div class="question-credit">
+
           </div>
         </div>
       `;
@@ -202,6 +199,10 @@ function renderExam(root, grade) {
     const commentsBox = elem.querySelector('#comments');
     commentsBox.value = comments || '';
     commentsBox.setAttribute('style', `height: ${commentsBox.scrollHeight}px`);
+
+    if (getUser().type === 'student') {
+      commentsBox.setAttribute('disabled', '');
+    }
 
     const codeBox = elem.querySelector('#code');
     codeBox.value = code;

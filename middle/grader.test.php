@@ -1,7 +1,6 @@
 <?php
 
-include '../config/database.php';
-include '../utils.php';
+// Baudin Marku CS490
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
@@ -10,21 +9,21 @@ header('Content-Type: application/json');
 $jsonString = file_get_contents('php://input');
 $jsonData = json_decode($jsonString, true);
 
-// $url = $jsonData['url'];
 $exam = $jsonData['exam'];
-$student_id = $jsonData['student_id'];
 $responses = $jsonData['responses'];
 $questions = $exam['questions'];
 $points = $exam['points'];
 
 $jsonData['credit'] = array();
 $jsonData['instructor_comments'] = array();
+$jsonData['function_outputs'] = array();
 
 for ($i = 0; $i < count($responses); $i++) {
     $gradeData = grade_question($responses[$i], $questions[$i], $points[$i]);
 
     array_push($jsonData['credit'], $gradeData['credit']);
     array_push($jsonData['instructor_comments'], $gradeData['comments']);
+    array_push($jsonData['function_outputs'], $gradeData['function_outputs']);
 }
 
 function grade_question($code, $question, $maxPoints)
@@ -32,6 +31,7 @@ function grade_question($code, $question, $maxPoints)
     $test_cases = $question['test_cases'];
     $constraints = $question['constraints'];
     $function_name = $question['function_name'];
+    $function_outputs = array();
 
     $credit = array(
         'name' => $maxPoints * 0.15,
@@ -87,44 +87,21 @@ function grade_question($code, $question, $maxPoints)
         file_put_contents("./code.py", $code . "\n\nprint(" . $function_name . "(" . $input . "))");
 
         // shell_exec saves the output as a string
-        $output = shell_exec('python3 ./code.py');
+        $output = shell_exec('python ./code.py');
+
+        array_push($function_outputs, $output);
 
         // output doesnt match expected output
-        if (strpos($output, $expected_output) === false) {
+        if (!preg_match("/" . $expected_output . "/", $output)) {
             $credit['test_case'] -= $credit['test_case'] / count($num_test_cases);
         }
     }
 
     return array(
         'credit' => $credit,
-        'comments' => $comments
+        'comments' => $comments,
+        'function_outputs' => $function_outputs
     );
 }
 
-$db = new Database();
-$pdo = $db->connect();
-
-try {
-    $sql = "INSERT INTO grades (student_id, exam, responses, instructor_comments, credit, finalized) VALUES (?,?,?,?,?,?)";
-    $stmt = $pdo->prepare($sql);
-
-    $args = array(
-        $student_id,
-        json_encode($exam),
-        json_encode($responses),
-        json_encode($jsonData['instructor_comments']),
-        json_encode($jsonData['credit']),
-        0
-    );
-
-    $status = $stmt->execute($args);
-
-    $response = array('success' => true, 'msg' => 'successfully created exam');
-} catch (PDOException $error) {
-    $response = array('success' => false, 'error' => $error);
-    header('HTTP/1.1 500 Internal Server Error');
-}
-
-$response['credit'] = $jsonData['credit'];
-
-echo json_encode($response);
+echo json_encode($jsonData);
