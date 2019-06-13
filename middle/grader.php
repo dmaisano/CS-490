@@ -87,7 +87,7 @@ function grade_question($code, $question, $maxPoints)
         $output = shell_exec('python ./code.py');
 
         // output doesnt match expected output
-        if (strpos($output, $expected_output) === false) {
+        if (!preg_match("/" . $expected_output . "/", $output)) {
             $credit['test_case'] -= $credit['test_case'] / count($num_test_cases);
         }
     }
@@ -98,17 +98,17 @@ function grade_question($code, $question, $maxPoints)
     );
 }
 
-// Curl to backend
-$curl = curl_init();
+// // Curl to backend
+// $curl = curl_init();
 
-curl_setopt_array($curl, array(
-    CURLOPT_URL => "https://web.njit.edu/~ld277/CS-490/back/grades/add.php",
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => json_encode($jsonData)
-));
+// curl_setopt_array($curl, array(
+//     CURLOPT_URL => "https://web.njit.edu/~ld277/CS-490/back/grades/add.php",
+//     CURLOPT_RETURNTRANSFER => true,
+//     CURLOPT_POST => true,
+//     CURLOPT_POSTFIELDS => json_encode($jsonData)
+// ));
 
-$response = curl_exec($curl);
-curl_close($curl);
+// $response = curl_exec($curl);
+// curl_close($curl);
 
-echo $response;
+echo json_encode($jsonData);
