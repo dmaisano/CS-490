@@ -34,7 +34,7 @@ try {
 
     $status = $stmt->execute($args);
 
-    $response = array('success' => true, 'msg' => 'successfully created exam');
+    $response = array('success' => true, 'msg' => 'successfully added grade');
 } catch (PDOException $error) {
     $response = array('success' => false, 'error' => $error);
     header('HTTP/1.1 500 Internal Server Error');

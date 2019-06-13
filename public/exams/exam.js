@@ -89,11 +89,15 @@ async function SELECT_EXAM_PAGE(root) {
   const links = root.querySelector('.card-body.links');
 
   if (validExams.length < 1) {
-    console.log('NO EXAMS TO TAKE');
+    const elem = document.createElement('button');
+    elem.setAttribute('class', 'btn btn-primary');
+    elem.setAttribute('disabled', '');
+
+    elem.innerHTML = 'No Exams';
+
+    links.appendChild(elem);
     return;
   }
-
-  console.log(validExams);
 
   for (const exam of validExams) {
     const elem = document.createElement('button');
@@ -186,19 +190,6 @@ function renderExam(root, exam, action = 'view') {
  */
 async function submitExam(questionBox, exam) {
   try {
-    // let submitExamObject = new Exam(
-    //   null,
-    //   exam.exam_name,
-    //   getUser().id,
-    //   exam.questions,
-    //   [],
-    //   [],
-    //   [],
-    //   exam.points,
-    //   0,
-    //   0
-    // );
-
     let submitExamObject = {
       exam,
       student_id: getUser().id,

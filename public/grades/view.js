@@ -82,8 +82,6 @@ async function SELECT_EXAM_PAGE(root, student) {
       user: student,
     });
 
-    console.log(grades);
-
     root.innerHTML = /*html*/ `
       <div class="select-exam">
         <div class="card">
@@ -99,6 +97,8 @@ async function SELECT_EXAM_PAGE(root, student) {
     const links = root.querySelector('.card-body.links');
 
     for (const grade of grades) {
+      if (getUser().type !== 'instructor' && !grade.finalized) continue;
+
       const elem = document.createElement('button');
       elem.setAttribute('class', 'btn btn-primary');
 
@@ -107,6 +107,18 @@ async function SELECT_EXAM_PAGE(root, student) {
       elem.addEventListener('click', () => {
         EXAM_PAGE(root, grade);
       });
+
+      links.appendChild(elem);
+    }
+
+    links.querySelectorAll('btn');
+
+    if (links.querySelectorAll('.btn').length < 1) {
+      const elem = document.createElement('button');
+      elem.setAttribute('class', 'btn btn-primary');
+      elem.setAttribute('disabled', '');
+
+      elem.innerHTML = 'No Grades';
 
       links.appendChild(elem);
     }
@@ -128,13 +140,17 @@ function EXAM_PAGE(root, grade) {
 
       <button type="button" id="submit-exam-btn" class="btn btn-success ${
         getUser().type === 'instructor' ? '' : 'hidden'
-      }">Grade Exam</button>
+      }">Publish</button>
     </div>
   `;
 
-  console.log(grade);
-
   renderGrade(root, grade);
+
+  if (getUser().type === 'instructor') {
+    root.querySelector('#submit-exam-btn').addEventListener('click', () => {
+      updateGrade(root, grade);
+    });
+  }
 }
 
 /**
@@ -152,6 +168,8 @@ function renderGrade(root, grade) {
     const comments = grade.instructor_comments[i] || '';
     const points = grade.exam.points[i];
     const credit = grade.credit[i];
+
+    const hasFor = question.constraints.includes('for');
 
     const elem = document.createElement('div');
     elem.setAttribute('class', 'card question');
@@ -178,14 +196,57 @@ function renderGrade(root, grade) {
           </div>
 
           <div class="question-credit">
-
+            <div class="item">
+              <h3>Function Name</h3>
+              <input id="name" type="text">
+            </div>
+            <div class="item">
+              <h3>For Loop</h3>
+              <input id="for" type="text">
+            </div>
+            <div class="item">
+              <h3>Return Statement</h3>
+              <input id="return" type="text">
+            </div>
+            <div class="item">
+              <h3>Test Cases</h3>
+              <input id="test_case" type="text">
+            </div>
           </div>
         </div>
       `;
 
     questionBox.appendChild(elem);
 
-    // elem.querySelector('#new-points').value = points_earned.toString();
+    const creditBox = elem.querySelector('.question-credit');
+
+    class CreditItem {
+      /**
+       * @param {'name' | 'for' | 'return' | 'test_case'} type
+       */
+      constructor(type) {
+        this.elem = creditBox.querySelector(`#${type}`);
+        this.value = credit[type];
+      }
+    }
+
+    const credit_obj = {
+      name: new CreditItem('name'),
+      for: new CreditItem('for'),
+      return: new CreditItem('return'),
+      test_case: new CreditItem('test_case'),
+    };
+
+    if (credit_obj['for'].value === undefined) {
+      credit_obj.for.elem.parentNode.classList.add('hidden');
+    }
+
+    for (const key of Object.keys(credit_obj)) {
+      const item = credit_obj[key];
+      const elem = item.elem;
+
+      elem.value = item.value;
+    }
 
     const descriptionBox = elem.querySelector('#description');
     descriptionBox.value = question.question_description;
@@ -210,45 +271,14 @@ function renderGrade(root, grade) {
 }
 
 /**
- * @param {HTMLDivElement} questionBox
- * @param {Exam} exam
+ * @param {HTMLDivElement} root
+ * @param {Grade} grade
  */
-async function finalizeGrade(questionBox, exam) {
+async function updateGrade(root, grade) {
   try {
-    // let submitExamObject = new Exam(
-    //   '',
-    //   exam.exam_name,
-    //   getUser().id,
-    //   exam.questions,
-    //   [],
-    //   [],
-    //   exam.points,
-    //   [],
-    //   0,
-    //   0
-    // );
-
-    for (const elem of questionBox.querySelectorAll('.question')) {
-      const code = elem.querySelector('#code').value || '';
-
-      if (!code) {
-        throw 'Missing Code';
-      }
-
-      submitExamObject.responses.push(code);
-    }
-
     console.log({
-      submitExamObject: JSON.stringify(submitExamObject),
+      root,
     });
-
-    try {
-      const res = await postRequest('addGrade', submitExamObject);
-
-      console.log(res);
-    } catch (error) {
-      alertModal('Submit Exam Error', error);
-    }
   } catch (error) {
     alertModal('Submit Exam Error', error);
   }

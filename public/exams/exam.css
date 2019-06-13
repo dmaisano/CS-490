@@ -107,3 +107,25 @@
   justify-content: center;
   align-items: center;
 }
+
+.question-credit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.question-credit .item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.55fr 5rem;
+  grid-column-gap: 1rem;
+
+  margin-top: 1rem;
+}
+
+.question-credit .item h3 {
+  display: flex;
+  justify-self: end;
+  align-self: center;
+}
