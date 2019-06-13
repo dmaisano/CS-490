@@ -1,11 +1,11 @@
+import { alertModal } from '../modal/modal.js';
 import {
+  Exam,
   getUser,
   navigateUrl,
   postRequest,
-  Exam,
   removeChildren,
 } from '../utils.js';
-import { alertModal } from '../modal/modal.js';
 
 /**
  * Login Logic

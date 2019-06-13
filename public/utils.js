@@ -1,6 +1,4 @@
 import { isDev, URLS } from './urls.js';
-import { throws } from 'assert';
-import { questionInfo } from './modal/modal.js';
 
 /**
  * sends a post request

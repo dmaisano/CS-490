@@ -1,4 +1,4 @@
-import { getUser, navigateUrl, User } from '../utils.js';
+import { getUser, navigateUrl } from '../utils.js';
 
 /**
  * Student / Instructor Page
