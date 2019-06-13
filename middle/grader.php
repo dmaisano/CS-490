@@ -16,12 +16,14 @@ $points = $exam['points'];
 
 $jsonData['credit'] = array();
 $jsonData['instructor_comments'] = array();
+$jsonData['function_outputs'] = array();
 
 for ($i = 0; $i < count($responses); $i++) {
     $gradeData = grade_question($responses[$i], $questions[$i], $points[$i]);
 
     array_push($jsonData['credit'], $gradeData['credit']);
     array_push($jsonData['instructor_comments'], $gradeData['comments']);
+    array_push($jsonData['function_outputs'], $gradeData['function_outputs']);
 }
 
 function grade_question($code, $question, $maxPoints)
@@ -29,6 +31,7 @@ function grade_question($code, $question, $maxPoints)
     $test_cases = $question['test_cases'];
     $constraints = $question['constraints'];
     $function_name = $question['function_name'];
+    $function_outputs = array();
 
     $credit = array(
         'name' => $maxPoints * 0.15,
@@ -86,6 +89,8 @@ function grade_question($code, $question, $maxPoints)
         // shell_exec saves the output as a string
         $output = shell_exec('python ./code.py');
 
+        array_push($function_outputs, $output);
+
         // output doesnt match expected output
         if (!preg_match("/" . $expected_output . "/", $output)) {
             $credit['test_case'] -= $credit['test_case'] / count($num_test_cases);
@@ -94,7 +99,8 @@ function grade_question($code, $question, $maxPoints)
 
     return array(
         'credit' => $credit,
-        'comments' => $comments
+        'comments' => $comments,
+        'function_outputs' => $function_outputs
     );
 }
 
@@ -111,4 +117,7 @@ curl_setopt_array($curl, array(
 $response = curl_exec($curl);
 curl_close($curl);
 
-echo $response;
+$response = json_decode($response, true);
+$response['function_outputs'] = $jsonData['function_outputs'];
+
+echo json_encode($response);
