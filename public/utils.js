@@ -1,6 +1,4 @@
 import { isDev, URLS } from './urls.js';
-import { throws } from 'assert';
-import { questionInfo } from './modal/modal.js';
 
 /**
  * sends a post request
@@ -13,10 +11,17 @@ export function postRequest(urlKey, data = {}) {
   let postUrl = 'http://localhost:3000';
 
   if (!isDev) {
-    postUrl = 'https://web.njit.edu/~bm424/490/middle/grader.php';
+    // send to my curl.php
+    // which then gets sent to Baudin's middle_man.php
+    postUrl = 'https://web.njit.edu/~dm583/CS-490/public/curl.php';
   }
 
   data.url = URLS[urlKey];
+
+  // send to Baudin's autograder
+  if (!isDev && urlKey === 'addGrade') {
+    postUrl = 'https://web.njit.edu/~bm424/490/middle/grader.php';
+  }
 
   return fetch(postUrl, {
     method: 'POST',
