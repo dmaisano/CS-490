@@ -1,9 +1,10 @@
-export const isDev = true;
+export const isDev = false;
 
 const baseUrl = isDev
   ? `http://localhost:5000` // localhost php
   : `https://web.njit.edu/~ld277/490/back`; // lawrence
 
+// backend urls
 export const URLS = {
   login: `${baseUrl}/login/login.php`,
   questions: `${baseUrl}/questions/get.php`,

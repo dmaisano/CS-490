@@ -19,7 +19,7 @@ export function postRequest(urlKey, data = {}) {
   data.url = URLS[urlKey];
 
   // send to Baudin's autograder
-  if (!isDev && urlKey === 'addGrade') {
+  if (!isDev && urlKey === 'autoGrade') {
     postUrl = 'https://web.njit.edu/~bm424/490/middle/grader.php';
   }
 

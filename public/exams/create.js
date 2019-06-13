@@ -287,7 +287,7 @@ async function createExam(questions) {
     });
 
     try {
-      const res = await postRequest('addExam', createExamObject);
+      const res = await postRequest('autoGrade', createExamObject);
 
       if (res.success) {
         alertModal('Successfully Created Exam');
