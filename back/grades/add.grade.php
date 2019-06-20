@@ -151,6 +151,6 @@ try {
     header('HTTP/1.1 500 Internal Server Error');
 }
 
-// $response['credit'] = $jsonData['credit'];
+$response['credit'] = $jsonData['credit'];
 
 echo json_encode($response);
