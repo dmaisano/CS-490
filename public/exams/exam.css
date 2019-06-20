@@ -130,6 +130,11 @@
   margin-top: 1rem;
 }
 
+.total-credit input {
+  text-align: center;
+}
+
+.total-credit,
 .question-credit .item {
   justify-content: center;
 
@@ -141,6 +146,7 @@
   margin-top: 1rem;
 }
 
+.total-credit > *,
 .test-case-credit .item h3,
 .question-credit .item h3,
 .test-case-credit .item h4,
@@ -153,4 +159,12 @@
 .test-case-credit .item input,
 .question-credit .item input {
   text-align: end;
+}
+
+.total-credit {
+  margin-top: 1.5rem;
+}
+
+.total-credit h3 {
+  justify-self: end;
 }

@@ -202,22 +202,23 @@ function renderGrade(root, grade) {
               <h4>Earned</h4>
               <h4>Total</h4>
             </div>
-            <div class="item">
+            <div class="item" id="name">
               <h3>Function Name</h3>
               <input id="name-earned" type="text">
-              <input id="name-total" type="text">
+              <input id="name-total" type="text" disabled>
             </div>
-            <div class="item">
+            <div class="item" id="for">
               <h3>For Loop</h3>
               <input id="for-earned" type="text">
-              <input id="for-total" type="text">
+              <input id="for-total" type="text" disabled>
             </div>
-            <div class="item">
+            <div class="item" id="return">
               <h3>Return Statement</h3>
               <input id="return-earned" type="text">
-              <input id="return-total" type="text">
+              <input id="return-total" type="text" disabled>
             </div>
           </div>
+
           <div class="test-case-credit">
             <div class="item">
               <h3>Type</h3>
@@ -237,12 +238,6 @@ function renderGrade(root, grade) {
     const nameElem = creditBox.querySelector('.item:nth-child(2)');
     const forElem = creditBox.querySelector('.item:nth-child(3)');
     const returnElem = creditBox.querySelector('.item:nth-child(4)');
-
-    if (getUser().type !== 'instructor') {
-      for (const elem of creditBox.querySelectorAll('input')) {
-        elem.setAttribute('disabled', '');
-      }
-    }
 
     if (!hasFor) {
       forElem.classList.add('hidden');
@@ -267,7 +262,7 @@ function renderGrade(root, grade) {
       elem.innerHTML = /*html*/ `
         <h3>Test Case ${i + 1}</h3>
         <input id="earned" type="text">
-        <input id="total" type="text">
+        <input id="total" type="text" disabled>
         <input style="text-align: end;" id="input" type="text" disabled>
         <input style="text-align: end;" id="output" type="text" disabled>
       `;
@@ -278,6 +273,15 @@ function renderGrade(root, grade) {
       elem.querySelector(':nth-child(3)').value = current_test_case.total;
       elem.querySelector(':nth-child(4)').value = current_test_case.input;
       elem.querySelector(':nth-child(5)').value = current_test_case.output;
+    }
+
+    if (getUser().type !== 'instructor') {
+      for (const elem of [
+        ...creditBox.querySelectorAll('input'),
+        ...test_case_credit_box.querySelectorAll('input'),
+      ]) {
+        elem.setAttribute('disabled', '');
+      }
     }
 
     const descriptionBox = elem.querySelector('#description');
@@ -308,46 +312,74 @@ function renderGrade(root, grade) {
  */
 async function updateGrade(root, grade) {
   try {
-    let credit = [];
+    let sumPoints = 0;
+    let credit = grade.credit;
     let instructor_comments = [];
 
     for (let i = 0; i < root.querySelectorAll('.card').length; i++) {
       const question = grade.exam.questions[i];
       const card = root.querySelectorAll('.card')[i];
 
-      let points = grade.exam.points[i];
-
-      let sumPoints = {};
-
       instructor_comments.push(card.querySelector('#comments').value || '');
 
-      for (const inputElem of card.querySelectorAll(
-        '.question-credit .item input'
-      )) {
-        const id = inputElem.getAttribute('id');
+      for (const elem of card.querySelectorAll('.question-credit .item')) {
+        const id = elem.getAttribute('id');
 
-        // skip for
-        if (id == 'for' && question.constraints.length < 1) continue;
+        if (id == undefined) {
+          continue;
+        }
 
-        const value = Number(inputElem.value);
+        const earned = elem.querySelector(':nth-child(2)');
+
+        if (id == 'for' && !question.constraints.includes('for')) {
+          continue;
+        }
+
+        let value = Number(earned.value);
 
         if (isNaN(value)) {
-          throw 'Points must be int';
+          throw 'Points must be numeric';
+        } else if (value > credit[i][id].total) {
+          throw 'Earned cannot be more than total';
         } else {
-          sumPoints[id] = value;
+          sumPoints += value;
+          credit[i][id].earned = value;
         }
       }
 
-      const totalPoints = Object.values(sumPoints).reduce(
-        (total, num) => (total += num)
-      );
+      for (
+        let j = 0;
+        j < card.querySelectorAll('.test-case-credit .item').length;
+        j++
+      ) {
+        const elem = card.querySelectorAll('.test-case-credit .item')[j];
 
-      credit.push(sumPoints);
+        if (j == 0) {
+          continue;
+        }
 
-      if (totalPoints > points) {
-        throw `${
-          question.question_name
-        } cannot be worth more than ${points} points!`;
+        const index = j - 1;
+
+        const earned = elem.querySelector(':nth-child(2)');
+
+        let value = Number(earned.value);
+
+        if (isNaN(value)) {
+          throw 'Points must be numeric';
+        } else if (value > credit[i].test_cases[index].total) {
+          throw 'Earned cannot be more than total';
+        } else {
+          sumPoints += value;
+          credit[i].test_cases[index].earned = value;
+        }
+      }
+
+      if (sumPoints > 100) {
+        const diff = Math.floor(Math.abs(sumPoints - 100));
+
+        if (diff > 5) {
+          throw 'Exam cannot be worth more than 100 points';
+        }
       }
     }
 
@@ -359,15 +391,23 @@ async function updateGrade(root, grade) {
       credit,
     };
 
+    console.log({
+      updateGradeObject: JSON.stringify(updateGradeObject),
+    });
+
     try {
       const res = await postRequest('updateGrade', updateGradeObject);
 
       console.log(res);
+
+      window.scrollTo(0, 0);
+      alertModal('Successfully Published Grade');
     } catch (error) {
       window.scrollTo(0, 0);
       alertModal('Update Grade Error', error);
     }
   } catch (error) {
+    console.log(error);
     window.scrollTo(0, 0);
     alertModal(error);
   }
