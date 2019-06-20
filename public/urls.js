@@ -1,4 +1,4 @@
-export const isDev = false;
+export const isDev = true;
 
 const baseUrl = isDev
   ? `http://localhost:5000` // localhost php

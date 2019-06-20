@@ -31,22 +31,39 @@ function grade_question($code, $question, $maxPoints)
     $test_cases = $question['test_cases'];
     $constraints = $question['constraints'];
     $function_name = $question['function_name'];
-    $function_outputs = array();
 
     $credit = array(
-        'name' => $maxPoints * 0.15,
-        'return' => $maxPoints * 0.15,
-        'test_case' => $maxPoints * 0.7
+        'name' => array(
+            'earned' => $maxPoints * 0.15,
+            'total' => $maxPoints * 0.15
+        ),
+        'return' => array(
+            'earned' => $maxPoints * 0.15,
+            'total' => $maxPoints * 0.15
+        )
     );
 
+    print("i ran");
+
     if (in_array("for", $constraints)) {
+
         $credit = array(
-            'name' => $maxPoints * 0.1,
-            'for' => $maxPoints * 0.1,
-            'return' => $maxPoints * 0.1,
-            'test_case' => $maxPoints * 0.7
+            'name' => array(
+                'earned' => $maxPoints * 0.1,
+                'total' => $maxPoints * 0.1
+            ),
+            'for' => array(
+                'earned' => $maxPoints * 0.1,
+                'total' => $maxPoints * 0.1
+            ),
+            'return' => array(
+                'earned' => $maxPoints * 0.1,
+                'total' => $maxPoints * 0.1
+            )
         );
     }
+
+    $credit['test_cases'] = array();
 
     $num_test_cases = count($test_cases);
 
@@ -61,20 +78,20 @@ function grade_question($code, $question, $maxPoints)
     if ($match != $function_name) {
 
         $code = str_replace($match, $function_name, $code);
-        $credit['name'] = 0;
+        $credit['name']['earned'] = 0;
         $comments = $comments . "messed up function name\n\n";
     }
 
     // check if return
     if (strpos($code, "return") === false) {
-        $credit['return'] = 0;
+        $credit['return']['earned'] = 0;
         $comments = $comments . "missing return statement\n\n";
     }
 
     // check for FOR loop constraint
     if (in_array("for", $constraints)) {
         if (strpos($code, "for") === false) {
-            $credit['for'] = 0;
+            $credit['for']['earned'] = 0;
             $comments = $comments . "missing for loop\n";
         }
     }
@@ -83,24 +100,31 @@ function grade_question($code, $question, $maxPoints)
         $input = $test_cases[$i][0];
         $expected_output = $test_cases[$i][1];
 
+        $TEST_CASE = array(
+            'earned' => round($maxPoints * 0.7 / $num_test_cases, 2),
+            'total' => round($maxPoints * 0.7 / $num_test_cases, 2)
+        );
+
         // create the python file
         file_put_contents("./code.py", $code . "\n\nprint(" . $function_name . "(" . $input . "))");
 
         // shell_exec saves the output as a string
-        $output = shell_exec('python ./code.py');
-
-        array_push($function_outputs, $output);
+        $output = shell_exec('python3 ./code.py');
 
         // output doesnt match expected output
-        if (!preg_match("/" . $expected_output . "/", $output)) {
-            $credit['test_case'] -= ($maxPoints * 0.7) / $num_test_cases;
+        if (strpos($output, $expected_output) === false) {
+            $TEST_CASE['earned'] = 0;
         }
+
+        $TEST_CASE['input'] = trim($input);
+        $TEST_CASE['output'] = trim($output);
+
+        array_push($credit['test_cases'], $TEST_CASE);
     }
 
     return array(
         'credit' => $credit,
-        'comments' => $comments,
-        'function_outputs' => $function_outputs
+        'comments' => $comments
     );
 }
 

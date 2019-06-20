@@ -198,20 +198,33 @@ function renderGrade(root, grade) {
 
           <div class="question-credit">
             <div class="item">
+              <h3>Type</h3>
+              <h4>Earned</h4>
+              <h4>Total</h4>
+            </div>
+            <div class="item">
               <h3>Function Name</h3>
-              <input id="name" type="text">
+              <input id="name-earned" type="text">
+              <input id="name-total" type="text">
             </div>
             <div class="item">
               <h3>For Loop</h3>
-              <input id="for" type="text">
+              <input id="for-earned" type="text">
+              <input id="for-total" type="text">
             </div>
             <div class="item">
               <h3>Return Statement</h3>
-              <input id="return" type="text">
+              <input id="return-earned" type="text">
+              <input id="return-total" type="text">
             </div>
+          </div>
+          <div class="test-case-credit">
             <div class="item">
-              <h3>Test Cases</h3>
-              <input id="test_case" type="text">
+              <h3>Type</h3>
+              <h4>Earned</h4>
+              <h4>Total</h4>
+              <h4>Input</h4>
+              <h4>Output</h4>
             </div>
           </div>
         </div>
@@ -221,36 +234,50 @@ function renderGrade(root, grade) {
 
     const creditBox = elem.querySelector('.question-credit');
 
-    class CreditItem {
-      /**
-       * @param {'name' | 'for' | 'return' | 'test_case'} type
-       */
-      constructor(type) {
-        this.elem = creditBox.querySelector(`#${type}`);
-        this.value = credit[type];
-      }
-    }
+    const nameElem = creditBox.querySelector('.item:nth-child(2)');
+    const forElem = creditBox.querySelector('.item:nth-child(3)');
+    const returnElem = creditBox.querySelector('.item:nth-child(4)');
 
-    const credit_obj = {
-      name: new CreditItem('name'),
-      for: new CreditItem('for'),
-      return: new CreditItem('return'),
-      test_case: new CreditItem('test_case'),
-    };
-
-    if (credit_obj['for'].value == undefined) {
-      credit_obj.for.elem.parentNode.classList.add('hidden');
-    }
-
-    for (const key of Object.keys(credit_obj)) {
-      const item = credit_obj[key];
-      const elem = item.elem;
-
-      if (getUser().type !== 'instructor') {
+    if (getUser().type !== 'instructor') {
+      for (const elem of creditBox.querySelectorAll('input')) {
         elem.setAttribute('disabled', '');
       }
+    }
 
-      elem.value = item.value;
+    if (!hasFor) {
+      forElem.classList.add('hidden');
+    } else {
+      forElem.querySelector(':nth-child(2)').value = credit.for.earned;
+      forElem.querySelector(':nth-child(3)').value = credit.for.total;
+    }
+
+    nameElem.querySelector(':nth-child(2)').value = credit.name.earned;
+    nameElem.querySelector(':nth-child(3)').value = credit.name.total;
+
+    returnElem.querySelector(':nth-child(2)').value = credit.return.earned;
+    returnElem.querySelector(':nth-child(3)').value = credit.return.total;
+
+    const test_case_credit_box = elem.querySelector('.test-case-credit');
+    for (let i = 0; i < credit.test_cases.length; i++) {
+      const current_test_case = credit.test_cases[i];
+
+      const elem = document.createElement('div');
+      elem.setAttribute('class', 'item');
+
+      elem.innerHTML = /*html*/ `
+        <h3>Test Case ${i + 1}</h3>
+        <input id="earned" type="text">
+        <input id="total" type="text">
+        <input style="text-align: end;" id="input" type="text" disabled>
+        <input style="text-align: end;" id="output" type="text" disabled>
+      `;
+
+      test_case_credit_box.appendChild(elem);
+
+      elem.querySelector(':nth-child(2)').value = current_test_case.earned;
+      elem.querySelector(':nth-child(3)').value = current_test_case.total;
+      elem.querySelector(':nth-child(4)').value = current_test_case.input;
+      elem.querySelector(':nth-child(5)').value = current_test_case.output;
     }
 
     const descriptionBox = elem.querySelector('#description');
