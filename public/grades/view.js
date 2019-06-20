@@ -228,10 +228,29 @@ function renderGrade(root, grade) {
               <h4>Output</h4>
             </div>
           </div>
+
+          <div class="total-credit">
+            <h3>Total</h3>
+            <input id="total" type="text" disabled>
+          </div>
         </div>
       `;
 
     questionBox.appendChild(elem);
+
+    const totalCredit = elem.querySelector('.total-credit');
+
+    let total = credit.name.earned + credit.return.earned;
+
+    for (const item of credit.test_cases) {
+      total += item.earned;
+    }
+
+    if (hasFor) {
+      total += credit.for.earned;
+    }
+
+    totalCredit.querySelector('#total').value = Math.floor(total);
 
     const creditBox = elem.querySelector('.question-credit');
 
